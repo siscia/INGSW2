@@ -48,13 +48,14 @@
 \usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
 \renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
 \renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+\newcommand{\pe}{PowerEnJoy }
 
 %%% END Article customizations
 
 %%% The "real" document content comes below...
 
-\title{Brief Article}
-\author{The Author}
+\title{RASD}
+\author{Simone Mosciatti \& Sara Zanzottera}
 
 \begin{document}
 \maketitle
@@ -63,22 +64,91 @@
 \section{Introduction}
 
   \subsection{Purpose}
+  
+The purpose of this document is to analyze the requirements for the project and provide detailed specifications.
+  
   \subsection{Scope}
+  
+  \pe will be divide in two main part: the frontend, used by the final user and the backend that provides data and syncronization between the part.
+  
   \subsection{Definitions,  acronyms,  abbreviations}
+  	
+  \begin{description}
+  	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
+  	\item[Frontend]
+  	\item[Backend]
+  \end{description}
+  
   \subsection{Reference  documents}
   \subsection{Overview}
   
 \section{Overall Description}
 
+In this section we are providing an overview of the whole \pe Project, we will start highlight what the product will do, what functions it will provide, what constrains it will have and what assumption we made.
+
   \subsection{Product perspective}
+  
+  \pe is a car sharing programs which provide users the ability to rent cars for a limited amount of time to move in the city. 
+  The frontend of the product will provide the user with the ability to search for available cars, book cars for up of one hour and unlock the cars.
+  The backend of the product will take care of provide all the data and relative interface to the frontend, it will also track the position of every single car, time the use the users and charge them accordingly.
+  
   \subsection{Product functions}
+  
+  \pe will be provided to the user via application.
+  
+  A know user will be able to log in into its account, while a new user will be prompted to register and then to log in.
+  
+  After the user logged in it will be possible to visualize the position of each car in the city, once the user has decide which car he wants to use the user will be able to book the car.
+  
+  After the car is been booked the user will be able to unlock the car only when in proximity of the car itself.
+  
+  The system will start charging the user when the engine starts and will stop once the car is been parkend and the user exit from it, several form of discunt or overfees will be applied depending on the behaviour of the user.
+  
   \subsection{User characteristics}
+  
+  The primary user of the system are the final users that must be able to complete all the action describe, however also maintance staff will need to access the tecnical infrastructure and the management of the company will need to extract data and informations.
+  
   \subsection{Constraints}
+  
+  There are constraints regarding the user that can use the \pe. To use the service the user must have a valid driving license. 
+  
+  Also the system should complain to the most recent privacy law in managing the data that the user are generating.
+  
   \subsection{Assumptions  and  Dependencies}
+  
+  We assume that each car is provide with internet connectivity and capable to send and receive data to the main server, moreover we assume the presence of a GPS of reasonable accurancy into each car.
+  Each car should also be instrumencted in such a way to capture events suchs as the ignition of the engine, the users getting into the car, the users exiting the car and the number of passegers.
+  The car will also need to be able to monitoring the level of the battery and to determinate if the car is plugged to a power station.
+  
+  We also assume that the final user has a smartphone with GPS, necessary to determinate the actual distance from the user itself and the car, it is able to install the \pe application and it has mobile internet connection.
+  
+  	\subsubsection{External Services}
+  	Finally we are going to depends on external service to:
+  	\begin{itemize}
+  		\item Charge the user
+  		\item Determinate if the car is been parked in a safe position
+  		\item Determinate the distance from the closest power grid station
+  		\item Determinate the distance between two different GPS signals
+  	\end{itemize}
+  	
+  	The decision to depends on those external service has been made since those services are not the core business for \pe and because each of those services require deep knowledge of the problem.
+
+  \subsection{Parallel Operation}
+  The system is capable to operate and serve users concurrently, however an, HA, single point of coordination is required in order to avoind conflicts on the booking system.
 
 \section{Specific Requirements}
-  \subsection{Appendices}
-  \subsection{Index}
+
+In this section we are going to illustrate the specific requirement of \pe.
+
+We are starting showing the goals that the application should fullfill and the we move on functional and not functional requirements.
+
+  \subsection{Goals}
+  
+  \begin{description}
+    \item[G1]
+    \item[G2]
+  \end{description}
+
 
 \section{Description scenarios}
 
