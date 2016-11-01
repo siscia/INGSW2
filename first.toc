@@ -1,0 +1,31 @@
+\contentsline {section}{\numberline {1}Introduction}{3}
+\contentsline {subsection}{\numberline {1.1}Purpose}{3}
+\contentsline {subsection}{\numberline {1.2}Overall Description of the given problem}{3}
+\contentsline {subsubsection}{Product Perspective}{3}
+\contentsline {subsubsection}{Product Functions}{4}
+\contentsline {subsubsection}{Parallel Operation}{4}
+\contentsline {subsection}{\numberline {1.3}Text Assumptionss}{4}
+\contentsline {subsubsection}{Assumptions on the car system}{4}
+\contentsline {subsubsection}{Assumptions on the final user}{4}
+\contentsline {subsubsection}{External Services}{5}
+\contentsline {subsection}{\numberline {1.4}Constraints}{5}
+\contentsline {subsubsection}{Constraints on the user}{5}
+\contentsline {subsubsection}{Platform Contraints}{5}
+\contentsline {subsubsection}{Privacy regulations}{5}
+\contentsline {subsection}{\numberline {1.5}Proposed System}{6}
+\contentsline {subsubsection}{App Frontend}{7}
+\contentsline {subsubsection}{Centralized Backend}{7}
+\contentsline {subsubsection}{Car's Onboard system}{7}
+\contentsline {subsection}{\numberline {1.6}Actors and stakeholders}{7}
+\contentsline {subsubsection}{Actors}{7}
+\contentsline {subsubsection}{Stakeholders}{7}
+\contentsline {subsection}{\numberline {1.7}Reference Documents}{8}
+\contentsline {section}{\numberline {2}Specific Requirements}{9}
+\contentsline {subsection}{\numberline {2.1}Goals}{9}
+\contentsline {subsection}{\numberline {2.2}Domain Properties}{9}
+\contentsline {subsection}{\numberline {2.3}Definitions, acronyms, abbreviations}{9}
+\contentsline {section}{\numberline {3}Scenarios and Use Cases}{10}
+\contentsline {subsection}{\numberline {3.1}Scenarios}{10}
+\contentsline {subsection}{\numberline {3.2}Use Cases}{10}
+\contentsline {section}{\numberline {4}Alloy Model}{11}
+\contentsline {section}{\numberline {5}Hours}{12}
