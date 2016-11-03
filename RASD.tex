@@ -176,30 +176,6 @@ The system should complain to the most recent privacy regulations in managing th
 	\item Users' data should not be possible to obtain by reverse-engineering the behavior of the system.
 \end{enumerate}
 
-
-
-\subsection{Proposed System}
-
-The proposed system features a client-server architecture, so it is divided into two parts: a frontend app for smartphones, which allows the users to use the service, and a backend system wich deals with all the operations and coordinates them. The backend also interact with the cars, that can be seen as a third part of the system.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{proposed_system.png}
-	\caption{Description of the proposed system.}
-\end{figure}
-
-\subsubsection{App Frontend}
-The frontend is a thin app that relies on the smartphone's internet connections in order to work. Almost no operations can be performed with the app alone: all transactions are sent to the main server first, then processed and the result sent back to the app.
-
-The app can be classified as a thin client.
-
-\subsubsection{Centralized Backend}
-The backend is the core of the system. Being able to process a lot of parallel operations, it can deal with all the requests coming from che clients ina reasonable amount of time (see Non Functionals Requirements). The backend is based on an MVC architecture and a REST API.
-
-\subsubsection{Car's Onboard system}
-The cars are equipped with an onboard system that monitors the status of the car, its location, and can send all the necessary informations to the main server. There won't be direct interactions between the car and the user's app.
-
-
 \subsection{Actors and stakeholders}
 
 \subsubsection{Actors}
@@ -212,6 +188,28 @@ The actors involved in our system are mainly \textbf{final users}, that is, peop
 
 \subsubsection{Stakeholders}
 The main stakeholder for our system are \textbf{users} themselves, who requires a easy-to-use service of electric cars sharing. Other stakeholders are the \textbf{city governement}, who supports our service as a way to improve sustainable mobility inside the city and takes care of the road infrastructures, and the \textbf{energy companies}, which provide power for the cars.
+
+\subsection{Domain Properties}
+
+The following domains properties are assumed during the development of the project.
+
+\begin{itemize}
+	\item The user will provide a valid driving license during the registration to the service.
+	\item A driving license will not expire nor be revoked for the whole time the user is registered.
+	\item Different persone will not use the same account, never, neither in different moment in time. Each account unique identify a physical person.
+	\item It is possible for the company to bring back cars from not-safe areas into safe areas.
+	\item Users are able to plug and unplug the car from the power stations.
+	\item The car instrumentation works as expected:
+	\begin{itemize}
+		\item It is possible to detect the position of the car with an accuracy sufficient to determinate if the car is parked in a safe area of if the car is not parked in a safe area.
+		\item It is possible to determinate the actual level of charge of the battery with neglitable error.
+		\item It is possible to determinate how many people are in a car at any moment.
+		\item Each and any message that the car need to send to the main server will arrive and be processed.
+		\item One the car is plug to the power station the battery will start to recharge.
+	\end{itemize}
+	\item The total running time of an user is counted from either when the user starts the engines or after 3 minutes of the user unlocking the car, whichever is first.
+	\item The total running time of an user is ended when the user leave the car locking it.
+\end{itemize}
 
 \subsection{Reference Documents}
 \begin{itemize}
@@ -237,6 +235,20 @@ In this section we are going to illustrate the specific requirement of \pe.
 We analyze the goals that the application should fullfill, then moving on functional and not functional requirements.
 
  \subsection{Goals}
+ 
+ \begin{description}
+ 	\item[REGISTRATION] The user is able to register to \pe.
+ 	\item[LOOKUP] The user is able to find cars nearby it's own position.
+ 	\item[BOOK] The user is able to book a car for a short ammount of time.
+ 	\item[NO\_SHOWUP] If the user don't use the car after he book it, a small fee will be charged.
+ 	\item[UNLOCK] When in proximity of the car the user is able to unlock it.
+ 	\item[CHARGE] During the use of the car the user is charged.
+ 	\item[SAFE\_AREAS] foo
+ 	\item[GE\_TWO] More than one passenger will imply a discount of 10\% of the total fee.
+ 	\item[GOOD\_BATTERY] If the user leave the car with no more than 50\% of the battery empty a discount of 20\% will be applied.
+ 	\item[RECHARGING] If the user leave the car recharging in a special parking area a discount of 30\% will be applied, the plugging of the car to the power station will need to happen in boundend limited ammount of time after the user leaving the car.
+ 	\item[FAR\_AWAY] If the user leave the car with less than 20\% of battery charge at more than 3KM from the closest charging site a 30\% more will be charged on the total fee.
+ \end{description}
 
 \subsection{Domain Properties}
 
@@ -244,6 +256,7 @@ We analyze the goals that the application should fullfill, then moving on functi
   	
   \begin{description}
   	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
+  	\item[Running Time] The time that an user is using the \pe service.
   	\item[Frontend]
   	\item[Backend]
   \end{description}
