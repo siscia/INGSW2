@@ -143,6 +143,7 @@ In addition, the system gives bonuses and penalities in term of discounts or ext
   	\item Determinate if the car is been parked in a safe position
   	\item Determinate the distance from the closest power grid station
   	\item Determinate the distance between two different GPS signals
+	\item Regularly check and maintain the cars.
   \end{itemize}
   	
  The decision to rely on external partners to run these functions has been made since those services are not the core business for \pecomma and other external companies has already found very efficient and cost-effective solution to them.
@@ -267,6 +268,71 @@ We analyze the goals that the application should fullfill, then moving on functi
 
 \subsection{Scenarios}
 
+\subsubsection{Scenario 1}
+John needs to go from the airport, which locates inside the city's boundaries, to his home. He is already a user of \pecomma so he opens the app and looks for some available cars in its area. He opens the map and finds there are 8 available cars in a 10-minutes walk distance from his home: 6 almost fully charged and 2 with about half charge left. He chooses the nearest full charged car and reserves it; then takes his luggage and reach the car within 15 min, leaving its phone's GPS active. Once near the car, the car is automatically unlocked: John can leave his luggage in the luggage van, enter the car and drive to the airport.
+
+Once there, John parks correctly the car in a safe area, as indicated by the car's onboard system. John exits the car, takes his luggage out and uses the app to lock the car, which has still 60\% of battery charge left. Once the lock is confirmed he receives the bill, calculated on the lenght and duration of the ride, and a 20\% discount as a bonus to have left the car with more than 50\% of battery charge.
+
+John pays the bill immediately through the app.
+
+\subsubsection{Scenario 2}
+John want to go from his home to the airport, which locates inside the city's boundaries, to bring two friends home. He reserves the nearest car and within 10 minutes he started his ride to the airport.
+
+Once there, the car's onboard system tells him that there is a charging station nearby the airport. So John drives to the parking area nearby the charging station, parks, exits and plugs the car to the power grid. Then he locks the car.
+Once the lock is confirmed, he receives the bill, calculated on the distance and the time of the ride, and receives a 30\% discount as bonus for plugging the car to the grid.
+
+While waiting for his friends, he reserves another car for coming back, but the plane is late and the reservation, which lasts one hour, expires. John receives a little penalty for the expired reservation and pays it immediately; then reserves another car.
+
+When his friends arrive, they all reach the car within 30 minutes from the second booking: they all enter and drive to his friends' home. When exiting, the car has about 40\% of charge left, but there are no charging stations nearby, so John parks it in a safe area, exit, take luggages out and locks the car. The app sends him the bill and applies a 10\% discount as a bonus for bringing at least two friends on the same ride.
+
+
+\subsubsection{Scenario 3}
+Bob has an exam at 8 a.m., but the morning train is very late. So he decides to user \pe to go to the university by car. He look for cars nearby, but he finds there is only one car left with about 40\% of residual charge. He reserves it anyways and within 5 minutes he started his drive to the university.
+
+He is in a hurry, so drives very badly and commits some infractions, that gets recorded by the police. The policeman who is taking care of Bob's infractions looks in the police's databases for the owner of the car he spotted and sends the fine to \pe offices.
+
+Once near his destination, the car's onboard system tells him that there is a charging station at about 10 minutes by foot from the university, and a parking area right in front of the entrance of the university. At the end of the ride, the car has only 15\% of residual charge.
+
+Bob doesn't care and parks the car in front of the university, then exits and locks the car. The app confirms the lock and send him the bill, 30\% overpriced for having left the discharged car not plugged to the power grid, but at least he is in time for the exam.
+
+At the end of the day, the fine has been processed by both the police officers and \pecomma so Bob receives a notification with the fine he received, some details about it, and the choice to pay it immediately or to go to the nearest police office to make an inquiry about it.
+
+
+\subsubsection{Scenario 4}
+it is a sunny Sunday and Charlie wants to go with his family in the countryside. He has no car, but he doesn't want to go there by train: so he decides to use \pe to do his trip. He finds a fully charged car near his house, reserves it and within 20 minutes he started his drive, heading outside the city's boundaries.
+
+Once he crossed the boundaries, the car's onboard system informs him that he is not allowed to go that far and, if he will not go back into the boundaries within 10 minutes, he is going to be fined and, if stays far from the city for more than 24 hours, eventually prosecuted by law for having stolen the car. He does not care and continues his trip. After 10 minutes, he receives a notice that he is gonna be fined for the time he is spending outside the city.
+
+At the end of the day, Charlie goes back home with his family. He parks the car in a safe area near his house, exits with all his family and locks the car: now he receives the bill, that is the basic price of the ride, plus:
+\begin{itemize}
+	\item a 10\% discount for having brought many people on the car
+	\item a 30\% overprice for having left the car discharged far from a charging station
+	\item a heavy fine for having brought the car out from the city boundaries.
+\end{itemize}
+Charlie tries to pay, but his payment fails because the rechargeable credit card he connected to the app is empty. So he gets a notice from \pe that he is temporary banned from the service until he manages to pay the last pending bill.
+
+
+\subsubsection{Scenario 5}
+User rents a car in time, reach it in time, unlock, starts, ride, WANTS TO STOP FOR A WHILE. --- IKEA case!
+
+
+REMOVE THIS LIST ONCE DONE
+\begin{enumerate}
+	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, pay (1)
+	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, PLUG IT, pay less. (2)
+	\item User WITH FRIENDS rents a car in time, reach it in time, unlock, starts, ride, park, exit, pay less. (2)
+	\item User rents a car in time, DON'T REACH IT IN TIME, pays penalty. (2)
+	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, DON'T PLUG even if empty, pay more. --> \textbf{Not wrote}
+	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area FAR FROM PLUG WHEN EMPTY, exit, pay more. (3)
+	\item User tries to rent a car in time but NO CARS ARE AVAILABLE nearby. \textbf{Not wrote}
+	\item User rents a car in time, reach it in time, unlock, starts, ride OUTSIDE THE CITY (4)
+	\item User rents a car in time, reach it in time, unlock, starts, ride, park in an UNSAFE AREA, exit, pay. \textbf{Not wrote}
+	\item User commits infraction while driving a \pe car. (3)
+	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, but FAILS TO PAY. (4)
+\end{enumerate}
+
+
+
 \subsection{Use Cases}
 
 
@@ -275,6 +341,9 @@ We analyze the goals that the application should fullfill, then moving on functi
 
 \newpage
 \section{Hours}
+
+\begin{itemize}
+	\item SZ: 4h on 1/11
 
 
 \end{document}
