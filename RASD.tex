@@ -10,6 +10,7 @@
 
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 \usepackage{float} % to place float images correctly
+\usepackage{color} % to color text
 
 %%% Examples of Article customizations
 % These packages are optional, depending whether you want the features they provide.
@@ -73,7 +74,7 @@
 
 \section{Introduction}
 
-In this section we are providing an overview of the whole \pe Project, we will start highlight what the product will do, what functions it will provide, what constrains it will have and what assumption we made.
+In this section we are providing an overview of the \pe Project, we are highlighting what the product does, what functions it provides, what constrains it has and what assumption we made during the design process.
 
   \subsection{Purpose}
   
@@ -90,22 +91,25 @@ In addition, the system gives bonuses and penalities in term of discounts or ext
 \item a discount of 20\% if the car is left with at least 50\% of the battery still full, or a 30\% if the car is left near a charging station and plugged.
 \item if the car is left more than 3km from the nearest charging station or with less than 20\% of charge left, the user is charged 30\% more
 \end{itemize}
-  \pe is divided in two main part: a frontend, used by the customers, and a backend that provides the service.
+  \pe is divided in two main part: a frontend, used by the customers, and a backend that provides the service. In addition there is a reserved fronted, used exclusively by the staff members to better organize their job.
 
 \subsubsection{Product Perspective}
   
   \pe provide users the ability to rent cars for a limited amount of time in a bounded area, for example a city. 
-  The frontend part provides the user the ability to look for available cars, reserve cars for up of one hour and unlock the cars once they are near the reserved vehicle.
+  The frontend part, the app, provides the user the ability to look for available cars, reserve cars for up of one hour and unlock the cars once they are near the reserved vehicle; it is used also to lock the vehicle once the run is over and to pay the fee.
 
-  The backend part takes care of providing all the required data to the frontend. It also tracks the position of every single car, the duration of each ride and charges them accordingly.
+The staff's reserved frontend tells them which cars need to be recharged in-place, which cars need to be brought to a safe parking area, and if there are strong inbalances of available vehicles in some areas of the city, or if some users need help for some technical issue with their car.
+
+  The backend part takes care of providing all the required data to both frontends. It also tracks the position of every single car, the duration of each ride and charges them accordingly.
   
   \subsubsection{Product Functions}
   
   \pe is provided to the user via a mobile application. A registered user can log in into its account, while a new user is prompted to register and then to log in.
   
-  After the user logged in they will be able to see the position of each car in the city. Once the user has decided which car he wants to use, they will be able to book the car for one hour. After the car is been booked, the user can unlock the car only when in proximity of the car itself.
+  After the user logged in they will be able to see the position of each car in the city or in a more strictly bounded area, for example, within ten minutes by foot. Once the user has decided which car he wants to use, they will be able to book the car for one hour. After the car is been booked, the user can unlock the car only when in proximity of the car itself.
   
-  The system starts charging the user when the engine starts running, and will stop once the car is been parked and the user exit from it. Several forms of discount or overfees will be applied depending on the behaviour of the user.
+  The system starts charging the user when the engine starts running, and will stop once the car is been parked, the user exit and locks it. Several forms of discount or overfees will be applied depending on the behaviour of the user.
+
 
   \subsubsection{Parallel Operation}
   The system is capable to operate and serve users concurrently, however an, HA, single point of coordination is required in order to avoid conflicts on the booking system.
@@ -131,6 +135,7 @@ In addition, the system gives bonuses and penalities in term of discounts or ext
 
 \subsubsection{Assumptions on the final user}
 \begin{enumerate}
+	\item The final user has reached the legal age and has a driving licence
 	\item The final user has a smartphone with the \pe app installed
 	\item The final user has a smartphone with a GPS
 	\item The final user has a smartphone with internet connectivity
@@ -155,7 +160,8 @@ In addition, the system gives bonuses and penalities in term of discounts or ext
 Users who wish to use \pe are required to fulfill some specific requirements:
 \begin{enumerate}
 	\item The user must be registered to the service.
-	\item The user must have a valid driving license.
+	\item The user must have a valid driving license. \textbf{(SEE ASSUMPTIONS
+)}
 \end{enumerate}
 
 \subsubsection{Platform Contraints}
@@ -163,7 +169,7 @@ Also, the system has some platform constraints coming from the device that is ru
 \begin{enumerate}
 	\item The app should be small enough to fit the memory of ideally all smartphones.
 	\item The app should be thin enough to fit the computational capabilities of ideally all smartphones.
-	\item The app should send and receive only small quantity of data through the smartphone's internet connection, in order to prevent the user to be charged a heavy fee from telecom companies.
+	\item The app should send and receive only small quantity of data through the smartphone's internet connection, in order to be sustainable.
 	\item The app should be able to get information from the smartphones' GPS.
   \end{enumerate}
 
@@ -171,7 +177,8 @@ Also, the system has some platform constraints coming from the device that is ru
 The system should complain to the most recent privacy regulations in managing the data that the user are generating, thus ensuring:
 \begin{enumerate}
 	\item The user must be aware that its data is being recorded by the system, including its GPS position.
-	\item The user must be able to see which data the system collected about him and, in case, to delete it.
+	\item The user must be able to see which data the system collected about him and, in case, to delete it (even if this may require the user to unsubscribe from the service
+).
 	\item No third parties should be able to gain access on users' data.
 	\item Users' data must be protected from third-parties attacks.
 	\item Users' data should not be possible to obtain by reverse-engineering the behavior of the system.
@@ -184,7 +191,8 @@ The actors involved in our system are mainly \textbf{final users}, that is, peop
 \begin{itemize} 
 	\item Cars left far from the power grid with an empty battery, that needs to be charged in-place
 	\item Cars left far from a safe parking area, that needs to be brought back to one of them
-	\item Cars not plugged to the power grid, that needs to be plugged.
+	\item Cars not plugged to the power grid, that needs to be plugged
+	\item Cars which has been reported by the user having some technical issues
 \end{itemize}
 
 \subsubsection{Stakeholders}
@@ -198,18 +206,19 @@ The following domains properties are assumed during the development of the proje
 	\item The user will provide a valid driving license during the registration to the service.
 	\item A driving license will not expire nor be revoked for the whole time the user is registered.
 	\item Different persone will not use the same account, never, neither in different moment in time. Each account unique identify a physical person.
-	\item It is possible for the company to bring back cars from not-safe areas into safe areas.
+	\item It is possible for the company to bring back cars from not-safe areas into safe areas, and from outside the city boundaries into the boundaries themselves.
 	\item Users are able to plug and unplug the car from the power stations.
 	\item The car instrumentation works as expected:
 	\begin{itemize}
-		\item It is possible to detect the position of the car with an accuracy sufficient to determinate if the car is parked in a safe area of if the car is not parked in a safe area.
+		\item It is possible to determine whether the car is inside the city boundaries at any moment.
+		\item It is possible to determine whether the car is parked in a safe area or not, at any moment.
 		\item It is possible to determinate the actual level of charge of the battery with neglitable error.
 		\item It is possible to determinate how many people are in a car at any moment.
 		\item Each and any message that the car need to send to the main server will arrive and be processed.
-		\item One the car is plug to the power station the battery will start to recharge.
+		\item Once the car is plugged to the power station the battery starts to recharge.
 	\end{itemize}
-	\item The total running time of an user is counted from either when the user starts the engines or after 3 minutes of the user unlocking the car, whichever is first.
-	\item The total running time of an user is ended when the user leave the car locking it.
+	\item The total running time of an user is counted from either when the user starts the engines or after 3 minutes of the user unlocking the car, whichever comes first.
+	\item The total running time of an user ends when the user locks the car.
 \end{itemize}
 
 \subsection{Reference Documents}
@@ -236,19 +245,23 @@ In this section we are going to illustrate the specific requirement of \pe.
 We analyze the goals that the application should fullfill, then moving on functional and not functional requirements.
 
  \subsection{Goals}
+
+\textcolor{red}{ \textit{Sul forum dicono che tra i goals e' sufficiente mettere "PE applica una tariffa all'utente", mentre nei requirements si specificano esattamente sconti e sovrapprezzi} }
  
  \begin{description}
  	\item[REGISTRATION] The user is able to register to \pe.
  	\item[LOOKUP] The user is able to find cars nearby it's own position.
- 	\item[BOOK] The user is able to book a car for a short ammount of time.
- 	\item[NO\_SHOWUP] If the user don't use the car after he book it, a small fee will be charged.
- 	\item[UNLOCK] When in proximity of the car the user is able to unlock it.
- 	\item[CHARGE] During the use of the car the user is charged.
- 	\item[SAFE\_AREAS] foo
- 	\item[GE\_TWO] More than one passenger will imply a discount of 10\% of the total fee.
- 	\item[GOOD\_BATTERY] If the user leave the car with no more than 50\% of the battery empty a discount of 20\% will be applied.
- 	\item[RECHARGING] If the user leave the car recharging in a special parking area a discount of 30\% will be applied, the plugging of the car to the power station will need to happen in boundend limited ammount of time after the user leaving the car.
+ 	\item[BOOK] The user is able to book a car for a short amount of time.
+ 	\item[NO\_SHOWUP] If the user doesn't unlock the car after a short time from the reservation (one hour), a small fee will be charged.
+ 	\item[UNLOCK] When in proximity of the car, the user is able to unlock it.
+ 	\item[CHARGE] During the ride, the user is charged a fee.
+ 	\item[SAFE\_AREAS] The user is able to locate safe parking areas.
+	\item[POWER\_STATIONS] The user is able to locate charging stations.
+ 	\item[GE\_TWO] Carrying at least two passengers, driver excluded, implies a discount of 10\% of the total fee.
+ 	\item[FULL\_BATTERY] If the user leave the car with no more than 50\% of the battery empty a discount of 20\% will be applied.
+ 	\item[PLUGGED] If the user plugs the car to a power plug in the special parking areas, a discount of 30\% will be applied. The user is required to plug the car within a limited time after locking the car.
  	\item[FAR\_AWAY] If the user leave the car with less than 20\% of battery charge at more than 3KM from the closest charging site a 30\% more will be charged on the total fee.
+
  \end{description}
 
 \subsection{Domain Properties}
@@ -312,11 +325,13 @@ At the end of the day, Charlie goes back home with his family. He parks the car 
 Charlie tries to pay, but his payment fails because the rechargeable credit card he connected to the app is empty. So he gets a notice from \pe that he is temporary banned from the service until he manages to pay the last pending bill.
 
 
-\subsubsection{Scenario 5}
-User rents a car in time, reach it in time, unlock, starts, ride, WANTS TO STOP FOR A WHILE. --- IKEA case!
+\subsubsection{Other scenarios}
+\begin{itemize}
+	\item User rents a car in time, reach it in time, unlock, starts, ride, WANTS TO STOP FOR A WHILE. \textcolor{red}{IKEA case!}
+	\item What if the user \textcolor{red}{ leaves the car open}  when the ride finished?
+\end{itemize}
 
-
-REMOVE THIS LIST ONCE DONE
+Possible scenarios (REMOVE THIS LIST ONCE DONE)
 \begin{enumerate}
 	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, pay (1)
 	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, PLUG IT, pay less. (2)
