@@ -98,9 +98,9 @@ In addition, the system gives bonuses and penalities in term of discounts or ext
   \pe provide users the ability to rent cars for a limited amount of time in a bounded area, for example a city. 
   The frontend part, the app, provides the user the ability to look for available cars, reserve cars for up of one hour and unlock the cars once they are near the reserved vehicle; it is used also to lock the vehicle once the run is over and to pay the fee.
 
-The staff's reserved frontend tells them which cars need to be recharged in-place, which cars need to be brought to a safe parking area, and if there are strong inbalances of available vehicles in some areas of the city, or if some users need help for some technical issue with their car.
+The staff's reserved frontend tells them which cars need to be plugged or recharged in-place, which cars need to be brought to a safe parking area, or if some users need help for some technical issue with their car. It also provides them with the ability of registering fines sent to the company by local police officers, as for the system to assign them to the correct user to pay.
 
-  The backend part takes care of providing all the required data to both frontends. It also tracks the position of every single car, the duration of each ride and charges them accordingly.
+  The backend part takes care of providing all the required data to both frontends. It also tracks the position and the statuses of every single car, the duration of each ride and charges users accordingly.
   
   \subsubsection{Product Functions}
   
@@ -108,50 +108,12 @@ The staff's reserved frontend tells them which cars need to be recharged in-plac
   
   After the user logged in they will be able to see the position of each car in the city or in a more strictly bounded area, for example, within ten minutes by foot. Once the user has decided which car he wants to use, they will be able to book the car for one hour. After the car is been booked, the user can unlock the car only when in proximity of the car itself.
   
-  The system starts charging the user when the engine starts running, and will stop once the car is been parked, the user exit and locks it. Several forms of discount or overfees will be applied depending on the behaviour of the user.
+  The system starts charging the user when the engine starts running, and will stop once the car is been parked, the user exit and locks it. Several forms of discount or overfees will be applied depending on the behaviour of the user when riding and parking the car.
 
 
   \subsubsection{Parallel Operation}
   The system is capable to operate and serve users concurrently, however an, HA, single point of coordination is required in order to avoid conflicts on the booking system.
   
-
-\subsection{Text Assumptionss}
-  
-\subsubsection{Assumptions on the car system}
-\begin{enumerate}
-	\item  Each car is provide with internet connectivity and capable to send and receive data to the main server
-	\item  Each car is provided of a GPS of reasonable accurancy.
-	\item  Each car can capture all these events correctly:
-		\begin{itemize}
-			\item the ignition of the engine, 
-			\item the users getting into the car
-			\item the users exiting the car 
-			\item the number of passengers.
-			\item the user plugging the battery to the power grid.
-		\end{itemize}
-	\item Each car is able to monitor the residual charge of its battery.
-\end{enumerate}
-
-
-\subsubsection{Assumptions on the final user}
-\begin{enumerate}
-	\item The final user has reached the legal age and has a driving licence
-	\item The final user has a smartphone with the \pe app installed
-	\item The final user has a smartphone with a GPS
-	\item The final user has a smartphone with internet connectivity
-\end{enumerate}
-  
-  \subsubsection{External Services}
- The system depends on external services that are served by third-parties. These services are:
-  \begin{itemize}
-  	\item Charging the fee to the user
-  	\item Determinate if the car is been parked in a safe position
-  	\item Determinate the distance from the closest power grid station
-  	\item Determinate the distance between two different GPS signals
-	\item Regularly check and maintain the cars.
-  \end{itemize}
-  	
- The decision to rely on external partners to run these functions has been made since those services are not the core business for \pecomma and other external companies has already found very efficient and cost-effective solution to them.
 
 
 \subsection{Constraints}
@@ -160,8 +122,7 @@ The staff's reserved frontend tells them which cars need to be recharged in-plac
 Users who wish to use \pe are required to fulfill some specific requirements:
 \begin{enumerate}
 	\item The user must be registered to the service.
-	\item The user must have a valid driving license. \textbf{(SEE ASSUMPTIONS
-)}
+	\item The user must have a valid driving license.
 \end{enumerate}
 
 \subsubsection{Platform Contraints}
@@ -192,11 +153,108 @@ The actors involved in our system are mainly \textbf{final users}, that is, peop
 	\item Cars left far from the power grid with an empty battery, that needs to be charged in-place
 	\item Cars left far from a safe parking area, that needs to be brought back to one of them
 	\item Cars not plugged to the power grid, that needs to be plugged
-	\item Cars which has been reported by the user having some technical issues
+	\item Cars which has been reported by the user or by the onboard system itself having some technical issues
+	\item Fines received by the company that needs to be assigned to the correct user
 \end{itemize}
 
 \subsubsection{Stakeholders}
 The main stakeholder for our system are \textbf{users} themselves, who requires a easy-to-use service of electric cars sharing. Other stakeholders are the \textbf{city governement}, who supports our service as a way to improve sustainable mobility inside the city and takes care of the road infrastructures, and the \textbf{energy companies}, which provide power for the cars.
+
+
+
+\subsection{Text Assumptions}
+
+\subsubsection{Assumptions on the final user}
+\begin{enumerate}
+	\item The final user has reached the legal age and has a driving licence
+	\item The final user has a smartphone with the \pe app installed
+	\item The final user has a smartphone with a GPS
+	\item The final user has a smartphone with internet connectivity
+\end{enumerate}
+  
+\subsubsection{Assumptions on the car system}
+\begin{enumerate}
+	\item  Each car is provide with internet connectivity and capable to send and receive data to the main server
+	\item  Each car is provided of a GPS of reasonable accurancy.
+	\item  Each car can capture all these events correctly:
+		\begin{itemize}
+			\item the ignition of the engine
+			\item the status of the engine
+			\item the users getting into the car
+			\item the users exiting the car 
+			\item the number of passengers.
+			\item the user plugging the battery to the power grid.
+			\item the locked status of a car
+		\end{itemize}
+	\item Each car is able to monitor the residual charge of its battery.
+	\item Each car is provided with a device that can scan and read a driving licence.
+	\item The system is able to prevent the ignition of each car's engine remotely.
+	\item The system is able to switch off every car's engine remotely.
+	\item The system is able to unlock each car remotely.
+	\item The system is able to lock each car remotely.
+	\item An empty car gets locked automatically after a short time (namely 5 minutes)
+\end{enumerate}
+
+\subsubsection{Statuses assumptions}
+The cars are assumed to have some internal, discrete statuses describing their conditions. These are:
+\begin{itemize}
+	\item{Availability Status}: describe if the car is interacting with some users of if it is available for rent. Possible values:
+		\begin{itemize}
+		\item Available
+		\item Booked
+		\item Unlocked
+		\item Running
+		\item Parked
+		\item Not Available
+		\end{itemize}
+	\item{Charging Status}: describe if the car is connected to the power grid or not. Boolean values (True or False)
+	\item{Locked Status}: describe if the car can be accessed by a person or not. Boolean values (True or False)
+	\item{Exception Status}: describe if the car has some issues. Possible values are:
+		\begin{itemize}
+		\item No Issue
+		\item Out Of Power
+		\item Unsafely Parked
+		\item Out of City Boudaries
+		\item Technical issue
+		\item Mechanical issue
+		\item Other issue
+		\end{itemize}
+\end{itemize}
+Here we list some text assumptions about these parameters.
+\begin{itemize}
+	\item The Availability status can change to Booked only if it was Available.
+	\item The Availability status can change to Unlocked only if it was Available.
+	\item The Availability status can change to Running only if it was Unlocked or Not Available. The latter case is possible only if the Exception status was Out of City Boundaries.
+	\item The Availability status can change to Parked only if it was Running.
+	\item  The Availability status can change to Available only if it was Parked or Not Available.
+	\item The Availability status of a car with less than 20\% of residual charge is Not Available regardless of the status it was supposed to have, and its Exception status is set to Out Of Power.
+	\item The Availability status of a car parked outside a safe area is Not Available and its Exception status is set to Unsafely Parked.
+	\item The Charging status of a car can be True only if the car is plugged to the power grid.
+	\item If Charging status is True, the charge must increase in time. Otherwise, the Availability status must be set to Not Available and the Exception status must be set to Mechanical Issue. 
+	\item The Charging status of a car cannot be set to True if the Availability status of the car is Running. Otherwise, the Availability status must be set to Not Available and the Exception status must be set to Mechanical Issue. 
+	\item if the Availability status of the car is different from Not Available, the Exception status must be No Issue.
+	\item If the Availability status is Not Available, the Exception status must be different from No Issue.
+	\item If the Availability status of a car is different from Available, the car is associated with one single user and that user cannot change until the Availability status goes back to Available.
+	\item If the Availability status of a car is Available, the car cannot be associated with any user.
+\end{itemize}
+	
+  
+  \subsubsection{External Services}
+ The system depends on external services that are served by third-parties. These services are:
+  \begin{itemize}
+  	\item Charging bills to the user
+  	\item Determinate if the car is been parked in a safe position
+  	\item Determinate the distance from the closest power grid station
+  	\item Determinate the distance between two different GPS signals
+	\item Scan and read driving licences' informations
+	\item Ensure validity of Identity IDs and their coupling with personal informations provided by the user.
+	\item Regularly check and maintain the cars.
+  \end{itemize}
+  	
+ The decision to rely on external partners to run these functions has been made since those services are not the core business for \pecomma and other external companies has already found very efficient and cost-effective solution to them.
+
+
+
 
 \subsection{Domain Properties}
 
@@ -205,8 +263,11 @@ The following domains properties are assumed during the development of the proje
 \begin{itemize}
 	\item The user will provide a valid driving license during the registration to the service.
 	\item A driving license will not expire nor be revoked for the whole time the user is registered.
-	\item Different persone will not use the same account, never, neither in different moment in time. Each account unique identify a physical person.
+	\item Different people will not use the same account, never, neither in different moment in time. Each account uniquely identify a physical person.
 	\item It is possible for the company to bring back cars from not-safe areas into safe areas, and from outside the city boundaries into the boundaries themselves.
+	\item A car cannot change its position until it is locked.
+	\item A car's residual charge does not increase if it is not plugged to the power grid.
+	\item A car's residual charge does not decrease if it is not running, i.e. the engine is off.
 	\item Users are able to plug and unplug the car from the power stations.
 	\item The car instrumentation works as expected:
 	\begin{itemize}
@@ -215,11 +276,23 @@ The following domains properties are assumed during the development of the proje
 		\item It is possible to determinate the actual level of charge of the battery with neglitable error.
 		\item It is possible to determinate how many people are in a car at any moment.
 		\item Each and any message that the car need to send to the main server will arrive and be processed.
-		\item Once the car is plugged to the power station the battery starts to recharge.
+		\item It is possible to read a driving licence's informations.
+		\item Once the car is plugged to the power station the battery starts to increase its charge.
+		\item Once the car's engine is switched on, the battery starts to decrease its charge.
 	\end{itemize}
 	\item The total running time of an user is counted from either when the user starts the engines or after 3 minutes of the user unlocking the car, whichever comes first.
 	\item The total running time of an user ends when the user locks the car.
+
 \end{itemize}
+
+\subsection{Definitions, acronyms, abbreviations}
+  \begin{description}
+  	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
+  	\item[Running Time] The time that an user is using the \pe service.
+  	\item[Frontend]
+  	\item[Backend]
+  \end{description}
+
 
 \subsection{Reference Documents}
 \begin{itemize}
@@ -246,34 +319,177 @@ We analyze the goals that the application should fullfill, then moving on functi
 
  \subsection{Goals}
 
-\textcolor{red}{ \textit{Sul forum dicono che tra i goals e' sufficiente mettere "PE applica una tariffa all'utente", mentre nei requirements si specificano esattamente sconti e sovrapprezzi} }
- 
  \begin{description}
  	\item[REGISTRATION] The user is able to register to \pe.
- 	\item[LOOKUP] The user is able to find cars nearby it's own position.
+	\item[LOGIN] The user is able to login to \pe.
+ 	\item[LOOKUP] The user is able to find cars nearby their own position.
  	\item[BOOK] The user is able to book a car for a short amount of time.
- 	\item[NO\_SHOWUP] If the user doesn't unlock the car after a short time from the reservation (one hour), a small fee will be charged.
  	\item[UNLOCK] When in proximity of the car, the user is able to unlock it.
- 	\item[CHARGE] During the ride, the user is charged a fee.
+	\item[RIDE] When the user enters a car, they can drive to their destination while the car tracks the distance and the time of the ride.
+	\item[OUT\_CITY] If a user drives out from the city's border, they are fined accordingly.
  	\item[SAFE\_AREAS] The user is able to locate safe parking areas.
+	\item[UNSAFE\_PARKING] The system can react to an unsafe parking.
 	\item[POWER\_STATIONS] The user is able to locate charging stations.
- 	\item[GE\_TWO] Carrying at least two passengers, driver excluded, implies a discount of 10\% of the total fee.
- 	\item[FULL\_BATTERY] If the user leave the car with no more than 50\% of the battery empty a discount of 20\% will be applied.
- 	\item[PLUGGED] If the user plugs the car to a power plug in the special parking areas, a discount of 30\% will be applied. The user is required to plug the car within a limited time after locking the car.
- 	\item[FAR\_AWAY] If the user leave the car with less than 20\% of battery charge at more than 3KM from the closest charging site a 30\% more will be charged on the total fee.
-
+	\item[CHARGE] At the end of the ride, the user is charged a fee.
+	\item[PAYMENTS] The app allows the user to pay bills through the app.
+	\item[FIND\_ISSUES] The staff is able to locate cars that need their intervention.
+	\item[SUPPORT] The staff is able to identify and solve car's issues.
+	\item[INFRACTIONS] The system must be able to process a fine sent to the company by a local police officer.
  \end{description}
 
-\subsection{Domain Properties}
 
-\subsection{Definitions,  acronyms,  abbreviations}
-  	
-  \begin{description}
-  	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
-  	\item[Running Time] The time that an user is using the \pe service.
-  	\item[Frontend]
-  	\item[Backend]
-  \end{description}
+\subsection{Functional Requirements}
+
+We are deriving our functional requirements from the goals we listed in the previous section, under the hypotesis that all domain and text assumptions always hold.
+
+\begin{description}
+	\item[REGISTRATION] The user is able to register to \pe.
+	\begin{description}
+	\item[REG1] The system must be able to create new account with data provided through the client's application.
+	\item[REG2] The system must be able to validate the data the user want to use to create a new account.
+	\item[REG3] The system must be able to check whether the user has no other accounts, i.e. if the person registering to the service has already an account.
+	\item[REG4] The system must ensure that, at registering time, the user is aware of how their data are going to be processed and stored, and how the system complies the current privacy regulations.
+	\item[REG5
+] The system must be able to deal with situations where the user cannot open a new account.
+	\end{description}
+
+	\item[LOGIN] The user is able to login to \pe.
+	\begin{description}
+	\item[LOG1] The system must be able to check whether a username-password pair corresponds to an existing account.
+	\item[LOG2] The system must be able to inform the user whether the given username-password pair does not corresponds to any existing account.
+	\item[LOG3] The system must be able to login the user, given a correct username and password pair
+	\item[LOG4] The system must prevent not-logged users from using all other app's functions, except for registering and login.
+	\end{description}
+
+ 	\item[LOOKUP] The user is able to find cars nearby their own position.
+	\begin{description}
+	\item[LOOK1] The system is able to send to each user a list of the available cars that locates within a specified walking distance from the user's position.
+	\item[LOOK2] The user can change the maximum walking distance required to reach a car, and the system is able to use this parameter when retrieving the list of nearby available cars.
+	\item[LOOK3] The system is able change the ranking metric of the nearby cars according to the user's preferences.
+	\item[LOOK4] The app is able to show to the user the position of all the available cars on an interactive map.
+	\item[LOOK5] The app is able to show to the user additional informations on each car if the user requests so.
+	\item[LOOK6] The app is able to show to the user the shortest path to reach his car by foot on an interactive map, and to show him how long the walk is approximately going to take.
+	\end{description}
+
+ 	\item[BOOK] The user is able to book a car for a short amount of time.
+	\begin{description}
+	\item[BOOK1] The user is able to select the car they want to book.
+	\item[BOOK2] The system is able to change the status of a car from Available to Booked.
+	\item[BOOK3] A booked car cannot be booked again until its status goes back to Available.
+	\item[BOOK4] A booked car must be associated with the user who booked it.
+	\item[BOOK6] If the user does not unlocks the car after a short period of time (one hour), a small fee is charged to the user and the car's status is set back to Available.
+	\end{description}
+
+ 	\item[UNLOCK] When in proximity of the car, the user is able to unlock it.
+	\begin{description}
+	\item[UNLK1] The system is able to determine which user booked which car.
+	\item[UNLK2] The system is able to determine when the user is near to the car they booked.
+	\item[UNLK3] The system is able to unlock the correct car remotely.
+	\item[UNLK4] The system changes automatically the status of the car from Booked to Unlocked.
+	\item[UNLK5] The user can ask the system to unlock their car at any time, even if they are still far from the car.
+	\item[UNLK6] If a user unlocks the car and does not enter within a short period of time (namely 5 minutes) the car 
+gets back to Booked and the timer restarts from the point it stopped.
+	\item[UNLK7] The user can lock back an unlocked car from the app before starting the ride. In this case the car gets back to Booked and the timer restarts from the point it stopped. In order to perform this operation, no passengers can be inside the car.
+	\end{description}
+
+	\item[RIDE] When the user enter the car, they can drive to their destination while the car tracks the distance and the time spent.
+	\begin{description}
+	\item[RIDE1] Once the engine is turn on, the car's Availability status is automatically changed to Running.
+	\item[RIDE2] Before turning the engine on, the user who booked the car must scan his driving licence into the car's system.
+	\item[RIDE3] The system is able to determine whether the scanned driving licence is associated with the user who rented the car.
+	\item[RIDE4] The system is able to prevent the ignition of the car's engine if the scanned driving licence is not the driving licence of the user who rented the car.
+	\item[RIDE5] The car's onboard system is able to show to the user some informations:
+		\begin{itemize}
+		\item Residual charge.
+		\item How long and how far the car can approximately run with that charge.
+		\item Distance covered
+		\item Time spent onboard
+		\item Fee as calculated at that moment
+		\item Nearby safe areas where to park the car
+		\item Nearby power station where to charge the car.
+		\end{itemize}
+	\item[RIDE6] At the end of the ride, when all passengers exit, the car can be locked by the user
+ with a button on the app's interface.
+	\end{description}
+
+	\item[OUT\_CITY] If a user drives out from the city's border, they are fined accordingly.
+	\begin{description}
+	\item[OUT1] If the car goes outside the city boudaries, the system is alerted and the car can tell the customer that he is gonna be fined if he continues to ride outside the boundaries.
+	\item[OUT2] If the alerted user continue to drive far from the city, the car's Availability becomes Not Available and the Exception status becomes Out of City Boundaries
+	\item[OUT3] If the car is in Out of City Boundaries status for more than 24 hours, the local autorities are contacted and informations about the car and the user who stole it are sent to them.
+	\item[OUT4] If the car comes back into the boundaries within 24 hours, its Availability status gets back to Running, but the user is fined for the time he spent outside the city.
+	\item[OUT5] If the car comes back into the boundaries within 10 minutes from the first alert, its Availability gets back to Running and no additional fees are charged.
+	\end{description}
+
+	\item[SAFE\_AREAS] The user is able to locate safe parking areas.
+	\begin{description}
+	\item[SAFE1] The system is able to send to the car all informations about safe areas near its position.
+	\item[SAFE2] The car is able to show safe areas' location to the driver.
+	\item[SAFE3] The app is able to confirm the driver he parked in a safe area.
+	\item[SAFE4] Once the car's engine stops in a safe area, the Availability status changes automatically from Running to Parked.
+	\end{description}
+
+	\item[UNSAFE\_PARKING] The system must be able to react to an unsafe parking.
+	\begin{description}
+	\item[UNSF1] If the car's engine stops outside from a safe area, the car should notify the user that he is going to park outside a safe area and that he is going to be fined if he leaves the car there.
+	\item[UNSF2] If a user leaves the car for more than 5 minutes outside a safe area (regardeless of the status of the engine) the car's Availability becomes Not Available, its Exception status is set to Unsafely Parked, and the user is fined.
+	\item[UNSF3] If a car is in Unsafely Parked status with the engine on, its engine is switched off remotely by the system.
+	\item[UNSF4] If a car is in Unsafely Parked status, it gets automatically locked by the system.
+	\end{description}
+
+	\item[POWER\_STATIONS] The user is able to locate and use charging stations correctly.
+	\begin{description}
+	\item[PWRS1] The system is able to send to the car all informations about power stations near its position.
+	\item[PWRS2] The car is able to show power stations' location to the driver.
+	\item[PWRS3] The system must be aware of which car gets plugged to the power grid and by which user.
+	\item[PWRS4] The system must confirm the driver that he plugged the car correctly.
+	\end{description}
+
+ 	\item[CHARGE] At the end of the ride, the user is charged a fee.
+	\begin{description}
+	\item[FEE1] The fee is calculated on the distance the car covered during the ride and the time spent to cover that distance.
+	\item[FEE2] Carrying at least two passengers, driver excluded, implies a discount of 10\% of the total fee.
+	\item[FEE3] If the user leave the car with no more than 50\% of the battery empty a discount of 20\% will be applied.
+	\item[FEE4] If the user plugs the car to a power plug in the special parking areas, a discount of 30\% will be applied. The user is required to plug the car before locking it.
+	\item[FEE5] If the user leave the car with less than 20\% of battery charge at more than 3KM from the closest charging site a 30\% more will be charged on the total fee.
+	\item[FEE6] The user receives the fee immediately when its car gets locked.
+	\end{description}
+
+	\item[PAYMENTS] The app allows the user to pay fees and eventually fines through the app.
+	\begin{description}	
+	\item[PAY1] The user can set a preferred payment method for their account through the app.
+	\item[PAY2] Near each bill there is a button that allows the user to pay directly with their preferred payment method.
+	\item[PAY3] The app must show a payment confirmation after each payment.
+	\item[PAY4] If a payment fails, the app must prevent the user to do any other action until the last payment is completed successfully.
+	\end{description}
+
+	\item[FIND\_ISSUES] The staff is able to locate cars that need their intervention.
+	\begin{description}
+	\item[ISS1] The staff's app is able to receive informations about all cars that are in Not Available status but not yet taken by any operator, and to show them to the user.
+	\item[ISS2] The staff's app can sort the cars basing on their distance from the user's location, priority of the issue and issue type (the Exception status)
+	\item[ISS3] The staff's app can give directions to the user to reach the selected car.
+	\end{description}
+
+	\item[SUPPORT] The staff is able to identify and solve car's issues.
+	\begin{description}
+	\item[SUP1] The staff's app allows the operator to signal that a staff member is in charge of a certain issue.
+	\item[SUP2] The staff's app allows the operator to change the status of the car they are in charge of back to Available.
+	\item[SUP3] When an operator changes the status of their car back to Available, the system re-checks the car's parameters and then confirm the status or brings it back to Not Available. In the latter case, the system informs the operator that was in charge of that issue.
+	\item[SUP4] The staff's app allows the operator to change the Exception status of the car they are in charge of.
+	\end{description}
+
+	\item[INFRACTIONS] The system must be able to process a fine sent to the company by a local police officer.
+	\begin{description}
+	\item[INF1] The staff's app can receive and store fine informations.
+	\item[INF2] The system is able to find out which user was driving a specific car in a specific moment.
+	\item[INF3] The app is able to show fine's information to the correct user.
+	\item[INF4] The app allows the user to pay the fine directly through the app.
+	\end{description} 
+
+\subsection{Non Functional Requirements}
+\subsubsection{Client's App Interface}
+\subsubsection{Staff's App Interface}
+
   
 
 \newpage
@@ -331,7 +547,8 @@ Charlie tries to pay, but his payment fails because the rechargeable credit card
 	\item What if the user \textcolor{red}{ leaves the car open}  when the ride finished?
 \end{itemize}
 
-Possible scenarios (REMOVE THIS LIST ONCE DONE)
+Possible
+ scenarios (REMOVE THIS LIST ONCE DONE)
 \begin{enumerate}
 	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, pay (1)
 	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, PLUG IT, pay less. (2)
@@ -359,6 +576,7 @@ Possible scenarios (REMOVE THIS LIST ONCE DONE)
 
 \begin{itemize}
 	\item SZ: 4h on 1/11
+	\item SZ: 4h on 4/11
 
 
 \end{document}
