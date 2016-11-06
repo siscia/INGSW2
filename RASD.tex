@@ -466,7 +466,7 @@ gets back to Booked and the timer restarts from the point it stopped.
 	\item[FIND\_ISSUES] The staff is able to locate cars that need their intervention.
 	\begin{description}
 	\item[ISS1] The staff's app is able to receive informations about all cars that are in Not Available status but not yet taken by any operator, and to show them to the user.
-	\item[ISS2] The staff's app can sort the cars basing on their distance from the user's location, priority of the issue and issue type (the Exception status)
+	\item[ISS2] The staff's app can filter and sort the cars basing on their distance from the user's location, priority of the issue, time of Non Availability and issue type (the Exception status)
 	\item[ISS3] The staff's app can give directions to the user to reach the selected car.
 	\end{description}
 
@@ -474,8 +474,10 @@ gets back to Booked and the timer restarts from the point it stopped.
 	\begin{description}
 	\item[SUP1] The staff's app allows the operator to signal that a staff member is in charge of a certain issue.
 	\item[SUP2] The staff's app allows the operator to change the status of the car they are in charge of back to Available.
-	\item[SUP3] When an operator changes the status of their car back to Available, the system re-checks the car's parameters and then confirm the status or brings it back to Not Available. In the latter case, the system informs the operator that was in charge of that issue.
-	\item[SUP4] The staff's app allows the operator to change the Exception status of the car they are in charge of.
+	\item[SUP3] When an operator changes the status of their car back to Available, the system re-checks the car's parameters and then confirm the status or brings it back to Not Available. In the latter case, the system informs the operator that was in charge of that issue and another, different issue is generated.
+	\item[SUP4] The staff's app allows the operator to change the Exception status of the car they are in charge of.	
+	\item[SUP5] The staff's app allows the operator to unlock and lock the car they are in charge of.
+	\item[SUP6] The staff's app allows the operator to switch their car on, switch off, plug to the power grid, eventually open the car's bonnet or perform any other operation that may be required to solve an issue.
 	\end{description}
 
 	\item[INFRACTIONS] The system must be able to process a fine sent to the company by a local police officer.
@@ -484,6 +486,7 @@ gets back to Booked and the timer restarts from the point it stopped.
 	\item[INF2] The system is able to find out which user was driving a specific car in a specific moment.
 	\item[INF3] The app is able to show fine's information to the correct user.
 	\item[INF4] The app allows the user to pay the fine directly through the app.
+	\item[INF5] The app prevent the user from using any function of the service until they have paid all their fines.
 	\end{description} 
 
 \subsection{Non Functional Requirements}
@@ -532,7 +535,7 @@ it is a sunny Sunday and Charlie wants to go with his family in the countryside.
 
 Once he crossed the boundaries, the car's onboard system informs him that he is not allowed to go that far and, if he will not go back into the boundaries within 10 minutes, he is going to be fined and, if stays far from the city for more than 24 hours, eventually prosecuted by law for having stolen the car. He does not care and continues his trip. After 10 minutes, he receives a notice that he is gonna be fined for the time he is spending outside the city.
 
-At the end of the day, Charlie goes back home with his family. He parks the car in a safe area near his house, exits with all his family and locks the car: now he receives the bill, that is the basic price of the ride, plus:
+At the end of the day, Charlie goes back home with his family. He parks the car in a safe area near his house, exits with all his family and locks the car: now he receives the bill, that is the basic price of the ride plus:
 \begin{itemize}
 	\item a 10\% discount for having brought many people on the car
 	\item a 30\% overprice for having left the car discharged far from a charging station
@@ -540,15 +543,18 @@ At the end of the day, Charlie goes back home with his family. He parks the car 
 \end{itemize}
 Charlie tries to pay, but his payment fails because the rechargeable credit card he connected to the app is empty. So he gets a notice from \pe that he is temporary banned from the service until he manages to pay the last pending bill.
 
+\subsubsection{Scenario 5}
+Harry is a staff operator of \pecomma in charge of re-chargin cars in-place when required. He has just completed another task in Charlie's neighborhood, so he opens the app and looks for any other pending issues to solve.
+
+The app gives him a list of issues near him: two discharged cars left far from a power station, one parked near a power station that needs to be plugged, a Technical Issue and a car parked outside from a safe area. Harry filters the issues based on their Exception status, in order to see only issues related to recharging, and gets a list of the three discharged cars. He takes in charge Charlie's discharged car, which is the nearest, pressing the button on his app's interface. The app shows him the way and Harry goes for that car.
+
+Once near the car, Harry plugs the car to his portable battery and charges it until it's almost full. Then changes manually the status of the car from Not Available to Available: but the system does not confirm the operation, because it cannot detect the residual charge of the battery. The Exception status of the car gets set to Mechanical Issue, but Harry has no means to fix that problem: so he does not take charge of the new issue and goes for another car to charge.
+
 
 \subsubsection{Other scenarios}
-\begin{itemize}
-	\item User rents a car in time, reach it in time, unlock, starts, ride, WANTS TO STOP FOR A WHILE. \textcolor{red}{IKEA case!}
-	\item What if the user \textcolor{red}{ leaves the car open}  when the ride finished?
-\end{itemize}
 
-Possible
- scenarios (REMOVE THIS LIST ONCE DONE)
+
+Possible scenarios (REMOVE THIS LIST ONCE DONE)
 \begin{enumerate}
 	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, pay (1)
 	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, PLUG IT, pay less. (2)
@@ -577,6 +583,7 @@ Possible
 \begin{itemize}
 	\item SZ: 4h on 1/11
 	\item SZ: 4h on 4/11
+	\item SZ: 6h on 5/11
 
 
 \end{document}
