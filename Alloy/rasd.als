@@ -42,4 +42,4 @@ pred show[]{
 	#User > 2
 }
 
-run show for 4
+run Registration for 4

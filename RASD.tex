@@ -357,9 +357,9 @@ We are deriving our functional requirements from the goals we listed in the prev
 	\item[LOG4] The system must prevent not-logged users from using all other app's functions, except for registering and login.
 	\end{description}
 
- 	\item[LOOKUP] The user is able to find cars nearby their own position.
+ 	\item[LOOKUP] The user is able to find cars nearby some position, it could be its position or a point in the map.
 	\begin{description}
-	\item[LOOK1] The system is able to send to each user a list of the available cars that locates within a specified walking distance from the user's position.
+	\item[LOOK1] The system is able to send to each user a list of the available cars that locates within a specified walking distance from the position specified.
 	\item[LOOK2] The user can change the maximum walking distance required to reach a car, and the system is able to use this parameter when retrieving the list of nearby available cars.
 	\item[LOOK3] The system is able change the ranking metric of the nearby cars according to the user's preferences.
 	\item[LOOK4] The app is able to show to the user the position of all the available cars on an interactive map.
@@ -405,6 +405,7 @@ We are deriving our functional requirements from the goals we listed in the prev
 		\end{itemize}
 	\item[RIDE6] At the end of the ride, when all passengers exit, the car can be locked by the user
  with a button on the app's interface.
+ 	\item[RIDE7] 
 	\end{description}
 
 	\item[OUT\_CITY] If a user drives out from the city's border, they are fined accordingly.

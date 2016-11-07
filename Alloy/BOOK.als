@@ -31,4 +31,4 @@ pred UserCanBookAvailableCar[c, c': Car, b: Booked, a: Available, u, u': User] {
 	c' in u'.car
 }
 
-run UserCanBookAvailableCar for 4
+run UserCanBookAvailableCar for 10
