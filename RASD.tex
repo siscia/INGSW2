@@ -78,22 +78,38 @@ In this section we are providing an overview of the \pe Project, we are highligh
 
   \subsection{Purpose}
   
-The purpose of this document is to analyze the requirements for the project and provide detailed specifications for \pecomma a digital management system for a car sharing service that features only electric cars. 
+The purpose of this document is to analyze the requirements for the project and provide detailed specifications for \pecomma a digital management system for a car sharing service that features only electric cars.
   
+  \subsection{Scope}
+  
+\pe is a car sharing platform focused exclusively on eletric cars. It aims to improve the mobility inside the city in a eco-friendly way. To achieve its goal, it will incetivize people to be environment cautions drivers.
 
-  \subsection{Overall Description of the given problem}
+\subsection{Definitions, acronyms, abbreviations}
+  \begin{description}
+  	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
+  	\item[Running Time] The time that an user is using the \pe service.
+  	\item[Frontend]
+  	\item[Backend]
+  \end{description}
+  
+\subsection{Overview}
+
+\section{Overall Description}
 
 \pe is a digital management system for car sharing that exclusively employs electirc cars to provide its service. The system provides all the functionalities normally provided by a car sharing service, like registering to the service, find the location of nearby available cars, reserve cars up to a short amount of time (namely one hour), unlock the chosen car once found, ride it and then park it in a safe area, when it will be automatically locked and the fee paid.
 
 In addition, the system gives bonuses and penalities in term of discounts or extra fees depending on the behavior of the user, in order to incentivize a virtuous behavior. Some examples are:
-\begin{itemize}
-\item a discount of 10\% for users who brings other passangers with him during the ride
-\item a discount of 20\% if the car is left with at least 50\% of the battery still full, or a 30\% if the car is left near a charging station and plugged.
-\item if the car is left more than 3km from the nearest charging station or with less than 20\% of charge left, the user is charged 30\% more
-\end{itemize}
-  \pe is divided in two main part: a frontend, used by the customers, and a backend that provides the service. In addition there is a reserved fronted, used exclusively by the staff members to better organize their job.
 
-\subsubsection{Product Perspective}
+\begin{itemize}
+	\item a discount of 10\% for users who brings other passangers with him during the ride
+	\item a discount of 20\% if the car is left with at least 50\% of the battery still full, or a 30\% if the car is left near a charging station and plugged.
+	\item if the car is left more than 3km from the nearest charging station or with less than 20\% of charge left, the user is charged 30\% more
+\end{itemize}
+
+\pe is divided in two main part: a frontend, used by the customers, and a backend that provides the service. In addition there is a reserved fronted, used exclusively by the staff members to better organize their job.
+
+
+\subsection{Product Perspective}
   
   \pe provide users the ability to rent cars for a limited amount of time in a bounded area, for example a city. 
   The frontend part, the app, provides the user the ability to look for available cars, reserve cars for up of one hour and unlock the cars once they are near the reserved vehicle; it is used also to lock the vehicle once the run is over and to pay the fee.
@@ -102,7 +118,7 @@ The staff's reserved frontend tells them which cars need to be plugged or rechar
 
   The backend part takes care of providing all the required data to both frontends. It also tracks the position and the statuses of every single car, the duration of each ride and charges users accordingly.
   
-  \subsubsection{Product Functions}
+\subsection{Product Functions}
   
   \pe is provided to the user via a mobile application. A registered user can log in into its account, while a new user is prompted to register and then to log in.
   
@@ -111,21 +127,19 @@ The staff's reserved frontend tells them which cars need to be plugged or rechar
   The system starts charging the user when the engine starts running, and will stop once the car is been parked, the user exit and locks it. Several forms of discount or overfees will be applied depending on the behaviour of the user when riding and parking the car.
 
 
-  \subsubsection{Parallel Operation}
+\subsection{Parallel Operation}
   The system is capable to operate and serve users concurrently, however an, HA, single point of coordination is required in order to avoid conflicts on the booking system.
-  
-
-
+ 
 \subsection{Constraints}
   
-\subsubsection{Constraints on the user}
+	\subsubsection{Constraints on the user}
 Users who wish to use \pe are required to fulfill some specific requirements:
 \begin{enumerate}
 	\item The user must be registered to the service.
 	\item The user must have a valid driving license.
 \end{enumerate}
 
-\subsubsection{Platform Contraints}
+	\subsubsection{Platform Contraints}
 Also, the system has some platform constraints coming from the device that is running the app:
 \begin{enumerate}
 	\item The app should be small enough to fit the memory of ideally all smartphones.
@@ -134,7 +148,7 @@ Also, the system has some platform constraints coming from the device that is ru
 	\item The app should be able to get information from the smartphones' GPS.
   \end{enumerate}
 
-\subsubsection{Privacy regulations}
+	\subsubsection{Privacy regulations}
 The system should complain to the most recent privacy regulations in managing the data that the user are generating, thus ensuring:
 \begin{enumerate}
 	\item The user must be aware that its data is being recorded by the system, including its GPS position.
@@ -159,8 +173,6 @@ The actors involved in our system are mainly \textbf{final users}, that is, peop
 
 \subsubsection{Stakeholders}
 The main stakeholder for our system are \textbf{users} themselves, who requires a easy-to-use service of electric cars sharing. Other stakeholders are the \textbf{city governement}, who supports our service as a way to improve sustainable mobility inside the city and takes care of the road infrastructures, and the \textbf{energy companies}, which provide power for the cars.
-
-
 
 \subsection{Text Assumptions}
 
@@ -253,9 +265,6 @@ Here we list some text assumptions about these parameters.
   	
  The decision to rely on external partners to run these functions has been made since those services are not the core business for \pecomma and other external companies has already found very efficient and cost-effective solution to them.
 
-
-
-
 \subsection{Domain Properties}
 
 The following domains properties are assumed during the development of the project.
@@ -285,14 +294,6 @@ The following domains properties are assumed during the development of the proje
 
 \end{itemize}
 
-\subsection{Definitions, acronyms, abbreviations}
-  \begin{description}
-  	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
-  	\item[Running Time] The time that an user is using the \pe service.
-  	\item[Frontend]
-  	\item[Backend]
-  \end{description}
-
 
 \subsection{Reference Documents}
 \begin{itemize}
@@ -305,12 +306,8 @@ The following domains properties are assumed during the development of the proje
 		\end{itemize}
   \end{itemize}
 
- 
-
-
-
-
 \newpage
+
 \section{Specific Requirements}
 
 In this section we are going to illustrate the specific requirement of \pe.
@@ -349,8 +346,7 @@ We are deriving our functional requirements from the goals we listed in the prev
 	\item[REG2] The system must be able to validate the data the user want to use to create a new account.
 	\item[REG3] The system must be able to check whether the user has no other accounts, i.e. if the person registering to the service has already an account.
 	\item[REG4] The system must ensure that, at registering time, the user is aware of how their data are going to be processed and stored, and how the system complies the current privacy regulations.
-	\item[REG5
-] The system must be able to deal with situations where the user cannot open a new account.
+	\item[REG5] The system must be able to deal with situations where the user cannot open a new account.
 	\end{description}
 
 	\item[LOGIN] The user is able to login to \pe.
@@ -361,9 +357,9 @@ We are deriving our functional requirements from the goals we listed in the prev
 	\item[LOG4] The system must prevent not-logged users from using all other app's functions, except for registering and login.
 	\end{description}
 
- 	\item[LOOKUP] The user is able to find cars nearby their own position.
+ 	\item[LOOKUP] The user is able to find cars nearby some position, it could be its position or a point in the map.
 	\begin{description}
-	\item[LOOK1] The system is able to send to each user a list of the available cars that locates within a specified walking distance from the user's position.
+	\item[LOOK1] The system is able to send to each user a list of the available cars that locates within a specified walking distance from the position specified.
 	\item[LOOK2] The user can change the maximum walking distance required to reach a car, and the system is able to use this parameter when retrieving the list of nearby available cars.
 	\item[LOOK3] The system is able change the ranking metric of the nearby cars according to the user's preferences.
 	\item[LOOK4] The app is able to show to the user the position of all the available cars on an interactive map.
@@ -387,8 +383,7 @@ We are deriving our functional requirements from the goals we listed in the prev
 	\item[UNLK3] The system is able to unlock the correct car remotely.
 	\item[UNLK4] The system changes automatically the status of the car from Booked to Unlocked.
 	\item[UNLK5] The user can ask the system to unlock their car at any time, even if they are still far from the car.
-	\item[UNLK6] If a user unlocks the car and does not enter within a short period of time (namely 5 minutes) the car 
-gets back to Booked and the timer restarts from the point it stopped.
+	\item[UNLK6] If a user unlocks the car and does not enter within a short period of time (namely 5 minutes) the car gets back to Booked and the timer restarts from the point it stopped.
 	\item[UNLK7] The user can lock back an unlocked car from the app before starting the ride. In this case the car gets back to Booked and the timer restarts from the point it stopped. In order to perform this operation, no passengers can be inside the car.
 	\end{description}
 
@@ -410,6 +405,7 @@ gets back to Booked and the timer restarts from the point it stopped.
 		\end{itemize}
 	\item[RIDE6] At the end of the ride, when all passengers exit, the car can be locked by the user
  with a button on the app's interface.
+ 	\item[RIDE7] 
 	\end{description}
 
 	\item[OUT\_CITY] If a user drives out from the city's border, they are fined accordingly.
@@ -488,11 +484,15 @@ gets back to Booked and the timer restarts from the point it stopped.
 	\item[INF4] The app allows the user to pay the fine directly through the app.
 	\item[INF5] The app prevent the user from using any function of the service until they have paid all their fines.
 	\end{description} 
+\end{description}
 
 \subsection{Non Functional Requirements}
+
+\begin{comment}
+Non penso servano, anzi penso sia proprio sbagliato averli qua.
 \subsubsection{Client's App Interface}
 \subsubsection{Staff's App Interface}
-
+\end{comment}
   
 
 \newpage
@@ -584,6 +584,5 @@ Possible scenarios (REMOVE THIS LIST ONCE DONE)
 	\item SZ: 4h on 1/11
 	\item SZ: 4h on 4/11
 	\item SZ: 6h on 5/11
-
 
 \end{document}
