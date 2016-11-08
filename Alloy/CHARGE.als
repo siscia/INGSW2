@@ -1,4 +1,3 @@
-open util/integer
 
 enum TotNumPeople {lessThan3, moreThan3}
 enum BatteryLevel {moreThan50, lessThan50, lessThan20}
