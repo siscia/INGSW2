@@ -11,6 +11,7 @@
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 \usepackage{float} % to place float images correctly
 \usepackage{color} % to color text
+\usepackage{enumitem} % for lists
 
 %%% Examples of Article customizations
 % These packages are optional, depending whether you want the features they provide.
@@ -54,6 +55,8 @@
 \renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
 \newcommand{\pe}{PowerEnJoy }
 \newcommand{\pecomma}{PowerEnJoy, }
+
+\newcommand{\bul}[1]{\indent$\bullet$ #1\\}
 
 %%% END Article customizations
 
@@ -568,8 +571,265 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 \subsection{Use Case Diagram}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{UML/UseCaseDiagram.png}
+	\includegraphics[width=1\textwidth]{UML/UseCaseDiagram.png}
+	\caption{Use Case Diagram for Customers and Staff Operators}
 \end{figure}
+
+\subsubsection{Customer's Use Cases Description}
+
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Register}
+	\item[Entry Conditions:] None
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Opens the app, presses the Register button
+		\item Fills the form with their personal information including a chosen password, Driving Licence Informations and payment informations.
+		\item Confirms they took vision of Terms and Conditions of the Service 
+		\item Can press the Confirm button.
+	\end{itemize} \hfill\
+	\item[Exit conditions:] The customer is successfully redirected to the Login page.
+	\item[Exceptions:]  \hfill\
+	\begin{itemize}
+		\item The user filled the form with invalid data: then the app redirects him back to the form and highlights recognized problems. 
+		\item The user is found to have another account already active: then they are redirected to the Login 	page with a notice that states they must login with their original credential or try to recover them.
+	\end{itemize}
+\end{description}
+\newline
+ \hfill\
+
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Login}
+	\item[Entry Conditions:] None
+	\item[Flow Of Events:]  \hfill\
+	\begin{itemize}
+		\item Open the app, presses the Login button
+		\item Fill the form with their username/password pair.
+		\item Press the Login button.
+	\end{itemize}
+	\item[Exit conditions:] The customer is successfully redirected to the Cars Near You page.
+	\item[Exceptions:]  \hfill\
+	\begin{itemize}
+		\item The user input a wrong pair username/password: the they are redirected back to the Login page with a notice. 
+	\end{itemize}
+\end{description}
+\newline
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Book cars}
+	\item[Entry Conditions:] The user logged in and have no pending bills to pay.
+	\item[Flow Of Events:]  \hfill\
+	\begin{itemize}
+		\item Look at the Cars Near You page and choses the car they want to book.
+		\item Click on the car they chosed and see additional informations.
+		\item Click the Book Now button.
+	\end{itemize}
+	\item[Exit conditions:] The customer receives a notice confirming the operation, and see the deadline to unlock the car.
+	\item[Exceptions:] No predictable exceptions at this stage.
+\end{description}
+\newline
+ \hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Unbook cars}
+	\item[Entry Conditions:] The user logged in and has booked a car, but not yet unlocked it.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Press the Menu icon in the top-right corner of the screen.
+		\item Press Bookings to see the bookings history.
+		\item Select the active booking they want to quit.
+		\item They receive a confirmation notice.
+		\item Press the Unbook Now button.
+	\end{itemize}
+	\item[Exit conditions:] The customer receives a notice confirming the operation, and receive directions showing how to reach the vehicle.
+	\item[Exceptions:] No predictable exceptions at this stage.
+\end{description}
+\newline
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Unlock and drive booked cars}
+	\item[Entry Conditions:] The user logged in and has booked a car, but not yet unlocked it.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Get near to the car.
+		\item Receive a notice that their car has been unlocked.
+		\item Get into the car.
+		\item Scan their driving licence.
+		\item Receive a confirmation the driving licence has been read and it is the correct one.
+		\item Can switch on the car and drive to the destination.
+	\end{itemize}
+	\item[Exit conditions:]  The user receives a notice their driving time has begun.
+	\item[Exceptions:] \hfill\
+	\begin{itemize}
+		\item The car doesn't unlock: then the user can try to send again the unlock message pressing the Unlock Manually button.
+		\item The scanned driving licence is not correct for the user who booked the car: then a notice is sent to the user and a new scan is expected.
+	\end{itemize}
+\end{description}
+\newline
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Parks safely and charge the car}
+	\item[Entry Conditions:] The user is driving a car.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item See the location of safe areas and charging stations on the map.
+		\item Park in a safe location and switch off the engine.
+		\item Exit from the car.
+		\item If near to a charging station, may plug the car to the power grid.
+		\item Confirm the parking pressing the Lock button.
+	\end{itemize}
+	\item[Exit conditions:]  The user receives a confirmation the car has been locked.
+	\item[Exceptions:] \hfill\
+	\begin{itemize}
+		\item The car's engine stops out from a safe area: the user is notified and, if they leave, fined.
+	\end{itemize}
+\end{description}
+\newline
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Pay bills and get discounts for virtuous behavior}
+	\item[Entry Conditions:] The user locked a car after a ride.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Receives the bill, including the regular fare plus eventual discounts or overprices for his behavior.
+		\item Press the Pay Now button at the bottom of the bill.
+		\item Pay the fee.
+	\end{itemize}
+	\item[Exit conditions:]  The user receives a confirmation that the payment has been completed successfully.
+	\item[Exceptions:] \hfill\
+	\begin{itemize}
+		\item The payment fails: all the app's functions are locked until the user manages to pay the pending bill.
+	\end{itemize}
+\end{description}
+\newline
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{See fine's informations and pay fines}
+	\item[Entry Conditions:] The user received a fine.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Receives a notice stating that they received a fine.
+		\item Press the Tell Me More button
+		\item Additional informations on the fine are shown.
+		\item Press the Pay Now button, or
+		\item Press the Pay Later button. In this case all other functions of the app gets locked until the fine is paid.
+	\end{itemize}
+	\item[Exit conditions:]  The user receives a confirmation that the payment has been completed successfully.
+	\item[Exceptions:] \hfill\
+	\begin{itemize}
+		\item The payment fails: all the app's functions are locked until the user manages to pay the pending fine.
+	\end{itemize}
+\end{description}
+\newline
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Report an issue}
+	\item[Entry Conditions:] None.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Notice something wrong with the app or the car.
+		\item Press the button Report An Issue.
+		\item Fill the form and describe the issue.
+		\item Send the Issue Report to the central system.
+	\end{itemize}
+	\item[Exit conditions:]  The user receives a confirmation that their report has been sent successfully.
+	\item[Exceptions:] No predictable issue can happen at this stage.
+\end{description}
+\newline
+\hfill\
+
+
+\subsubsection{Staff Operator's Use Cases Description}
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Take issue in charge}
+	\item[Entry Conditions:] The operator is logged in.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Looks at the map showing the nearest issues.
+		\item Select a issue tapping on it.
+		\item Press the Take This button.
+	\end{itemize}
+	\item[Exit conditions:]  The user receives a confirmation that they took that issue in charge and receive directions to reach it.
+	\item[Exceptions:] No predictable issue can happen at this stage.
+\end{description}
+\newline
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Unlock and manage car taken in charge}
+	\item[Entry Conditions:] The operator is logged in and took an issue in charge.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Press the Unlock car button.
+		\item get into the car and tries to solve the issue.
+	\end{itemize}
+	\item[Exit conditions:]  The car gets unlocked.
+	\item[Exceptions:] \hfill\
+	\begin{itemize}
+		\item The car doesn't unlock: the operator can try again or give up the issue.
+	\end{itemize}
+\end{description}
+\newline
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Mark an issue as solved or give up an issue}
+	\item[Entry Conditions:] The operator is logged in and took an issue in charge.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Open the Issue page, stating more details about the issue taken in charge.
+		\item Press the Solved button if enabled, or
+		\item Press the Give Up button.
+	\end{itemize}
+	\item[Exit conditions:]  The operator receives a notice confirming the operation.
+	\item[Exceptions:]  \hfill\
+	\begin{itemize}
+		\item The system doesn't confirm the issue has been solved: the issue status is changed to Technical issue and the operator is gave the possibility to give up the issue.
+	\end{itemize}
+\end{description}
+\newline
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Change car's Exception status}
+	\item[Entry Conditions:] The operator is logged in and took an issue in charge.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Open the Issue page, stating more details about the issue taken in charge.
+		\item Changes the Exception status choosing an item from the list.
+		\item Press the Confirm button.
+	\end{itemize}
+	\item[Exit conditions:]  The operator receives a notice confirming the operation.
+	\item[Exceptions:] No predictable exception at this stage.
+\end{description}
+\newline
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Register fines informations}
+	\item[Entry Conditions:] The operator is logged in.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Open the Register Fine page.
+		\item Fill in all required data about the fine.
+		\item Press the Register button.
+	\end{itemize}
+	\item[Exit conditions:]  The operator receives a notice confirming the operation.
+	\item[Exceptions:] 
+	\begin{itemize}
+		\item The operator input invalid data: they are redirected back to the form page, highlighting the problem.
+	\end{itemize}
+\end{description}
+\newline
+\hfill\
 
 
 \subsection{Other UML Diagrams}
@@ -577,6 +837,16 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 \subsubsection{Sequence Diagram}
 \subsubsection{Activity Diagram}
 \subsubsection{State Diagram}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{UML/StateDiagramCarAvailability.png}
+	\caption{Car's Availability Status State Transitions}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{UML/StateDiagramIssues.png}
+	\caption{Issue's State Transitions}
+\end{figure}
 
 
 
