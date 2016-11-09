@@ -491,8 +491,6 @@ We are deriving our functional requirements from the goals we listed in the prev
 
 \subsection{Non Functional Requirements}
 
-%\begin{comment}
-%Non penso servano, anzi penso sia proprio sbagliato averli qua.
 \subsubsection{Client's App Interface}
 \begin{figure}[H]
 	\includegraphics[width=0.2\textwidth]{mockup/1Login.png}
@@ -508,7 +506,11 @@ We are deriving our functional requirements from the goals we listed in the prev
 	
 \end{figure}
 \subsubsection{Staff's App Interface}
-%\end{comment}
+\begin{figure}[H]
+	\includegraphics[width=0.3\textwidth]{mockup/AIssues.png}
+	\includegraphics[width=0.3\textwidth]{mockup/BSelectedIssue.png}
+	\includegraphics[width=0.3\textwidth]{mockup/CIssueDetail.png}
+\end{figure}
   
 
 \newpage
@@ -551,7 +553,7 @@ it is a sunny Sunday and Charlie wants to go with his family in the countryside.
 
 At the end of the day, Charlie wants to go back home with his family. He book the car he brought far from the city with him and shortly thereafter he starts his journey back home. He is halfaway from home when suddenly the car stops running: the engine got too much heat during the day and broke.
 
-Charlie does not need to send a report to PowerEnJoy: the onboard system immediately tells him that a notice has automatically been sent to the central. So Charlie receives the first part of the bill and, paid it, he can look for another car to finish his trip, and luckily he finds one at half an hour by foot from his location. Charlie books the car and manages to reach it in time to unlock it and go back home.
+Charlie does not need to send a report to PowerEnJoy: the onboard system immediately tells him that a notice has automatically been sent to the central. So Charlie receives the first part of the bill and, paid it, he can look for another car to finish his trip. He finds only one at half an hour by foot from his location. Charlie books the car and manages to reach it in time to unlock it and go back home.
 
 He parks the car in a safe area near his house, exits with all his family and locks the car: now he receives the bill, that is the basic price of the ride plus:
 \begin{itemize}
@@ -823,7 +825,7 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 		\item Press the Register button.
 	\end{itemize}
 	\item[Exit conditions:]  The operator receives a notice confirming the operation.
-	\item[Exceptions:] 
+	\item[Exceptions:] \hfill\
 	\begin{itemize}
 		\item The operator input invalid data: they are redirected back to the form page, highlighting the problem.
 	\end{itemize}
@@ -835,11 +837,27 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 \subsection{Other UML Diagrams}
 \subsubsection{Class Diagram}
 \subsubsection{Sequence Diagram}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{UML/SequenceDiagramLoginReg.png}
+	\caption{Registration and Login Process}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{UML/SequenceDiagramBooking.png}
+	\caption{Booking Process}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{UML/SequenceDiagramEndRide.png}
+	\caption{Booking Process}
+\end{figure}
+
 \subsubsection{Activity Diagram}
 \subsubsection{State Diagram}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{UML/StateDiagramCarAvailability.png}
+	\includegraphics[width=1\textwidth]{UML/StateDiagramCarAvailability.png}
 	\caption{Car's Availability Status State Transitions}
 \end{figure}
 \begin{figure}[H]
