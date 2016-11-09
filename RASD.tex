@@ -544,17 +544,18 @@ At the end of the day, the fine has been processed by both the police officers a
 
 
 \subsubsection{Scenario 4}
-it is a sunny Sunday and Charlie wants to go with his family in the countryside. He has no car, but he doesn't want to go there by train: so he decides to use \pe to do his trip. He finds a fully charged car near his house, reserves it and within 20 minutes he started his drive, heading outside the city's boundaries.
+it is a sunny Sunday and Charlie wants to go with his family in the countryside. He has no car, but he doesn't want to go there by train: so he decides to use \pe to do his trip. He finds a fully charged car near his house, reserves it and within 20 minutes he started his drive.
 
-Once he crossed the boundaries, the car's onboard system informs him that he is not allowed to go that far and, if he will not go back into the boundaries within 10 minutes, he is going to be fined and, if stays far from the city for more than 24 hours, eventually prosecuted by law for having stolen the car. He does not care and continues his trip. After 10 minutes, he receives a notice that he is gonna be fined for the time he is spending outside the city.
+At the end of the day, Charlie wants to go back home with his family. He book the car he brought far from the city with him and shortly thereafter he starts his journey back home. He is halfaway from home when suddenly the car stops running: the engine got too much heat during the day and broke.
 
-At the end of the day, Charlie goes back home with his family. He parks the car in a safe area near his house, exits with all his family and locks the car: now he receives the bill, that is the basic price of the ride plus:
+Charlie does not need to send a report to PowerEnJoy: the onboard system immediately tells him that a notice has automatically been sent to the central. So Charlie receives the first part of the bill and, paid it, he can look for another car to finish his trip, and luckily he finds one at half an hour by foot from his location. Charlie books the car and manages to reach it in time to unlock it and go back home.
+
+He parks the car in a safe area near his house, exits with all his family and locks the car: now he receives the bill, that is the basic price of the ride plus:
 \begin{itemize}
 	\item a 10\% discount for having brought many people on the car
 	\item a 30\% overprice for having left the car discharged far from a charging station
-	\item a heavy fine for having brought the car out from the city boundaries.
 \end{itemize}
-Charlie tries to pay, but his payment fails because the rechargeable credit card he connected to the app is empty. So he gets a notice from \pe that he is temporary banned from the service until he manages to pay the last pending bill.
+Charlie tries to pay, but his payment fails because the rechargeable credit card he connected to the app is now empty. So he gets a notice from \pe that he is temporary banned from the service until he manages to pay the last pending bill.
 
 \subsubsection{Scenario 5}
 Harry is a staff operator of \pecomma in charge of re-chargin cars in-place when required. He has just completed another task in Charlie's neighborhood, so he opens the app and looks for any other pending issues to solve.
@@ -564,27 +565,11 @@ The app gives him a list of issues near him: two discharged cars left far from a
 Once near the car, Harry plugs the car to his portable battery and charges it until it's almost full. Then changes manually the status of the car from Not Available to Available: but the system does not confirm the operation, because it cannot detect the residual charge of the battery. The Exception status of the car gets set to Mechanical Issue, but Harry has no means to fix that problem: so he does not take charge of the new issue and goes for another car to charge.
 
 
-\subsubsection{Other scenarios}
-
-
-Possible scenarios (REMOVE THIS LIST ONCE DONE)
-\begin{enumerate}
-	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, pay (1)
-	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, PLUG IT, pay less. (2)
-	\item User WITH FRIENDS rents a car in time, reach it in time, unlock, starts, ride, park, exit, pay less. (2)
-	\item User rents a car in time, DON'T REACH IT IN TIME, pays penalty. (2)
-	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, DON'T PLUG even if empty, pay more. --> \textbf{Not wrote}
-	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area FAR FROM PLUG WHEN EMPTY, exit, pay more. (3)
-	\item User tries to rent a car in time but NO CARS ARE AVAILABLE nearby. \textbf{Not wrote}
-	\item User rents a car in time, reach it in time, unlock, starts, ride OUTSIDE THE CITY (4)
-	\item User rents a car in time, reach it in time, unlock, starts, ride, park in an UNSAFE AREA, exit, pay. \textbf{Not wrote}
-	\item User commits infraction while driving a \pe car. (3)
-	\item User rents a car in time, reach it in time, unlock, starts, ride, park in a safe area, exit, but FAILS TO PAY. (4)
-\end{enumerate}
-
-
-
 \subsection{Use Case Diagram}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{UML/UseCaseDiagram.png}
+\end{figure}
 
 
 \subsection{Other UML Diagrams}
