@@ -89,6 +89,7 @@ The purpose of this document is to analyze the requirements for the project and 
   \begin{description}
   	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
   	\item[Running Time] The time that an user is using the \pe service.
+  	\item[Safe Area] An parking area, predefined by the company where is possible to safely park the cars of the \pe fleet.
   	\item[Frontend]
   	\item[Backend]
   \end{description}
@@ -171,7 +172,7 @@ The actors involved in our system are mainly \textbf{final users}, that is, peop
 \end{itemize}
 
 \subsubsection{Stakeholders}
-The main stakeholder for our system are \textbf{users} themselves, who requires a easy-to-use service of electric cars sharing. Other stakeholders are the \textbf{city governement}, who supports our service as a way to improve sustainable mobility inside the city and takes care of the road infrastructures, and the \textbf{energy companies}, which provide power for the cars.
+Other than the company behind \pecomma the main stakeholder for our system are \textbf{users} themselves, who requires a easy-to-use service of electric cars sharing. Other stakeholders are the \textbf{city governement}, who supports our service as a way to improve sustainable mobility inside the city and takes care of the road infrastructures, and the \textbf{energy companies}, which provide power for the cars.
 
 \subsection{Text Assumptions}
 
@@ -217,9 +218,8 @@ The cars are assumed to have some internal, discrete statuses describing their c
 		\item Running
 		\item Parked
 		\item Not Available
-		\end{itemize}
+		\end{itemize}	
 	\item{Charging Status}: describe if the car is connected to the power grid or not. Boolean values (True or False)
-	\item{Locked Status}: describe if the car can be accessed by a person or not. Boolean values (True or False)
 	\item{Exception Status}: describe if the car has some issues. Possible values are:
 		\begin{itemize}
 		\item No Issue
@@ -234,8 +234,8 @@ The cars are assumed to have some internal, discrete statuses describing their c
 Here we list some text assumptions about these parameters.
 \begin{itemize}
 	\item The Availability status can change to Booked only if it was Available.
-	\item The Availability status can change to Unlocked only if it was Available.
-	\item The Availability status can change to Running only if it was Unlocked or Not Available. The latter case is possible only if the Exception status was Out of City Boundaries.
+	\item The Availability status can change to Unlocked only if it was Booked.
+	\item The Availability status can change to Running only if it was Unlocked.
 	\item The Availability status can change to Parked only if it was Running.
 	\item  The Availability status can change to Available only if it was Parked or Not Available.
 	\item The Availability status of a car with less than 20\% of residual charge is Not Available regardless of the status it was supposed to have, and its Exception status is set to Out Of Power.
@@ -251,10 +251,10 @@ Here we list some text assumptions about these parameters.
 	
   
   \subsubsection{External Services}
- The system depends on external services that are served by third-parties. These services are:
+ The system depends on external services that are served by third-parties. These services are used to:
   \begin{itemize}
-  	\item Charging bills to the user
-  	\item Determinate if the car is been parked in a safe position
+  	\item Charging fees to the users
+  	\item Determinate if the car is been parked in a safe area
   	\item Determinate the distance from the closest power grid station
   	\item Determinate the distance between two different GPS signals
 	\item Scan and read driving licences' informations
