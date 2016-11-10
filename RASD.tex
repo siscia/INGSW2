@@ -7,6 +7,7 @@
 \documentclass[11pt]{article} % use larger type; default would be 10pt.
 \setcounter{secnumdepth}{2}
 
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
 
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 \usepackage{float} % to place float images correctly
@@ -31,7 +32,7 @@
 %%% PACKAGES
 \usepackage{booktabs} % for much better looking tables
 \usepackage{array} % for better arrays (eg matrices) in maths
-\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+%\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
 \usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
 % These packages are all incorporated in the memoir class to one degree or another...
@@ -62,9 +63,6 @@
 
 %%% The "real" document content comes below...
 
-
-
-
 \title{Requirements Analysis and Specifications Document (RASD)}
 \author{Simone Mosciatti \& Sara Zanzottera}
 
@@ -85,7 +83,7 @@ The purpose of this document is to analyze the requirements for the project and 
   
   \subsection{Scope}
   
-\pe is a car sharing platform focused exclusively on eletric cars. It aims to improve the mobility inside the city in a eco-friendly way. To achieve its goal, it will incetivize people to be environment cautions drivers.
+\pe is a car sharing platform focused exclusively on electric cars. It aims to improve the mobility inside the city in a eco-friendly way. To achieve its goal, it will incetivize people to be environment cautions drivers.
 
 \subsection{Definitions, acronyms, abbreviations}
   \begin{description}
@@ -97,14 +95,14 @@ The purpose of this document is to analyze the requirements for the project and 
 
 \section{Overall Description}
 
-\pe is a digital management system for car sharing that exclusively employs electirc cars to provide its service. The system provides all the functionalities normally provided by a car sharing service, like registering to the service, find the location of nearby available cars, reserve cars up to a short amount of time (namely one hour), unlock the chosen car once found, ride it and then park it in a safe area, when it will be automatically locked and the fee paid.
+\pe is a digital management system for car sharing that exclusively employs electric cars to provide its service. The system provides all the functionalities normally provided by a car sharing service, like registering to the service, find the location of nearby available cars, reserve cars up to a short amount of time (namely one hour), unlock the chosen car once found, ride it and then park it in a safe area, when it will be automatically locked and the fee paid.
 
 In addition, the system gives bonuses and penalities in term of discounts or extra fees depending on the behavior of the user, in order to incentivize a virtuous behavior. Some examples are:
 
 \begin{itemize}
-	\item a discount of 10\% for users who brings other passangers with him during the ride
+	\item a discount of 10\% for users who brings other passangers with him during the ride.
 	\item a discount of 20\% if the car is left with at least 50\% of the battery still full, or a 30\% if the car is left near a charging station and plugged.
-	\item if the car is left more than 3km from the nearest charging station or with less than 20\% of charge left, the user is charged 30\% more
+	\item if the car is left more than 3km from the nearest charging station or with less than 20\% of charge left, the user is charged 30\% more.
 \end{itemize}
 
 \pe is divided in two main part: a frontend, used by the customers, and a backend that provides the service. In addition there is a reserved fronted, used exclusively by the staff members to better organize their job.
@@ -129,7 +127,7 @@ The staff's reserved frontend tells them which cars need to be plugged or rechar
 
 
 \subsection{Parallel Operation}
-  The system is capable to operate and serve users concurrently, however an, HA, single point of coordination is required in order to avoid conflicts on the booking system.
+  The system is capable to operate and serve users concurrently.
  
 \subsection{Constraints}
   
@@ -595,8 +593,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 		\item The user is found to have another account already active: then they are redirected to the Login 	page with a notice that states they must login with their original credential or try to recover them.
 	\end{itemize}
 \end{description}
-\newline
- \hfill\
 
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
@@ -614,8 +610,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 		\item The user input a wrong pair username/password: the they are redirected back to the Login page with a notice. 
 	\end{itemize}
 \end{description}
-\newline
-\hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Book cars}
@@ -629,8 +623,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 	\item[Exit conditions:] The customer receives a notice confirming the operation, and see the deadline to unlock the car.
 	\item[Exceptions:] No predictable exceptions at this stage.
 \end{description}
-\newline
- \hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Unbook cars}
@@ -646,8 +638,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 	\item[Exit conditions:] The customer receives a notice confirming the operation, and receive directions showing how to reach the vehicle.
 	\item[Exceptions:] No predictable exceptions at this stage.
 \end{description}
-\newline
-\hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Unlock and drive booked cars}
@@ -668,8 +658,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 		\item The scanned driving licence is not correct for the user who booked the car: then a notice is sent to the user and a new scan is expected.
 	\end{itemize}
 \end{description}
-\newline
-\hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Parks safely and charge the car}
@@ -688,8 +676,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 		\item The car's engine stops out from a safe area: the user is notified and, if they leave, fined.
 	\end{itemize}
 \end{description}
-\newline
-\hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Pay bills and get discounts for virtuous behavior}
@@ -706,8 +692,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 		\item The payment fails: all the app's functions are locked until the user manages to pay the pending bill.
 	\end{itemize}
 \end{description}
-\newline
-\hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{See fine's informations and pay fines}
@@ -726,8 +710,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 		\item The payment fails: all the app's functions are locked until the user manages to pay the pending fine.
 	\end{itemize}
 \end{description}
-\newline
-\hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Report an issue}
@@ -742,8 +724,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 	\item[Exit conditions:]  The user receives a confirmation that their report has been sent successfully.
 	\item[Exceptions:] No predictable issue can happen at this stage.
 \end{description}
-\newline
-\hfill\
 
 
 \subsubsection{Staff Operator's Use Cases Description}
@@ -760,8 +740,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 	\item[Exit conditions:]  The user receives a confirmation that they took that issue in charge and receive directions to reach it.
 	\item[Exceptions:] No predictable issue can happen at this stage.
 \end{description}
-\newline
-\hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Unlock and manage car taken in charge}
@@ -777,8 +755,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 		\item The car doesn't unlock: the operator can try again or give up the issue.
 	\end{itemize}
 \end{description}
-\newline
-\hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Mark an issue as solved or give up an issue}
@@ -795,8 +771,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 		\item The system doesn't confirm the issue has been solved: the issue status is changed to Technical issue and the operator is gave the possibility to give up the issue.
 	\end{itemize}
 \end{description}
-\newline
-\hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Change car's Exception status}
@@ -810,8 +784,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 	\item[Exit conditions:]  The operator receives a notice confirming the operation.
 	\item[Exceptions:] No predictable exception at this stage.
 \end{description}
-\newline
-\hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Register fines informations}
@@ -828,8 +800,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 		\item The operator input invalid data: they are redirected back to the form page, highlighting the problem.
 	\end{itemize}
 \end{description}
-\newline
-\hfill\
 
 
 \subsection{Other UML Diagrams}
@@ -883,5 +853,6 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 	\item SZ: 6h on 5/11
 	\item SZ: 4h on 7/11
 	\item SZ: 2h on 10/11
+\end{itemize}
 
 \end{document}
