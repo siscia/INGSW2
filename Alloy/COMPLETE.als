@@ -1,4 +1,4 @@
-enum CarStatues {Available, Booked, Unlocked, Riding, NotAvailable}
+enum CarStatus {Available, Booked, Unlocked, Riding, NotAvailable}
 enum ParkingStatus {Safe, Unsafe}
 enum TotNumPeople {lessThan3, moreThan3}
 enum BatteryLevel {moreThan50, lessThan50, lessThan20}
