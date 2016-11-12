@@ -13,6 +13,7 @@
 \usepackage{float} % to place float images correctly
 \usepackage{color} % to color text
 \usepackage{enumitem} % for lists
+\usepackage{subfigure} % for mockups
 
 %%% Examples of Article customizations
 % These packages are optional, depending whether you want the features they provide.
@@ -250,6 +251,12 @@ The staff's reserved frontend tells them which cars need to be plugged or rechar
 
 \subsection{Parallel Operation}
   The system is capable to operate and serve users concurrently.
+
+\subsection{Actual Systems}
+As for now there exits other car sharing services operating into the city, but none of them involves purely electric cars: or they rent traditional cars, or they use hybrid models, that have different needs comparing to purely electrical vehicles.
+
+Because of these considerations, we decided to not interact with these different car sharing systems and offer a completely separated service, specifically focused on leveraging the specific advantages and issues that electric cars offer.
+
  
 \subsection{Constraints}
   
@@ -283,7 +290,7 @@ The system should complain to the most recent privacy regulations in managing th
 \subsection{Actors and stakeholders}
 
 \subsubsection{Actors}
-The actors involved in our system are mainly \textbf{final users}, that is, people who are renting cars. Indeed the system needs support from a \textbf{technical team} that takes care of the digital infrastructure, and a \textbf{staff} that takes care of the cars in some special situations:
+The actors involved in our system are mainly \textbf{final users}, that is, people who are renting cars. Indeed the system needs support from a technical team that takes care of the digital infrastructure and a \textbf{staff} that takes care of the cars in some special situations:
 \begin{itemize} 
 	\item Cars left far from the power grid with an empty battery, that needs to be charged in-place
 	\item Cars left far from a safe parking area, that needs to be brought back to one of them
@@ -609,24 +616,37 @@ We are deriving our functional requirements from the goals we listed in the prev
 \subsection{Non Functional Requirements}
 
 \subsubsection{Client's App Interface}
+
 \begin{figure}[H]
 	\includegraphics[width=0.2\textwidth]{mockup/1Login.png}
 	\includegraphics[width=0.2\textwidth]{mockup/2MainClient.png}
 	\includegraphics[width=0.2\textwidth]{mockup/3CarSelected.png}
 	\includegraphics[width=0.2\textwidth]{mockup/4CarBooked.png}
+	\includegraphics[width=0.2\textwidth]{mockup/11Menu.png}
 	\includegraphics[width=0.2\textwidth]{mockup/5CarBookedList.png}
 	\includegraphics[width=0.2\textwidth]{mockup/6CarBookedSelected.png}
-	\includegraphics[width=0.2\textwidth]{mockup/7WhileDriving.png}
-	\includegraphics[width=0.2\textwidth]{mockup/8Bill.png}
-	\includegraphics[width=0.2\textwidth]{mockup/9MyAccount.png}
-	\includegraphics[width=0.2\textwidth]{mockup/10PendingBills.png}
-	
+	%\includegraphics[width=0.2\textwidth]{mockup/7WhileDriving.png}
+	\includegraphics[width=0.2\textwidth]{mockup/8Bill.png} 	\hspace{0.8cm}
+	\includegraphics[width=0.2\textwidth]{mockup/9MyAccount.png} 	\hspace{0.8cm}
+	\includegraphics[width=0.2\textwidth]{mockup/12IssueReport.png} 	\hspace{0.8cm}
+	\includegraphics[width=0.2\textwidth]{mockup/10PendingBills.png} 	%\hspace{1cm}
+	\caption{Client's app principal pages}
 \end{figure}
+
+\subsubsection{Car's Onboard System}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{mockup/CarsSystem} 
+	\caption{Car's Onboard System as it looks while driving}
+\end{figure}
+
 \subsubsection{Staff's App Interface}
 \begin{figure}[H]
-	\includegraphics[width=0.3\textwidth]{mockup/AIssues.png}
-	\includegraphics[width=0.3\textwidth]{mockup/BSelectedIssue.png}
-	\includegraphics[width=0.3\textwidth]{mockup/CIssueDetail.png}
+	\centering
+	\includegraphics[width=0.2\textwidth]{mockup/AIssues.png} \hspace{0.8cm}
+	\includegraphics[width=0.2\textwidth]{mockup/BSelectedIssue.png} \hspace{0.8cm}
+	\includegraphics[width=0.2\textwidth]{mockup/CIssueDetail.png}
+	\caption{Staff's Operators special pages}
 \end{figure}
   
 
@@ -936,14 +956,8 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 \hfill\
 
 \subsection{Other UML Diagrams}
-\subsubsection{Class Diagram}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{UML/ClassDiagram.png}
-	\caption{Class Diagram for the Alloy Model}
-\end{figure}
 
-\subsubsection{Sequence Diagram}
+\subsubsection{Sequence Diagrams}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{UML/SequenceDiagramLoginReg.png}
@@ -965,15 +979,23 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 	\caption{Issues Management Process}
 \end{figure}
 
-\subsection{Activity Diagram}
+\subsection{Activity Diagrams}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{UML/ActivityBooking.png}
 	\caption{Booking Flow}
 \end{figure}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6
+\textwidth]{UML/ActivityIssue.png}
+	\caption{Issue Management Flow}
+\end{figure}
+\newpage
 
-\subsubsection{State Diagram}
+
+\subsubsection{State Diagrams}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{UML/StateDiagramCarAvailability.png}
@@ -1063,6 +1085,7 @@ During the development of this document we used the following tools:
 	\item SZ: 4h on 7/11
 	\item SZ: 2h on 10/11
 	\item SZ: 2h on 11/11
+	\item SZ: 2h on 12/11
 \end{itemize}
 
 \end{document}
