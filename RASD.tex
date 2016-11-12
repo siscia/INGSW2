@@ -990,6 +990,9 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 \newpage
 \section{Alloy Model}
 
+To check the validity of the proposed solution we implemented a model on Alloy.
+
+In order to keep the model itself manageable it was first developed in small chuck and its validity checked, then each chuck is been merged in a bigger model and the validity of the whole model is been re-check again.
 
 \begin{figure}[H]
 	\centering
@@ -1003,8 +1006,31 @@ Once near the car, Harry plugs the car to his portable battery and charges it un
 
 \subsection{Results of Execution}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{Alloy/ConsistentStatic.png}
+	\caption{One of the model returned by Alloy, compressed visualization.}
+\end{figure}
+
 \subsection{Generated graph}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{Alloy/Complete.png}
+	\caption{One of the model returned by Alloy, compressed visualization.}
+\end{figure}
+
+\subsection{Dynamic Modeling}
+
+Finally, in order to check also the validity of our solution also in a dynamic case we develop another smaller, but dynamic Alloy model.
+
+\lstinputlisting[language=alloy]{Alloy/BOOK_DYNAMIC.als}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{Alloy/DynamicConsistent.png}
+	\caption{One of the model returned by Alloy, compressed visualization.}
+\end{figure}
 
 \newpage
 \section{Conclusions}
