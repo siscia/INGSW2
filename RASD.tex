@@ -189,31 +189,31 @@ The purpose of this document is to analyze the requirements for the project and 
 
 \subsection{Definitions, acronyms, abbreviations}
   \begin{description}
-	\item[User]
-	\item[Staff Operator]
-	\item[Ride]
+	\item[User] A costumer of \pe using the service.
+	\item[Staff Operator] An employer of \pe which takes care of maintains the car in good conditions.
+	\item[Ride] The action to get onboard of a \pe car, start it engine, drive to destination and park.
   	\item[Running Time] The time that an user is using the \pe service.
-	\item[Issue]
-	\item[Nearby Cars]
-	\item[Nearby Issues]
-	\item[Booking (Reservation)]
-	\item[Reservation's maximum time]
-	\item[Passenger]
-	\item[Driving License]
-	\item[Notification]
-	\item[Issue Report]
-	\item[Fine]
-	\item[Pending Bills]
+	\item[Issue] Any problem a car may incur in.
+	\item[Nearby Cars] Car close to a specific position.
+	\item[Nearby Issues] Issues that are affecting car close to a specific position.
+	\item[Booking (Reservation)] The act to reserve a car for a limited ammount of time, only the user that reserved the car will be able to unlock it.
+	\item[Reservation's maximum time] The maximun ammount of time a car can be reserved.
+	\item[Passenger] Whoever is in inside a \pe car but is not the user.
+	\item[Driving License] The state issued driving license of the user, it is mandatory to use the services.
+	\item[Notification] A form of comunication where the user is actively notified of some event.
+	\item[Issue Report] An incoming notification that segnalate some issues to the cars.
+	\item[Fine] A fine issued by the local law enforcing officers. 
+	\item[Pending Bills] Bills that an user still need to pay to \pe due to previous ride.
 	\item[Safe Area] An parking area, predefined by the company where is possible to safely park the cars of the \pe fleet.
-	\item[Charging Station]
-	\item[Car's Onboard System]
-	\item[Customer's App]
-	\item[Operator's App]
-	\item[Central System]
-	\item[Credentials]
+	\item[Charging Station] Dedicated areas where is possible to plug the \pe cars to charge their batteries.
+	\item[Car's Onboard System] The controll system of the car, it is able to exchange data with the central system and to relevate operation parameters.
+	\item[Customer's App] One implementation of the system frontend tailored to the need of the costumers.
+	\item[Operator's App] One implementation of the system frontend tailored to the need of the staff.
+	\item[Central System] The central system for \pe, all the command and all the data are streamed, analyzed and used here.
+	\item[Credentials] Pair \{Username, Password\} necessary to access the \pe system.
   	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
-  	\item[System's Frontend]
-  	\item[System's Backend]
+  	\item[System's Frontend] The interface provided to the user of the \pe system. 
+  	\item[System's Backend]  The whole technical infrastructure necessary to \pe.
   \end{description}
 
 \section{Overall Description}
