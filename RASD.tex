@@ -622,6 +622,18 @@ We are deriving our functional requirements from the goals we listed in the prev
 
 \subsection{Non Functional Requirements}
 
+\subsubsection{Technical Non Functional Requirement}
+
+\begin{description}
+	\item[Latency] 99\% of request should receive an answer in less than 300ms
+	\item[Availability] 99\%
+	\item[Reliability] 99\%
+\end{description}
+
+Since our system is not a critical one a little downtime is manageable, especially if it will provide faster development cycle and help contains the cost of the overall project. 
+ 
+However such tradeoff demand an extensive monitoring of the system and auto rollback in case of a bad deploy.
+
 \subsubsection{Client's App Interface}
 
 \begin{figure}[H]
