@@ -189,32 +189,33 @@ The purpose of this document is to analyze the requirements for the project and 
 
 \subsection{Definitions, acronyms, abbreviations}
   \begin{description}
-	\item[User]
-	\item[Staff Operator]
-	\item[Ride]
-  	\item[Running Time] The time that an user is using the \pe service.
-	\item[Issue]
-	\item[Nearby Cars]
-	\item[Nearby Issues]
-	\item[Booking (Reservation)]
-	\item[Reservation's maximum time]
-	\item[Passenger]
-	\item[Driving License]
-	\item[Notification]
-	\item[Issue Report]
-	\item[Fine]
-	\item[Pending Bills]
-	\item[Safe Area] An parking area, predefined by the company where is possible to safely park the cars of the \pe fleet.
-	\item[Charging Station]
-	\item[Battery Charge]
-	\item[Car's Onboard System]
-	\item[Customer's App]
-	\item[Operator's App]
-	\item[Central System]
-	\item[Credentials]
+	\item[User] A customer of \pe using the service.
+	\item[Staff Operator] An employee of \pe which takes care of the cars.
+	\item[Ride] The action of getting onboard of a \pe car, start its engine, drive to destination and park.
+  	\item[Running Time] The time an user spends using the \pe service.
+	\item[Issue] Any problem a car may incur in, or a user may face while using the service.
+	\item[Nearby Cars] Cars located within a maximum distance to a specific position.
+	\item[Nearby Issues] Issues that are affecting cars close to a specific position.
+	\item[Booking (Reservation)] The act to reserve a car for a limited amount of time for future use by a user.
+	\item[Reservation's maximum time] The maximun amount of time a car can be reserved.
+	\item[Driver] Whoever is driving a regularly booked \pe car.
+	\item[Passenger] Whoever is in inside a \pe car but is not the driver.
+	\item[Driving License] The state's issued driving license of the user.
+	\item[Notification] A form of comunication where the user is actively notified of some event.
+	\item[Issue Report] An incoming notification that states a car incurred in an issue.
+	\item[Fine] A fine issued by the local law enforcing officers to a user while driving a \pe car. 
+	\item[Pending Bills] Bills that an user still need to pay to \pe.
+	\item[Safe Area] An parking area, predefined by the company, where is possible to safely park the cars of the \pe fleet.
+	\item[Battery Charge] The amount of charge that is kept inside the car's battery.
+	\item[Charging Station] Dedicated areas where is possible to plug the \pe cars to charge their batteries.
+	\item[Car's Onboard System] The controll system of the car that is able to exchange data with the central system and to relevate operation parameters.
+	\item[Customer's App] An implementation of the system frontend tailored to the need of the customers.
+	\item[Operator's App] An implementation of the system frontend tailored to the need of the staff.
+	\item[Central System] The central system for \pe. All the command and all the data are streamed, analyzed and used here.
+	\item[Credentials] Pair \{Username, Password\} necessary to access the \pe system.
   	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
-  	\item[System's Frontend]
-  	\item[System's Backend]
+  	\item[System's Frontend] The interface provided to the user of the \pe system. 
+  	\item[System's Backend]  The whole technical infrastructure necessary to \pe.
   \end{description}
 
 \section{Overall Description}
@@ -1010,6 +1011,9 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \newpage
 \section{Alloy Model}
 
+To check the validity of the proposed solution we implemented a model on Alloy.
+
+In order to keep the model itself manageable it was first developed in small chuck and its validity checked, then each chuck is been merged in a bigger model and the validity of the whole model is been re-check again.
 
 \begin{figure}[H]
 	\centering
@@ -1023,8 +1027,31 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \subsection{Results of Execution}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{Alloy/ConsistentStatic.png}
+	\caption{One of the model returned by Alloy, compressed visualization.}
+\end{figure}
+
 \subsection{Generated graph}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{Alloy/Complete.png}
+	\caption{One of the model returned by Alloy, compressed visualization.}
+\end{figure}
+
+\subsection{Dynamic Modeling}
+
+Finally, in order to check also the validity of our solution also in a dynamic case we develop another smaller, but dynamic Alloy model.
+
+\lstinputlisting[language=alloy]{Alloy/BOOK_DYNAMIC.als}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{Alloy/DynamicConsistent.png}
+	\caption{One of the model returned by Alloy, compressed visualization.}
+\end{figure}
 
 \newpage
 \section{Conclusions}
