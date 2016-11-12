@@ -42,7 +42,7 @@ fact CarUnsafelyParkedAreNotAvailable {
 }
 
 sig Car {
-	status: one CarStatues,
+	status: one CarStatus,
 	parkingStatus: lone ParkingStatus
 }
 
@@ -58,10 +58,6 @@ sig Ride {
 	fine: one Fine
 }
 
-assert NoFineWithoutResponsableUser {
-	no r: Ride | r.fine = Fined and no r.user	
-}
-
 fact ABookedCarIsAssociatedWithAnUser {
 	all c: Car | some u: User | c.status = Booked <=> c in u.car
 }
@@ -72,6 +68,10 @@ fact AnUnlockedCarIsAssociatedWithAnUser {
 
 fact AnAvailableCarIsAssociatedWithNoUser {
 	no c: Car, u: User | c.status = Available and c in u.car
+}
+
+fact AnNotAvailableCarIsAssociatedWithNoUser {
+	no c: Car, u: User | c.status = NotAvailable and c in u.car
 }
 
 fact RideOnlyIfTheScannedLicenseIsTheSameOfTheUser {
@@ -145,16 +145,32 @@ fact overchargeUnloadFarAway {
 	all r: Ride | lessThan20 = r.batteryLevel and more3KM = r.distance <=> plus30 in r.bonuses
 }
 
-pred show{
-	#Ride > 3
-	some u: User | u.fineSituation = FinePending
-}
+pred show{}
 
 assert UserWithFinePendingCantBookUnlockRideCars {
 	no u: User, c: Car | u.fineSituation = FinePending and u.car = c and 
 		(c.status = Booked or c.status = Unlocked or c.status = Riding)
 }
 
+assert NoFineWithoutResponsableUser {
+	no r: Ride | r.fine = Fined and no r.user	
+}
+
+assert AllNotSafelyParkedCarAreInTheListOfTheStaff {
+	no c: Car, s: Staff | c.status = NotAvailable and c not in s.carToMove
+}
+
+assert OnlyCarAvailableOrNotAvailableAreNotAssociateWithAnUser {
+	no c: Car | some u: User | c in u.car and (c.status = Available or c.status = NotAvailable)
+}
+
+assert UserAreDrivingACarOnlyIfTheScannedLicenseIsTheSameOfTheUserLicense {
+	no r: Ride, u: User, l, l': License | l != l' and u.license = l and r.scannedLicense = l' and r.user = u
+}
+
 check UserWithFinePendingCantBookUnlockRideCars for 10
-check NoFineWithoutResponsableUser for 5
+check NoFineWithoutResponsableUser for 10
+check AllNotSafelyParkedCarAreInTheListOfTheStaff for 10
+check OnlyCarAvailableOrNotAvailableAreNotAssociateWithAnUser for 10
+check UserAreDrivingACarOnlyIfTheScannedLicenseIsTheSameOfTheUserLicense for 10
 run show for 5
