@@ -220,17 +220,18 @@ The purpose of this document is to analyze the requirements for the project and 
 
 \subsection{Motivation}
 
-In this small subsection we are going to explain the rationale behind some choice that we made in the whole documents.
+In this small subsection we explain the rationale behind some choices that we made in the subsequent sections of the document.
 
 \subsubsection{The client server architecture}
 
-Even if the choice of the architecture should be postponed in successive development phases, for sake of simplicity and clarity we have already commit ourselves to a client server architecture.
-Given the kind of application a client server architecture is one of the most basic choice we could made.
+Even if the choice of a specific architecture should be postponed in successive development phases, for sake of simplicity and clarity we have already commit ourselves to a client server architecture. Given the kind of application we are developing, a client server architecture is one of the most basic choice we could made.
 
 \subsubsection{App}
 
-In the whole document we will refer to an app, again, this choice should be postponed to successive development phases, however, given the already set Client/Server architecture and the seek of simplicity and easy of explain, we convey that start to already talk about a mobile app is a reasonable choice.
-We the term ``App'' we do not mean an application for a specific mobile vendor, but a broader interface to the \pe services, such interface could be an iOS app, an Adroid app, a Windows Phone app or a responsive HTML page.
+In the whole document we will refer to an app. Again, this choice should be postponed to successive development phases; however, given we already set a Client/Server architecture, we convey that considering a mobile app to provide the service to customers is a reasonable choice.
+
+Using the term ``App'' we do not mean an application for a specific mobile vendor, but a broader interface to the \pe services. Such interface could be an iOS app, an Adroid app, a Windows Phone app, a responsive HTML page or even all of them
+.
 
 \section{Overall Description}
 
@@ -526,7 +527,7 @@ We are deriving our functional requirements from the goals we listed in the prev
 	\item[UNLK4] The system must unlock the car the user booked when the user and the car shows approximately the same position on the map.
 	\item[UNLK5] The system must notify the user their car has been unlocked.
 	\item[UNLK6] The system must change automatically the status of the car from Booked to Unlocked when a car is unlocked.
-	\item[UNLK8] Users can lock back an unlocked car from the app before starting the ride. In this case the car's status gets back to Booked and the timer restarts from the point it stopped. In order to perform this operation, no passengers can be inside the car.
+	\item[UNLK7] Users can lock back an unlocked car from the app before starting the ride. In this case the car's status gets back to Booked and the timer restarts from the point it stopped. In order to perform this operation, no passengers can be inside the car.
 	\end{description}
 
 	\item[RIDE] Users can drive to their destination.
@@ -625,14 +626,14 @@ We are deriving our functional requirements from the goals we listed in the prev
 \subsubsection{Technical Non Functional Requirement}
 
 \begin{description}
-	\item[Latency] 99\% of request should receive an answer in less than 300ms
-	\item[Availability] 99\%
-	\item[Reliability] 99\%
+	\item[Latency:] 99\% of request should receive an answer in less than 300ms
+	\item[Availability:] 99\%
+	\item[Reliability:] 99\%
 \end{description}
 
-Since our system is not a critical one a little downtime is manageable, especially if it will provide faster development cycle and help contains the cost of the overall project. 
+Since our system's availability is not the most critical aspect of the system, a little downtime is manageable, especially if it provides a faster development cycle and helps containing the costs of the overall project maintanance. 
  
-However such tradeoff demand an extensive monitoring of the system and auto rollback in case of a bad deploy.
+However such a tradeoff demand an extensive monitoring of the system and auto rollback capability in case of a bad deploy.
 
 \subsubsection{Client's App Interface}
 
@@ -741,6 +742,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Register}
+	\item[Actors Involved:] A future user.
 	\item[Entry Conditions:] None
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
@@ -761,6 +763,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Login}
+	\item[Actors Involved:] A registered user.
 	\item[Entry Conditions:] None
 	\item[Flow Of Events:]  \hfill\
 	\begin{itemize}
@@ -778,20 +781,23 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Book cars}
+	\item[Actors Involved:] A registered user, a car.
 	\item[Entry Conditions:] The user logged in and have no pending bills to pay.
 	\item[Flow Of Events:]  \hfill\
 	\begin{itemize}
 		\item Look at the Cars Nearby page and choses the car they want to book.
 		\item Click on the car they chosed and see additional informations.
 		\item Click the Book button.
+		\item The system changes the status of the car from Available to Booked.
 	\end{itemize}
-	\item[Exit conditions:] The customer receives a notice confirming the operation, and see the deadline to unlock the car.
+	\item[Exit conditions:] The customer receives a notification confirming the operation, and see the deadline to unlock the car.
 	\item[Exceptions:] No predictable exceptions at this stage.
 \end{description}
 \hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Unbook cars}
+	\item[Actors Involved:] A user who booked a car, the booked car.
 	\item[Entry Conditions:] The user logged in and has booked a car, but not yet unlocked it.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
@@ -800,25 +806,30 @@ Once near the car, Harry plugs the car to his portable charging station and char
 		\item Select the active booking they want to quit.
 		\item They receive a confirmation notice.
 		\item Press the Unbook button.
+		\item The system changes the status of the car from Booked to Available.
 	\end{itemize}
-	\item[Exit conditions:] The customer receives a notice confirming the operation.
+	\item[Exit conditions:] The customer receives a notification confirming the operation.
 	\item[Exceptions:] No predictable exceptions at this stage.
 \end{description}
 \hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Unlock and drive booked cars}
+	\item[Actors Involved:] A user who booked a car, the booked car.
 	\item[Entry Conditions:] The user logged in and has booked a car, but not yet unlocked it.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
 		\item Get near to the car.
+		\item The system unlocks the car.
+		\item The system changes the status of the car from Booked to Unlocked.
 		\item Receive a notice that their car has been unlocked.
-		\item Get into the car.
+		\item Enter the car.
 		\item Scan their driving licence.
 		\item Receive a confirmation the scanned driving licence matches.
-		\item Can switch on the car and drive to the destination.
+		\item Switch on the car and drive to the destination.
+		\item The system changes the status of the car from Unlocked to Running
 	\end{itemize}
-	\item[Exit conditions:]  The user receives a notice their driving time has begun.
+	\item[Exit conditions:]  The user receives a notification their driving time has begun.
 	\item[Exceptions:] \hfill\
 	\begin{itemize}
 		\item The car doesn't unlock: the user can try to send again the unlock message pressing the Unlock Manually button.
@@ -829,14 +840,17 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Parks safely and charge the car}
+	\item[Actors Involved:]  A user that is driving a car, the car itself.
 	\item[Entry Conditions:] The user is driving a car.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
 		\item See the location of safe areas and charging stations on the map.
 		\item Park in a safe location and switch off the engine.
-		\item Exit from the car.
-		\item If near to a charging station, may plug the car to the power grid.
+		\item The system sees this change and sets the status of the car from Running to Parked.
+		\item If near to a charging station, the driver may plug the car to the power grid.
 		\item Confirm the parking pressing the Lock button.
+		\item The system locks the car.
+		\item The system changes the status of the car from Parked to Available.
 	\end{itemize}
 	\item[Exit conditions:]  The user receives a confirmation the car has been locked.
 	\item[Exceptions:] \hfill\
@@ -848,6 +862,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Pay bills and get discounts for virtuous behavior}
+	\item[Actors Involved:] A user who just finished a ride.
 	\item[Entry Conditions:] The user locked a car after a ride.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
@@ -865,11 +880,12 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{See fine's informations and pay fines}
+	\item[Actors Involved:] A user that commited an infraction while driving.
 	\item[Entry Conditions:] The user received a fine.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
 		\item Receives a notice stating they received a fine.
-		\item Press the Tell Me More button
+		\item Press the Show Info button
 		\item Additional informations on the fine are shown.
 		\item Press the Pay Now button, or
 		\item Press the Pay Later button. In this case all other functions of the app gets locked until the fine is paid.
@@ -884,10 +900,10 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Report an issue}
-	\item[Entry Conditions:] None.
+	\item[Actors Involved:]  A user who is experiencing an issue.
+	\item[Entry Conditions:] The user notices something wrong with the app or the car.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
-		\item Notice something wrong with the app or the car.
 		\item Press the button Report An Issue.
 		\item Fill the form and describe the issue.
 		\item Send the Issue Report.
@@ -901,6 +917,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Take issue in charge}
+	\item[Actors Involved:] An operator.
 	\item[Entry Conditions:] The operator is logged in.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
@@ -915,6 +932,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Unlock and manage car taken in charge}
+	\item[Actors Involved:] An operator who took an issue in charge, the car with the issue considered.
 	\item[Entry Conditions:] The operator is logged in and took an issue in charge.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
@@ -932,25 +950,26 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Mark an issue as solved or give up an issue}
+	\item[Actors Involved:] An operator who took an issue in charge, the car with the issue considered.
 	\item[Entry Conditions:] The operator is logged in and took an issue in charge.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
 		\item Open the Issue page, stating more details about the issue taken in charge.
 		\item Press the Solved button if enabled, or
 		\item Press the Give Up button.
+		\item The system reacts to the solution either checking the car's availability or locking it back for another operator to take it in charge.
 	\end{itemize}
 	\item[Exit conditions:]  The operator receives a notice confirming the operation.
 	\item[Exceptions:]  \hfill\
 	\begin{itemize}
-		\item The system doesn't confirm the issue has been solved: the issue status is changed to Technical issue and nother, different issue is generated
-
-.
+		\item The system doesn't confirm the issue has been solved: the issue status is changed to Technical issue and nother, different issue is generated.
 	\end{itemize}
 \end{description}
 \hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Change car's Exception status}
+	\item[Actors Involved:] An operator who took an issue in charge, the car with the issue considered.
 	\item[Entry Conditions:] The operator is logged in and took an issue in charge.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
@@ -965,6 +984,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Register fines informations}
+	\item[Actors Involved:] An operator, a fine sent to \pe related to an infraction commited by an user while driving a \pe car.
 	\item[Entry Conditions:] The operator is logged in.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
@@ -1013,8 +1033,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6
-\textwidth]{UML/ActivityIssue.png}
+	\includegraphics[width=0.6\textwidth]{UML/ActivityIssue.png}
 	\caption{Issue Management Flow}
 \end{figure}
 \newpage
@@ -1023,7 +1042,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \subsubsection{State Diagrams}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{UML/StateDiagramCarAvailability.png}
+	\includegraphics[width=0.8\textwidth]{UML/StateDiagramCarAvailability.png}
 	\caption{Car's Availability Status State Transitions}
 \end{figure}
 \begin{figure}[H]
@@ -1037,9 +1056,9 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \newpage
 \section{Alloy Model}
 
-To check the validity of the proposed solution we implemented a model on Alloy.
+To check the validity of the proposed solution we implemented a model in Alloy.
 
-In order to keep the model itself manageable it was first developed in small chuck and its validity checked, then each chuck is been merged in a bigger model and the validity of the whole model is been re-check again.
+In order to keep the model itself manageable, it was first developed in small chucks and their validity checked. Then each chuck has been merged in a bigger model and the validity of the resulting model has been re-check again.
 
 \begin{figure}[H]
 	\centering
@@ -1047,36 +1066,38 @@ In order to keep the model itself manageable it was first developed in small chu
 	\caption{Class Diagram for the Alloy Model}
 \end{figure}
 
-\subsection{Model}
+\subsection{Main Model}
 
 \lstinputlisting[language=alloy]{Alloy/COMPLETE.als}
 
-\subsection{Results of Execution}
+\subsubsection{Results of Execution}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{Alloy/ConsistentStatic.png}
-	\caption{One of the model returned by Alloy, compressed visualization.}
+	\includegraphics[width=0.8\textwidth]{Alloy/ConsistentStatic.png}
+	\caption{Output of the Alloy Analizer}
 \end{figure}
 
-\subsection{Generated graph}
+\subsubsection{Generated graph}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{Alloy/Complete.png}
-	\caption{One of the model returned by Alloy, compressed visualization.}
+	\caption{One of the model returned by Alloy, compressed visualization}
 \end{figure}
 
-\subsection{Dynamic Modeling}
+\subsection{Dynamic Model}
 
-Finally, in order to check also the validity of our solution also in a dynamic case we develop another smaller, but dynamic Alloy model.
+Finally, in order to check the validity of our solution in a dynamic context, we develop another smaller Alloy model of the dynamic aspects of the system.
 
+\subsubsection{Model}
 \lstinputlisting[language=alloy]{Alloy/BOOK_DYNAMIC.als}
 
+\subsubsection{Result of Execution}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{Alloy/DynamicConsistent.png}
-	\caption{One of the model returned by Alloy, compressed visualization.}
+	\includegraphics[width=0.8\textwidth]{Alloy/DynamicConsistent.png}
+	\caption{Output of the Alloy Analizer}
 \end{figure}
 
 \newpage
@@ -1095,10 +1116,10 @@ We can also think at different payment methods for frequent users, like prepaid 
 During the development of this document we used the following tools:
 \begin{itemize}
 	\item \textbf{Github} to version control the project
-	\item \textbf{\LaTeX} to redact this document
-	\item \textbf{Alloy 4.2} to check model's validity
+	\item \textbf{\LaTeX} on \{TeXworks} to redact this document
+	\item \textbf{Alloy Analyzer v.4.2} to check model's validity
 	\item \textbf{www.draw.io} to draw UML graphs
-	\item \textbf{Gimp} to mockup the application
+	\item \textbf{Gimp v.2.8} to mockup the application
 \end{itemize}
 
 \subsection{Hours of work}
@@ -1110,7 +1131,7 @@ During the development of this document we used the following tools:
 	\item SZ: 4h on 7/11
 	\item SZ: 2h on 10/11
 	\item SZ: 2h on 11/11
-	\item SZ: 2h on 12/11
+	\item SZ: 4h on 12/11
 \end{itemize}
 
 \end{document}
