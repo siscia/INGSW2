@@ -82,10 +82,6 @@ fact CarCanBeBookedOnlyByUser{
 	all c: Car, b: Booked | some u: User | b in c.status <=> c in u.car
 }
 
-fact AvailableCarDontHaveUser {
-	no c: Car, a: Available, u: User | a in c.status and c in u.car
-}
-
 fact CarCanBeBookedOnlyByASingleUser {
 	no c: Car, b: Booked, u, u': User | b in c.status and u != u' and c in u.car and c in u'.car
 }
@@ -142,10 +138,12 @@ fact discountPluggedCar {
 }
 
 fact overchargeUnloadFarAway {
-	all r: Ride | lessThan20 = r.batteryLevel and more3KM = r.distance <=> plus30 in r.bonuses
+	all r: Ride | (lessThan20 = r.batteryLevel or more3KM = r.distance) <=> plus30 in r.bonuses
 }
 
-pred show{}
+pred show{
+	#Ride > 3
+}
 
 assert UserWithFinePendingCantBookUnlockRideCars {
 	no u: User, c: Car | u.fineSituation = FinePending and u.car = c and 
