@@ -17,25 +17,30 @@ Anticipation of some design choice.
 
 ## Goals I
 
-* REGISTRATION Users can register to PowerEnJoy.
-* LOGIN Users can login to PowerEnJoy.
-* LOOKUP Users can find cars nearby a given position, it could be its position or a point in the map.
-* BOOK Users can book a car for a short amount of time.
-* UNLOCK When users are in proximity of the car they booked, the system can unlock it.
-* RIDE Users can drive to their destination.
+* REGISTRATION: Users can register to PowerEnJoy.
+* LOGIN: Users can login to PowerEnJoy.
+* LOOKUP: Users can find cars nearby a given position, it could be its position or a point in the map.
+* BOOK: Users can book a car for a short amount of time.
+* UNLOCK: When users are in proximity of the car they booked, the system can unlock it.
 
 #VSLIDE
 
 ## Goals II
 
-* SAFE AREAS Users can locate safe parking areas.
-* UNSAFE PARKING The system must react to an unsafe parking.
-* POWER STATIONS Users can locate charging stations.
-* CHARGE At the end of the ride, users are charged a fee.
-* PAYMENTS Users can pay bills through the app.
-* FIND ISSUES The staff can locate cars that need their intervention.
-* SUPPORT The staff can identify and solve car’s issues.
-* FINES The system can manage fines sent to the company by local authorities.
+* RIDE: Users can drive to their destination.
+* SAFE: AREAS Users can locate safe parking areas.
+* UNSAFE: PARKING The system must react to an unsafe parking.
+* POWER: STATIONS Users can locate charging stations.
+* CHARGE: At the end of the ride, users are charged a fee.
+
+#VSLIDE
+
+## Goals III
+
+* PAYMENTS: Users can pay bills through the app.
+* FIND ISSUES: The staff can locate cars that need their intervention.
+* SUPPORT: The staff can identify and solve car’s issues.
+* FINES: The system can manage fines sent to the company by local authorities.
 
 #HSLIDE
 
