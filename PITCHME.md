@@ -55,7 +55,7 @@ Merge into a bigger models, make sure that nothing can go wrong with different p
 
 ## Dynamic Alloy
 
-### Verify correctness also of iteration
+### Verify correctness also of iteration between users and cars
 
 Another small dynamic model.
 
