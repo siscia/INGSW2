@@ -44,6 +44,16 @@ Anticipation of some design choice.
 
 #HSLIDE
 
+## Non functional requirement
+
+* Latency: 99% of request should receive an answer in less than 300ms
+* Availability: 99%
+* Reliability: 99%
+
+Trade a couple of nines for faster development cycle and smaller cost.
+
+#HSLIDE
+
 # Alloy
 
 ![Alloy class diagram](UML/ClassDiagram.png)
