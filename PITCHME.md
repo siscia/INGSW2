@@ -5,8 +5,11 @@ Simone Mosciatti & Sara Zanzottera
 #HSLIDE
 
 Anticipation of some design choice.
+* Client Server architecture
 * Yes we are aware we shouldn't
 * It makes easier to explain
+
+#HSLIDE
 
 ![Use Case Diagram](UML/UseCaseDiagram.png)
 
