@@ -4,6 +4,10 @@ Simone Mosciatti & Sara Zanzottera
 
 #HSLIDE
 
+Anticipation of some design choice.
+* Yes we are aware we shouldn't
+* It makes easier to explain
+
 ![Use Case Diagram](UML/UseCaseDiagram.png)
 
 #HSLIDE
@@ -14,9 +18,9 @@ Simone Mosciatti & Sara Zanzottera
 
 #VSLIDE	
 
-# Static Alloy
+## Static Alloy
 
-## Verify absence of impossible situation
+### Verify absence of impossible situation
 
 A lot of small model.
 
@@ -26,9 +30,9 @@ Merge into a bigger models, make sure that nothing can go wrong with different p
 
 #VSLIDE
 
-# Dynamic Alloy
+## Dynamic Alloy
 
-## Verify correctness also of iteration
+### Verify correctness also of iteration
 
 Another small dynamic model.
 
