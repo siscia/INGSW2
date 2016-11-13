@@ -8,6 +8,10 @@ Simone Mosciatti & Sara Zanzottera
 
 #VSLIDE
 
+# Alloy
+
+![Alloy class diagram](UML/ClassDiagram.png)
+
 BBB
 
 
