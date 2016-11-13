@@ -6,12 +6,32 @@ Simone Mosciatti & Sara Zanzottera
 
 ![Use Case Diagram](UML/UseCaseDiagram.png)
 
-#VSLIDE
+#HSLIDE
 
 # Alloy
 
 ![Alloy class diagram](UML/ClassDiagram.png)
 
-BBB
+#VSLIDE	
+
+# Static Alloy
+
+## Verify absence of impossible situation
+
+A lot of small model.
+
+Easy to check and to verify each small module.
+
+Merge into a bigger models, make sure that nothing can go wrong with different part iterating
+
+#VSLIDE
+
+# Dynamic Alloy
+
+## Verify correctness also of iteration
+
+Another small dynamic model.
+
+User interacting with the cars.
 
 
