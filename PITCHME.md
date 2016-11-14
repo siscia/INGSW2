@@ -9,6 +9,47 @@ Anticipation of some design choice.
 * Yes we are aware we shouldn't
 * It makes easier to explain
 
+#VSLIDE
+
+
+
+#HSLIDE
+
+## Fundamental assumptions
+
+* The system is able to prevent the ignition of each car’s engine remotely.
+* The system is able to switch off every car’s engine remotely.
+* The system is able to unlock each car remotely.
+* The total running time of an ride is counted from either when the user switches the engine on or after 3 minutes from the unlock.
+* The total running time of an ride ends when the user locks the car.
+
+#VSLIDE
+
+![Change of statuses](UML/StateDiagramCarAvailability.png)
+
+## Statuses of the cars
+
+* Availability
+* Charging Status
+* Exception Status
+
+#HSLIDE
+
+## External Services
+
+* Payment processor
+* Car position 
+* License information
+* Cars maintenance
+
+#HSSLIDE
+
+## Domain Proporties
+
+* Personal account
+* Staff can move the car
+* Count of passengers
+
 #HSLIDE
 
 ## Goals I
