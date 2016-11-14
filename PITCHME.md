@@ -11,10 +11,6 @@ Anticipation of some design choice.
 
 #HSLIDE
 
-![Use Case Diagram](UML/UseCaseDiagram.png)
-
-#HSLIDE
-
 ## Goals I
 
 * REGISTRATION: Users can register to PowerEnJoy.
@@ -68,13 +64,13 @@ A lot of small model.
 
 Easy to check and to verify each small module.
 
-Merge into a bigger models, make sure that nothing can go wrong with different part iterating
+Merge into a bigger models, make sure that nothing can go wrong with different part interating
 
 #VSLIDE
 
 ## Dynamic Alloy
 
-### Verify correctness also of iteration between users and cars
+### Verify correctness also of interation between users and cars
 
 Another small dynamic model.
 
