@@ -1,0 +1,209 @@
+
+# Server
+
+/registration
+POST:
+Input:
+	- nome
+	- cognome
+	- password
+	- email	
+	- patente
+	- carta:
+		- num carta credito
+		- cvc
+		- scadenza
+		- intestatario
+Output:
+	- 201 Created
+		- ID USER
+	- 400
+		- Error message
+
+/login
+POST:
+Input:
+	- email
+	- password
+Output:
+	- 200 OK
+	- 401
+		- Error message
+	- 402
+		- Request payment 
+
+/location/areas
+GET:
+Input:
+	- GPS coordinate
+	- Radius
+Output:
+	- 200 OK
+		[{
+		- area type
+		- border [GPS coordinated]
+		}]
+/location/issues
+GET:
+Input:
+	- GPS coordinate
+	- Radius
+Output:
+	- 200 OK
+		[{
+		- ID issue		
+		- issue type
+		- GPS coordinated
+		}]
+/location/cars
+GET:
+Input:
+	- GPS coordinate
+	- Radius
+Output:
+	- 200 OK
+		[{
+		- ID Car
+		- GPS coordinate
+		- Battery level
+		- Plug status
+		}]
+
+/issues
+PUT:
+Input:
+	- ID issue
+	- ID staff
+	- new status
+Output:
+	- 200 OK
+	- 400
+		- Problem identify by the server
+POST:
+Input:
+	- ID user
+	- ID car
+	- titolo	
+	- message
+Output:
+	- 200 OK
+	- 401 Unauthorize	
+	- 400
+		- Error message
+
+/book
+POST:
+Input:
+	- ID car
+	- ID user
+Output:
+	- 200 OK
+		- ID booking
+	- 401 Unauthorized	
+DELETE:
+Input:
+	- ID booking
+	- ID user
+Output:		
+	- 200 OK
+	- 401 Unauthorized
+
+
+/car_lock
+# Object that represents a lock in the car, it can have two statuses, lock or unlock 
+PUT:
+Input:
+	- ID user
+	- ID booking
+	- status_lock
+Output:
+	- 200 OK
+	- 401 Unauthorized
+	- 400 Expire
+
+
+/pay
+POST:
+Input:
+	- ID payment
+	- ID user
+Output:
+	- 200 OK
+	- 401 Unauthorized
+
+/auth_drive
+POST:
+Input:
+	- ID book
+	- license
+Output:
+	- 200 OK
+	- 401 Unauthorized
+	- 400 Bad image
+
+MQTT
+Topic
+
+Car -> Server
+	/[ID_car]/engine_on_off
+	/[ID_car]/num_passenger
+	/[ID_car]/user_in_car
+	/[ID_car]/plug_battery
+	/[ID_car]/lock_status
+	/[ID_car]/battery_level
+	/[ID_car]/gps_coord
+	/[ID_car]/moving
+	/[ID_car]/problems
+	
+Server -> Car
+	/[ID_car]/lock
+	/[ID_car]/turn_off
+
+
+# APP Customer
+
+/payment
+Input:
+	- ID payment
+	- total
+	- details
+
+# External services
+
+linf.io
+/location/areas
+GET:
+Input:
+	- GPS coordinate
+	- Radius
+Output:
+	- 200 OK
+		[{
+		- area type
+		- border [GPS coordinated]		
+		}]
+
+truelicense.it
+GET:
+Input:
+	- Image base64
+Output:
+	- 200 OK
+		- License ID
+	- 400 
+		- Error message, unrecognizable license
+
+stripe
+Customers and Charge endpoint
+
+
+
+
+
+
+
+
+
+
+
+
