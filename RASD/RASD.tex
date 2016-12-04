@@ -230,8 +230,13 @@ Even if the choice of a specific architecture should be postponed in successive 
 
 In the whole document we will refer to an app. Again, this choice should be postponed to successive development phases; however, given we already set a Client/Server architecture, we convey that considering a mobile app to provide the service to customers is a reasonable choice.
 
-Using the term ``App'' we do not mean an application for a specific mobile vendor, but a broader interface to the \pe services. Such interface could be an iOS app, an Adroid app, a Windows Phone app, a responsive HTML page or even all of them
-.
+Using the term ``App'' we do not mean an application for a specific mobile vendor, but a broader interface to the \pe services. Such interface could be an iOS app, an Adroid app, a Windows Phone app, a responsive HTML page or even all of them.
+
+\subsubsection{Fines}
+We understand that renting cars to a wide public may involve the company in some legal issues, specifically fines. Local police officers, when issuing a fine on a \pe car, are likely to send the fine to the company instead of the user who drove the car in that moment: the company has therefore the need to manage these fines.
+
+As fines managements seems us not directly related to the service we are providing, we decided to not include this functionality into the system. The system is responsible only for allowing the company to find out which user was driving which car in a certain moment (see section 3.1: Goals). Fines are then managed by the company the way they prefer.
+
 
 \section{Overall Description}
 
@@ -239,7 +244,7 @@ Using the term ``App'' we do not mean an application for a specific mobile vendo
 
 In addition, the system gives bonuses and penalities in term of discounts or overprices depending on the behavior of the user, in order to promote virtuous behaviors. Some examples are:
 
-\begin{itemize}
+\begin{itemize}[noitemsep]
 	\item a 10\% discount for users who brings at least two other
  passangers with him during the ride.
 	\item a 20\% discount for users who leaves the car with at least 50\% of the battery still full.
@@ -250,7 +255,7 @@ In addition, the system gives bonuses and penalities in term of discounts or ove
 
 \pe is therefore a inherently distributed system, based on a central server interactions with many distributed nodes. In detail the system can be divided into four main parts: 
 
-\begin{itemize}
+\begin{itemize}[noitemsep]
 	\item a public app, used by customers to access the service
 	\item a centralized backend that provides the service
 	\item the cars' onboard system, that communicates only with the centralized backend
@@ -312,12 +317,12 @@ The system should complain to the most recent privacy regulations in managing th
 
 \subsubsection{Actors}
 The actors involved in our system are mainly \textbf{final users}, that is, people who are renting cars. Indeed the system needs support from a \textbf{technical staff} that mantains the digital infrastructure, manages the fines that local autorities emits related to \pe cars and takes care of the cars themselves in some special situations, like:
-\begin{itemize} 
+\begin{itemize}[noitemsep]
 	\item Cars left far from the power grid with an empty battery, that needs to be charged in-place
 	\item Cars left far from a safe parking area, that needs to be brought back to one of them
 	\item Cars not plugged to the power grid, that needs to be plugged
 	\item Cars which has been reported by the user or by the onboard system itself having some technical issues
-	\item Fines received by the company that needs to be assigned to the correct user
+	\item Fines received by the company that needs to be assigned to the correct user.
 \end{itemize}
 
 \subsubsection{Stakeholders}
@@ -385,7 +390,7 @@ Here we list some text assumptions about these parameters.
 	\item The Availability status can change to Unlocked only if it was Booked.
 	\item The Availability status can change to Running only if it was Unlocked.
 	\item The Availability status can change to Parked only if it was Running.
-	\item  The Availability status can change to Available only if it was Parked or Not Available.
+	\item  The Availability status can change to Available only if it was Booked, Parked or Not Available.
 	\item The Availability status of a car with less than 20\% of residual charge is Not Available regardless of the status it was supposed to have, and its Exception status is set to Out Of Power.
 	\item The Availability status of a car parked outside a safe area is Not Available and its Exception status is set to Unsafely Parked.
 	\item The Charging status of a car can be True only if the car is plugged to the power grid.
@@ -474,7 +479,7 @@ We analyze the goals that the application should fullfill, then moving on explic
 	\item[PAYMENTS] Users can pay bills through the app.
 	\item[FIND\_ISSUES] The staff can locate cars that need their intervention.
 	\item[SUPPORT] The staff can identify and solve car's issues.
-	\item[FINES] The system can manage fines sent to the company by local authorities.
+	\item[FINES] The system can provide enough details for the staff to manage correctly the fines they receive from local authorities.
  \end{description}
 
 
@@ -617,15 +622,10 @@ We are deriving our functional requirements from the goals we listed in the prev
 	\item[SUP7] The staff's app must allow operators to give up over an issue if they realize they are not able to solve it.
 	\end{description}
 
-	\item[FINES]  The system can manage fines sent to the company by local authorities.
+	\item[FINES] The system can provide enough details for the staff to manage correctly the fines they receive from local authorities.
 	\begin{description}
-	\item[FINE1] The staff's app can receive and send to the system fine informations.
-	\item[FINE2] The system must be able to find out which user was driving a specific car in a specific moment.
-	\item[FINE3] The system must associate each fine to a responsible user.
-	\item[FINE4] The app must show fine's information only to the correct user.
-	\item[FINE5] The app must allow users to pay the fine directly through the app.
-	\item[FINE6] The app must prevent users from using the service until they have paid all their fines.
-	\end{description} 
+	\item[FINES1] The staff's app must allow the operator to know which user was driving a specified car in a specified moment in time and eventually access to their contact informations.
+	\end{description}
 \end{description}
 
 \subsection{Non Functional Requirements}
@@ -645,34 +645,34 @@ However such a tradeoff demand an extensive monitoring of the system and auto ro
 \subsubsection{Client's App Interface}
 
 \begin{figure}[H]
-	\includegraphics[width=0.2\textwidth]{../mockup/1Login.png}
-	\includegraphics[width=0.2\textwidth]{../mockup/2MainClient.png}
-	\includegraphics[width=0.2\textwidth]{../mockup/3CarSelected.png}
-	\includegraphics[width=0.2\textwidth]{../mockup/4CarBooked.png}
-	\includegraphics[width=0.2\textwidth]{../mockup/11Menu.png}
-	\includegraphics[width=0.2\textwidth]{../mockup/5CarBookedList.png}
-	\includegraphics[width=0.2\textwidth]{../mockup/6CarBookedSelected.png}
+	\includegraphics[width=0.2\textwidth]{mockup/1Login.png}
+	\includegraphics[width=0.2\textwidth]{mockup/2MainClient.png}
+	\includegraphics[width=0.2\textwidth]{mockup/3CarSelected.png}
+	\includegraphics[width=0.2\textwidth]{mockup/4CarBooked.png}
+	\includegraphics[width=0.2\textwidth]{mockup/11Menu.png}
+	\includegraphics[width=0.2\textwidth]{mockup/5CarBookedList.png}
+	\includegraphics[width=0.2\textwidth]{mockup/6CarBookedSelected.png}
 	%\includegraphics[width=0.2\textwidth]{mockup/7WhileDriving.png}
-	\includegraphics[width=0.2\textwidth]{../mockup/8Bill.png} 	\hspace{0.8cm}
-	\includegraphics[width=0.2\textwidth]{../mockup/9MyAccount.png} 	\hspace{0.8cm}
-	\includegraphics[width=0.2\textwidth]{../mockup/12IssueReport.png} 	\hspace{0.8cm}
-	\includegraphics[width=0.2\textwidth]{../mockup/10PendingBills.png} 	%\hspace{1cm}
+	\includegraphics[width=0.2\textwidth]{mockup/8Bill.png} 	\hspace{0.8cm}
+	\includegraphics[width=0.2\textwidth]{mockup/9MyAccount.png} 	\hspace{0.8cm}
+	\includegraphics[width=0.2\textwidth]{mockup/12IssueReport.png} 	\hspace{0.8cm}
+	\includegraphics[width=0.2\textwidth]{mockup/10PendingBills.png} 	%\hspace{1cm}
 	\caption{Mockup of the client's app main interfaces}
 \end{figure}
 
 \subsubsection{Car's Onboard System}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{../mockup/CarsSystem} 
+	\includegraphics[width=0.6\textwidth]{mockup/CarsSystem} 
 	\caption{Mockup of the car's onboard system as it should look while driving}
 \end{figure}
 
 \subsubsection{Staff's App Interface}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.2\textwidth]{../mockup/AIssues.png} \hspace{0.8cm}
-	\includegraphics[width=0.2\textwidth]{../mockup/BSelectedIssue.png} \hspace{0.8cm}
-	\includegraphics[width=0.2\textwidth]{../mockup/CIssueDetail.png}
+	\includegraphics[width=0.2\textwidth]{mockup/AIssues.png} \hspace{0.8cm}
+	\includegraphics[width=0.2\textwidth]{mockup/BSelectedIssue.png} \hspace{0.8cm}
+	\includegraphics[width=0.2\textwidth]{mockup/CIssueDetail.png}
 	\caption{Mockup of the staff's operators reserved interfaces}
 \end{figure}
   
@@ -708,11 +708,11 @@ Bob has an exam at 8 a.m., but the morning train is very late. So he decides to 
 
 He is in a hurry, so drives very badly and commits some infractions, that gets recorded by the police. The policeman who is taking care of Bob's infractions looks in the police's databases for the owner of the car he spotted and sends the fine to \pe offices.
 
-Once near his destination, the car's onboard system tells him that there is a charging station at about 10 minutes by foot from the university, and a parking area right in front of the entrance of the university. At the end of the ride, the car has only 15\% of residual charge.
+Once near his destination, the car's onboard system tells Bob that there is a charging station at about 10 minutes by foot from the university, and a parking area right in front of the entrance of the university. At the end of the ride, the car has only 15\% of residual charge.
 
 Bob doesn't care and parks the car in front of the university, then exits and locks the car. The app confirms the lock and send him the bill, 30\% overpriced for having left the discharged car not plugged to the power grid, but at least he is in time for the exam.
 
-At the end of the day, the fine has been recorded by the \pe staff, so Bob receives a notification with the fine he received, some details about it, and the choice to pay it immediately or to go to the nearest police office to make an inquiry about it.
+Meanwhile at the company's offices, the fine is processed by a staff member and an email is sent to Bob's email address notifying him about the fine and the payment procedure he has to follow.
 
 
 \subsubsection{Scenario 4}
@@ -741,7 +741,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \subsubsection{Use Case Diagram}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../UML/UseCaseDiagram.png}
+	\includegraphics[width=0.8\textwidth]{UML/UseCaseDiagram.png}
 	\caption{Use Case Diagram for Customers and Staff Operators}
 \end{figure}
 
@@ -886,26 +886,6 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
-	\item[Name:] \textbf{See fine's informations and pay fines}
-	\item[Actors Involved:] A user that commited an infraction while driving.
-	\item[Entry Conditions:] The user received a fine.
-	\item[Flow Of Events:] \hfill\
-	\begin{itemize}
-		\item Receives a notice stating they received a fine.
-		\item Press the Show Info button
-		\item Additional informations on the fine are shown.
-		\item Press the Pay Now button, or
-		\item Press the Pay Later button. In this case all other functions of the app gets locked until the fine is paid.
-	\end{itemize}
-	\item[Exit conditions:]  The user receives a confirmation that the payment has been completed successfully.
-	\item[Exceptions:] \hfill\
-	\begin{itemize}
-		\item The payment fails: all the app's functions are locked until the user manages to pay the pending fine.
-	\end{itemize}
-\end{description}
-\hfill\
-
-\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 	\item[Name:] \textbf{Report an issue}
 	\item[Actors Involved:]  A user who is experiencing an issue.
 	\item[Entry Conditions:] The user notices something wrong with the app or the car.
@@ -990,19 +970,20 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
-	\item[Name:] \textbf{Register fines informations}
-	\item[Actors Involved:] An operator, a fine sent to \pe related to an infraction commited by an user while driving a \pe car.
+	\item[Name:] \textbf{Find out who was driving a car in a specificed moment}
+	\item[Actors Involved:] An operator.
 	\item[Entry Conditions:] The operator is logged in.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
-		\item Open the Register Fine page.
-		\item Fill in all required data about the fine.
-		\item Press the Register button.
+		\item Open the Find Driver page.
+		\item Input the car details and the time of the supposed ride, or can select the "Last Driver" option to find the last user who drove that car.
+		\item Press the button Contact the Driver.
 	\end{itemize}
-	\item[Exit conditions:]  The operator receives a notice confirming the operation.
+	\item[Exit conditions:]  The operator can contact the user who was driving that car in that specified moment.
 	\item[Exceptions:] \hfill\
 	\begin{itemize}
 		\item The operator input invalid data: they are redirected back to the form page, highlighting the problem.
+		\item The car was parked in the specified moment: the operator is told there is no driver related to that car in that moment.
 	\end{itemize}
 \end{description}
 \hfill\
@@ -1012,35 +993,35 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \subsubsection{Sequence Diagrams}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{../UML/SequenceDiagramLoginReg.png}
+	\includegraphics[width=1\textwidth]{UML/SequenceDiagramLoginReg.png}
 	\caption{Registration and Login Process}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{../UML/SequenceDiagramBooking.png}
+	\includegraphics[width=1\textwidth]{UML/SequenceDiagramBooking.png}
 	\caption{Booking Process}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{../UML/SequenceDiagramPaying.png}
+	\includegraphics[width=1\textwidth]{UML/SequenceDiagramPaying.png}
 	\caption{Locking and Paying Process}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../UML/SequenceDiagramIssue.png}
+	\includegraphics[width=0.8\textwidth]{UML/SequenceDiagramIssue.png}
 	\caption{Issues Management Process}
 \end{figure}
 
 \subsubsection{Activity Diagrams}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{../UML/ActivityBooking.png}
+	\includegraphics[width=0.6\textwidth]{UML/ActivityBooking.png}
 	\caption{Booking Flow}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{../UML/ActivityIssue.png}
+	\includegraphics[width=0.6\textwidth]{UML/ActivityIssue.png}
 	\caption{Issue Management Flow}
 \end{figure}
 \newpage
@@ -1049,12 +1030,12 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \subsubsection{State Diagrams}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../UML/StateDiagramCarAvailability.png}
+	\includegraphics[width=0.8\textwidth]{UML/StateDiagramCarAvailability.png}
 	\caption{Car's Availability Status State Transitions}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../UML/StateDiagramIssues.png}
+	\includegraphics[width=0.8\textwidth]{UML/StateDiagramIssues.png}
 	\caption{Issue's State Transitions}
 \end{figure}
 
@@ -1069,19 +1050,19 @@ In order to keep the model itself manageable, it was first developed in small ch
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{../UML/ClassDiagram.png}
+	\includegraphics[width=1\textwidth]{UML/ClassDiagram.png}
 	\caption{Class Diagram for the Alloy Model}
 \end{figure}
 
 \subsection{Main Model}
 
-\lstinputlisting[language=alloy]{../Alloy/COMPLETE.als}
+\lstinputlisting[language=alloy]{Alloy/COMPLETE.als}
 
 \subsubsection{Results of Execution}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../Alloy/ConsistentStatic.png}
+	\includegraphics[width=0.8\textwidth]{Alloy/ConsistentStatic.png}
 	\caption{Output of the Alloy Analizer}
 \end{figure}
 
@@ -1089,7 +1070,7 @@ In order to keep the model itself manageable, it was first developed in small ch
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{../Alloy/Complete.png}
+	\includegraphics[width=1\textwidth]{Alloy/Complete.png}
 	\caption{One of the model returned by Alloy, compressed visualization}
 \end{figure}
 
@@ -1098,12 +1079,12 @@ In order to keep the model itself manageable, it was first developed in small ch
 Finally, in order to check the validity of our solution in a dynamic context, we develop another smaller Alloy model of the dynamic aspects of the system.
 
 \subsubsection{Model}
-\lstinputlisting[language=alloy]{../Alloy/BOOK_DYNAMIC.als}
+\lstinputlisting[language=alloy]{Alloy/BOOK_DYNAMIC.als}
 
 \subsubsection{Result of Execution}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../Alloy/DynamicConsistent.png}
+	\includegraphics[width=0.8\textwidth]{Alloy/DynamicConsistent.png}
 	\caption{Output of the Alloy Analizer}
 \end{figure}
 
@@ -1147,10 +1128,30 @@ During the development of this document we used the following tools:
 	\item SM: 6h on 12/11
 \end{itemize}
 
-\subsection{Modifications}
+\subsection{Changelog
+}
 \begin{itemize}
-	\item ADD the phrase ``or five minutes after the car is unblocked.'' on subsection 2.7, ``Assumptions on the car system'', point 10.
-	\item ADD requirement ``UNBOOK''.
+	
+	\item v 1.1
+
+	Fix missing UNBOOK requirement and related minor fixes.
+	\begin{itemize}
+		\item ADD the sentence ``or five minutes after the car is unblocked.'' on subsection 2.7, ``Assumptions on the car system'', point 10.
+		\item ADD requirement ``UNBOOK''.
+		\item UPDATE 5th point at page 11, ``The Availability status can change to Available only if it was \textit{Booked}, Parked or Not Available.
+	\end{itemize}
+	
+	\item v 1.2
+	
+	Clarify and review fines management.
+	\begin{itemize}
+		\item ADD paragraph ``Fines`` at page 6
+		\item UPDATE ``FINES`` goal under section 3.1:Goals, page 14
+		\item UPDATE ``FINES`` requirements under section 3.2: Functional Requirements, page 19
+		\item UPDATE Scenario 3 under section 4.1: Scenarios, page 23
+		\item UPDATE Use Case Diagram Figure (Figure 4, page 25) and the last Use Case description, replacing it with a new one, ``Find out who was driving a car in a specified moment``, page 30.
+	\end{itemize}
+	SZ: 1h of work on 4/12
 	
 \end{itemize}
 

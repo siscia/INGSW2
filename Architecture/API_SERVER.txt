@@ -193,7 +193,7 @@ Output:
 	- 400 
 		- Error message, unrecognizable license
 
-stripe
+stripe.com
 Customers and Charge endpoint
 
 

@@ -234,12 +234,6 @@ All these four components will be examined in more detail in the subsequent sect
   	\item[System's Backend]  The whole technical infrastructure necessary to \pe.
   \end{description}
 
-\subsection{Reference Documents}
-\begin{itemize}
-	\item \textit{Assignments AA 2016-2017.pdf} (Assignments document given by the teacher)
-	\item \textit{Sample Design Deliverable Discussed on Nov. 2.pdf} (Sample document provided by the teacher)
-  \end{itemize}
-
 \subsection{Document Structure}
 
 \begin{enumerate}
@@ -268,6 +262,13 @@ All these four components will be examined in more detail in the subsequent sect
 	In this section we enumerate the tools we used to redact this document, the hours of work spent by each group member and the (eventual) revision history of the document itself.
 \end{enumerate}
 
+\subsection{Reference Documents}
+\begin{itemize}
+	\item \textit{Assignments AA 2016-2017.pdf} (Assignments document given by the teacher)
+	\item \textit{Sample Design Deliverable Discussed on Nov. 2.pdf} (Sample document provided by the teacher)
+  \end{itemize}
+
+
 
 
 \newpage
@@ -286,7 +287,7 @@ On top of these elements, there is a number of external services the servers int
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{proposed_system2.png}
+	\includegraphics[width=1\textwidth]{proposed_system.png}
 	\caption{High level overview of the architecture}
 \end{figure}	
 
@@ -327,12 +328,105 @@ In subsequent sections we will provide more details about these components.
 
 \newpage
 \section{User Interface Design}
-	\textit{ [ UX Diagrams and mockups, possibly extended ] }
 
+\subsection{Mockups}
+Mockups have already been included in the RASD (section 3.3: Non Functional Requirements) 
+
+\subsection{UX Diagrams}
+
+\subsection{BCE Diagram}
+	
 
 \newpage
 \section{Requirements Traceability}
-	\textit{[ Map requirements with components ]  }
+
+Considering we designed the system using a bottom-up approach, designed components maps in a straightforward way to the goals specified in the RASD. Hoever we provide an explicit mapping of the two.
+
+ \begin{description}
+ 	\item[REGISTRATION] Users can register to \pe.
+	\begin{itemize}
+		\item Server: RegistrationController
+		\item Customer's App: RegistrationView (?)
+	\end{itemize}
+
+	\item[LOGIN] Users can login to \pe.
+	\begin{itemize}
+		\item Server: LoginController
+		\item Customer's App: LoginView (?)
+		\item Staff's App: LoginView (?)
+	\end{itemize}
+
+ 	\item[LOOKUP] Users can find cars nearby a given position, it could be its position or a point in the map.
+	\begin{itemize}
+		\item Server: CarsLocation
+		\item Customer's App: CarsView (?)
+	\end{itemize}
+
+ 	\item[BOOK] Users can book a car for a short amount of time.
+	\begin{itemize}
+		\item Server: BookingController
+		\item Customer's App: BookingView (?)
+	\end{itemize}
+
+ 	\item[UNLOCK] When users are in proximity of the car they booked, the system can unlock it.
+	\begin{itemize}
+		\item Server: CarLockController
+		\item Car: LockController
+		\item Customer's App: CarNearby (----------------- SEE ISSUE #14)
+	\end{itemize}
+
+	\item[RIDE] Users can drive to their destination.
+	\begin{itemize}
+		\item Server: AuthDriver
+		\item Car: LicenceScanner, EngineController, MQTT publishers, CarGUI
+	\end{itemize}
+
+	\item[SAFE\_AREAS] Users can locate safe parking areas.
+	\begin{itemize}
+		\item Server: AreasLocation
+		\item External Services: linf.io
+		\item Car: MQTT publishers, CarGUI
+	\end{itemize}
+
+	\item[UNSAFE\_PARKING] The system must react to an unsafe parking.
+	\begin{itemize}
+		\item Server: UnsafeParkingController, IssuesController (?)
+		\item Car: EngineController, LockController (MQTT publishers too?)
+	\end{itemize}
+
+	\item[POWER\_STATIONS] Users can locate charging stations.
+	\begin{itemize}
+		\item Server: AreasLocation
+		\item External Services: linf.io
+		\item Car: CarGUI
+	\end{itemize}
+
+	\item[CHARGE] At the end of the ride, users are charged a fee.
+	\begin{itemize}
+		\item Server: BillingController
+		\item Customer's App: PaymentDetailsView
+	\end{itemize}
+
+	\item[PAYMENTS] Users can pay bills through the app.
+	\begin{itemize}
+		\item Server: PaymentController
+		\item External Services: stripe.com
+		\item Customer's App: PaymentDetailsView
+	\end{itemize}
+
+	\item[FIND\_ISSUES] The staff can locate cars that need their intervention.
+	\begin{itemize}
+		\item Server: IssuesLocation
+		\item Staff's App: IssuesView (?)
+	\end{itemize}
+
+	\item[SUPPORT] The staff can identify and solve car's issues.
+	\begin{itemize}
+		\item Server: IssuesController
+		\item Staff's App: IssueDetailsView (?)
+	\end{itemize}
+
+ \end{description}
 
 
 \newpage
@@ -345,12 +439,14 @@ During the development of this document we used the following tools:
 	\item \textbf{\LaTeX} on TeXworks to redact this document
 	\item \textbf{www.draw.io} to draw UML graphs
 	\item \textbf{Gimp v.2.8} to mockup the application
+	\item \textbf{LibreOffice Draw} to draw the system's overview at section 2.1
 \end{itemize}
 
 \subsection{Hours of work}
 \begin{itemize}
-	\item SZ: overall 1 hours
-	\item SM: overall X hours
+	\item SZ: 1h on 30/11
+	\item SM: 5h on 2/12
+	\item SZ: 5h on 2/12
 \end{itemize}
 
 
