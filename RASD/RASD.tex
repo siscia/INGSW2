@@ -469,8 +469,8 @@ We analyze the goals that the application should fullfill, then moving on explic
 	\item[LOGIN] Users can login to \pe.
  	\item[LOOKUP] Users can find cars nearby a given position, it could be its position or a point in the map.
  	\item[BOOK] Users can book a car for a short amount of time.
- 	\item[UNBOOK] User can decide to cancel a booking made before the expiration.
- 	\item[UNLOCK] When users are in proximity of the car they booked, the system can unlock it.
+ 	\item[UNBOOK] Users can decide to cancel a booking made before the expiration.
+ 	\item[UNLOCK] Users can unlock the car they booked.
 	\item[RIDE] Users can drive to their destination.
 	\item[SAFE\_AREAS] Users can locate safe parking areas.
 	\item[UNSAFE\_PARKING] The system must react to an unsafe parking.
@@ -527,19 +527,17 @@ We are deriving our functional requirements from the goals we listed in the prev
 
 	\item[UNBOOK] User can decide to cancel a booking made before the expiration.
 	\begin{description}
-	\item[UNBOOK1] Users can select the book thay want to cancell.
-	\item[UNBOOK2] The system must change the status of the car associatted with the prenotation from Booked to Available.
+	\item[UNBOOK1] Users are able to select the booking they want to cancel.
+	\item[UNBOOK2] The system must change the status of the car associated with the reservation from Booked to Available.
 	\end{description}
 	
- 	\item[UNLOCK] When users are in proximity of the car they booked, the system can unlock it.
+ 	\item[UNLOCK] User can unlock the car they booked.
 	\begin{description}
 	\item[UNLK1] The system is able to determine which user booked which car.
-	\item[UNLK2] The system is able to determine when the user is near to the car they booked.
-	\item[UNLK3] The system is able to unlock the correct car remotely.
-	\item[UNLK4] The system must unlock the car the user booked when the user and the car shows approximately the same position on the map.
-	\item[UNLK5] The system must notify the user their car has been unlocked.
-	\item[UNLK6] The system must change automatically the status of the car from Booked to Unlocked when a car is unlocked.
-	\item[UNLK7] Users can lock back an unlocked car from the app before starting the ride. In this case the car's status gets back to Booked and the timer restarts from the point it stopped. In order to perform this operation, no passengers can be inside the car.
+	\item[UNLK2] The app is able to ask the server to unlock a specified car.
+	\item[UNLK3] The system must unlock the correct car remotely.
+	\item[UNLK4] The system must notify the user their car has been unlocked.
+	\item[UNLK5] The system must change automatically the status of the car from Booked to Unlocked when a car is unlocked.
 	\end{description}
 
 	\item[RIDE] Users can drive to their destination.
@@ -624,7 +622,7 @@ We are deriving our functional requirements from the goals we listed in the prev
 
 	\item[FINES] The system can provide enough details for the staff to manage correctly the fines they receive from local authorities.
 	\begin{description}
-	\item[FINES1] The staff's app must allow the operator to know which user was driving a specified car in a specified moment in time and eventually access to their contact informations.
+	\item[FINE1] The staff's app must allow the operator to know which user was driving a specified car in a specified moment in time and eventually access to their contact informations.
 	\end{description}
 \end{description}
 
@@ -687,16 +685,16 @@ John has been abroad for a business trip, and now is at the airport, deciding ho
 
 At the beginning the app tells him that, unfortunately, there are no available cars within ten minuted by foot; knowing the airport's parking is reachable in 10 minute by shuttle bus, he changes the settings to look for cars near a specific point on the map, and selects the airport's parking area. 
 
-The app immediately finds many more cars: 6 with the battery almost fully charged and 2 with about half charge left. He chooses a random full charged car and reserves it; then takes his luggage, takes the shuttle bus and reach the car within 15 min, leaving its phone's GPS active. Once near the car, the car is automatically unlocked: John can leave his luggage in the luggage van, enter the car and drive back home.
+The app immediately finds many more cars: 6 with the battery almost fully charged and 2 with about half charge left. He chooses a random full charged car and reserves it; then takes his luggage, takes the shuttle bus and reach the car within 15 min. Once near the car, he presses the Unlock button on the car and the car unlocks. John can leave his luggage in the luggage van, enter the car and drive back home.
 
-Once there, John parks correctly the car in a safe area, as indicated by the car's onboard system. He exits the car, takes his luggage out and uses the app to lock the car, which has still 60\% of battery charge left. Once the lock is confirmed he receives the bill, calculated on the lenght and duration of the ride, and a 20\% discount as a bonus to have left the car with more than 50\% of battery charge. The nearest charging station locates within 3 km, so he gets no overprices.
+Once near home, John parks correctly the car in a safe area, as indicated by the car's onboard system. He exits the car, takes his luggage out and uses the app to lock the car, which has still 60\% of battery charge left. Once the lock is confirmed he receives the bill, calculated on the lenght and duration of the ride, and a 20\% discount as a bonus to have left the car with more than 50\% of battery charge. The nearest charging station locates within 3 km, so he gets no overprices.
 
 John pays the bill immediately through the app.
 
 \subsubsection{Scenario 2}
 Anne want to go from his home to the airport to bring two friends home. Using \pe app she books the nearest car and within 10 minutes she started her ride to the airport.
 
-Once there, the car's onboard system tells her that there is a charging station nearby the airport. So Anne drives to the the charging station, parks, exits and plugs the car to the power grid. Then she locks the car. Once the lock is confirmed, she receives the bill and a 30\% discount as bonus for plugging the car to the grid.
+Once near the destination, the car's onboard system tells her that there is a charging station nearby the airport. So Anne drives to the the charging station, parks, exits and plugs the car to the power grid. Then she locks the car. Once the lock is confirmed, she receives the bill and a 30\% discount as bonus for plugging the car to the grid.
 
 While waiting for her friends, she reserves another car for coming back, but the plane is late and the reservation, which lasts one hour, expires. Anne receives a little penalty for the expired reservation and pays it immediately; then reserves again the car.
 
@@ -704,7 +702,7 @@ When her friends arrive, they all reach the car within 30 minutes from the secon
 
 
 \subsubsection{Scenario 3}
-Bob has an exam at 8 a.m., but the morning train is very late. So he decides to user \pe and go to the university by car. He look for some cars near him, but he finds there is only one car left with about 40\% of residual charge. He reserves it anyways and within 5 minutes he started his drive to the university.
+Bob has an exam at 8 a.m., but the morning train is very late. So he decides to use \pe and go to the university by car. He looks for some cars near him, but he finds there is only one car left with about 40\% of residual charge. He reserves it anyways and within 5 minutes he started his ride to the university.
 
 He is in a hurry, so drives very badly and commits some infractions, that gets recorded by the police. The policeman who is taking care of Bob's infractions looks in the police's databases for the owner of the car he spotted and sends the fine to \pe offices.
 
@@ -716,17 +714,17 @@ Meanwhile at the company's offices, the fine is processed by a staff member and 
 
 
 \subsubsection{Scenario 4}
-it is a sunny Sunday and Charlie wants to go with his family in the countryside. He has no car, but he doesn't want to go there by train: so he decides to use \pe to do his trip. He finds a fully charged car near his house, reserves it and within 20 minutes he started his drive.
+It is a sunny Sunday and Charlie wants to go with his family in the countryside. He has no car, but he doesn't want to go there by train: so he decides to use \pe to do his trip. He finds a fully charged car near his house, reserves it and within 20 minutes he started his drive.
 
 At the end of the day, Charlie wants to go back home with his family. He book the car he brought far from the city with him and shortly thereafter he starts his journey back home. He is halfaway from home when suddenly the car stops running: the engine got too much heat during the day and broke.
 
 Charlie does not need to send a report to PowerEnJoy: the onboard system immediately tells him that an issue report has automatically been sent to the central. So Charlie receives the first part of the bill and, paid it, he can look for another car to finish his trip. He finds only one at half an hour by foot from his location. Charlie books the car and manages to reach it in time to unlock it and go back home.
 
-When he arrives, he parks the car in a safe area near his house. He does not care about charging stations, because he saw that the car has about 80\% of charge; this way charlie does not notice that the nearest charging station is at 4.3 km from the place he is parking the car. 
+When he arrives, he parks the car in a safe area near his house. He does not care about charging stations, because he saw that the car has about 80\% of charge; this way Charlie does not notice that the nearest charging station is at 4.3 km from the place he is parking the car.
 
-So he exits with all his family and locks the car: now he receives the bill, that is the basic price of the ride, plus a 10\% discount for having brought many people on the car and a 30\% overprice for having left the car too far from a charging station.
+He exits with all his family and locks the car: now he receives the bill, that is the basic price of the second ride, plus a 10\% discount for having brought many people on the car and a 30\% overprice for having left the car too far from a charging station.
 
-Charlie tries to pay, but his payment fails because the rechargeable credit card he connected to the app has not enough money to pay that unexpected overprice. So he gets a notice from \pe that he is temporary banned from the service until he manages to pay the last pending bill.
+Charlie tries to pay, but his payment fails because the rechargeable credit card he connected to the app has not enough money to pay the unexpected overprice. So he gets a notice from \pe that he is temporary banned from the service until he manages to pay the last pending bill.
 
 \subsubsection{Scenario 5}
 Harry is a staff operator of \pecomma in charge of re-chargin cars in-place when required. He has just completed another task, so he opens the app and looks for any other pending issues to solve.
@@ -821,16 +819,30 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
-	\item[Name:] \textbf{Unlock and drive booked cars}
+	\item[Name:] \textbf{Unlock booked cars}
 	\item[Actors Involved:] A user who booked a car, the booked car.
 	\item[Entry Conditions:] The user logged in and has booked a car, but not yet unlocked it.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
-		\item Get near to the car.
+		\item Press the Unlock button on the Booking Page of the app.
 		\item The system unlocks the car.
 		\item The system changes the status of the car from Booked to Unlocked.
-		\item Receive a notice that their car has been unlocked.
-		\item Enter the car.
+	\end{itemize}
+	\item[Exit conditions:]  The user receives a notification their car has been unlocked.
+	\item[Exceptions:] \hfill\
+	\begin{itemize}
+		\item The car doesn't unlock: the user can send again the unlock request pressing again the button.
+	\end{itemize}
+\end{description}
+\hfill\
+
+\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
+	\item[Name:] \textbf{Drive unlocked cars}
+	\item[Actors Involved:] A user who unlocked a car, the unlocked car.
+	\item[Entry Conditions:] The user logged in and has unlocked its car.
+	\item[Flow Of Events:] \hfill\
+	\begin{itemize}
+		\item Enter the unlocked car.
 		\item Scan their driving licence.
 		\item Receive a confirmation the scanned driving licence matches.
 		\item Switch on the car and drive to the destination.
@@ -839,8 +851,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 	\item[Exit conditions:]  The user receives a notification their driving time has begun.
 	\item[Exceptions:] \hfill\
 	\begin{itemize}
-		\item The car doesn't unlock: the user can try to send again the unlock message pressing the Unlock Manually button.
-		\item The scanned driving licence is not correct for the user who booked the car:1 a notice is sent to the user and a new scan is expected.
+		\item The scanned driving licence is not correct for the user who booked the car: a notice is sent to the user and a new scan is expected.
 	\end{itemize}
 \end{description}
 \hfill\
@@ -918,19 +929,18 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
-	\item[Name:] \textbf{Unlock and manage car taken in charge}
+	\item[Name:] \textbf{Unlock car taken in charge}
 	\item[Actors Involved:] An operator who took an issue in charge, the car with the issue considered.
 	\item[Entry Conditions:] The operator is logged in and took an issue in charge.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
-		\item get near to the issued car.
-		\item Receives a notification that their issued car has been unlocked.
-		\item Get into the car and tries to solve the issue.
+		\item Press the Unlock button on the app's interface.
+		\item The system unlocks the selected car.
 	\end{itemize}
 	\item[Exit conditions:]  The car gets unlocked.
 	\item[Exceptions:] \hfill\
 	\begin{itemize}
-		\item The car doesn't unlock: the operator can try to unlock it manually or give up the issue.
+		\item The car doesn't unlock: the operator can unlock it pressing the button again or give up the issue.
 	\end{itemize}
 \end{description}
 \hfill\
@@ -1143,15 +1153,17 @@ During the development of this document we used the following tools:
 	
 	\item v 1.2
 	
-	Clarify and review fines management.
+	Clarify and review fines management and fix the unlocking procedure.
 	\begin{itemize}
 		\item ADD paragraph ``Fines`` at page 6
 		\item UPDATE ``FINES`` goal under section 3.1:Goals, page 14
 		\item UPDATE ``FINES`` requirements under section 3.2: Functional Requirements, page 19
 		\item UPDATE Scenario 3 under section 4.1: Scenarios, page 23
 		\item UPDATE Use Case Diagram Figure (Figure 4, page 25) and the last Use Case description, replacing it with a new one, ``Find out who was driving a car in a specified moment``, page 30.
+		\item UPDATE ``UNLOCK`` requirements under section 3.2: Functional Requirements, page 16
+		\item UPDATE a Use Case related to the unlocking procedure under section 4.2: Use Cases
 	\end{itemize}
-	SZ: 1h of work on 4/12
+	SZ: 3h of work on 4/12
 	
 \end{itemize}
 
