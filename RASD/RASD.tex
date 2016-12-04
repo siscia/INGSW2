@@ -464,6 +464,7 @@ We analyze the goals that the application should fullfill, then moving on explic
 	\item[LOGIN] Users can login to \pe.
  	\item[LOOKUP] Users can find cars nearby a given position, it could be its position or a point in the map.
  	\item[BOOK] Users can book a car for a short amount of time.
+ 	\item[UNBOOK] User can decide to cancel a booking made before the expiration.
  	\item[UNLOCK] When users are in proximity of the car they booked, the system can unlock it.
 	\item[RIDE] Users can drive to their destination.
 	\item[SAFE\_AREAS] Users can locate safe parking areas.
@@ -519,6 +520,12 @@ We are deriving our functional requirements from the goals we listed in the prev
 	\item[BOOK6] If a user does not unlock the car after a short period of time (one hour), a small fee is charged to them and the car's status is set back to Available.
 	\end{description}
 
+	\item[UNBOOK] User can decide to cancel a booking made before the expiration.
+	\begin{description}
+	\item[UNBOOK1] Users can select the book thay want to cancell.
+	\item[UNBOOK2] The system must change the status of the car associatted with the prenotation from Booked to Available.
+	\end{description}
+	
  	\item[UNLOCK] When users are in proximity of the car they booked, the system can unlock it.
 	\begin{description}
 	\item[UNLK1] The system is able to determine which user booked which car.
@@ -1143,6 +1150,12 @@ During the development of this document we used the following tools:
 \subsection{Modifications}
 \begin{itemize}
 	\item ADD the phrase ``or five minutes after the car is unblocked.'' on subsection 2.7, ``Assumptions on the car system'', point 10.
+	
+	
+	
+	
+	
+	
 \end{itemize}
 
 \end{document}
