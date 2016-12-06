@@ -467,7 +467,7 @@ We analyze the goals that the application should fullfill, then moving on explic
  \begin{description}
  	\item[REGISTRATION] Users can register to \pe.
 	\item[LOGIN] Users can login to \pe.
- 	\item[LOOKUP] Users can find cars nearby a given position, it could be its position or a point in the map.
+ 	\item[LOOKUP] Users can find cars nearby a given position, according to their search settings.
  	\item[BOOK] Users can book a car for a short amount of time.
  	\item[UNBOOK] Users can decide to cancel a booking made before the expiration.
  	\item[UNLOCK] Users can unlock the car they booked.
@@ -505,7 +505,7 @@ We are deriving our functional requirements from the goals we listed in the prev
 	\item[LOG4] The system must prevent not-logged users from using all other app's functions, except for registering and login.
 	\end{description}
 
- 	\item[LOOKUP] Users can find cars nearby a given position, it could be its position or a point in the map.
+ 	\item[LOOKUP] Users can find cars nearby a given position, according to their search settings.
 	\begin{description}
 	\item[LOOK1] The system must send to each user a list of the available cars that locates within a specified walking distance from the position specified, when requested.
 	\item[LOOK2] Users can change the maximum walking distance required to reach a car, and the system is able to use this parameter when retrieving the list of nearby available cars.
@@ -525,13 +525,13 @@ We are deriving our functional requirements from the goals we listed in the prev
 	\item[BOOK6] If a user does not unlock the car after a short period of time (one hour), a small fee is charged to them and the car's status is set back to Available.
 	\end{description}
 
-	\item[UNBOOK] User can decide to cancel a booking made before the expiration.
+	\item[UNBOOK] Users can decide to cancel a booking made before the expiration.
 	\begin{description}
 	\item[UNBOOK1] Users are able to select the booking they want to cancel.
 	\item[UNBOOK2] The system must change the status of the car associated with the reservation from Booked to Available.
 	\end{description}
 	
- 	\item[UNLOCK] User can unlock the car they booked.
+ 	\item[UNLOCK] Users can unlock the car they booked.
 	\begin{description}
 	\item[UNLK1] The system is able to determine which user booked which car.
 	\item[UNLK2] The app is able to ask the server to unlock a specified car.
@@ -1138,8 +1138,7 @@ During the development of this document we used the following tools:
 	\item SM: 6h on 12/11
 \end{itemize}
 
-\subsection{Changelog
-}
+\subsection{Changelog}
 \begin{itemize}
 	
 	\item v 1.1
@@ -1164,7 +1163,12 @@ During the development of this document we used the following tools:
 		\item UPDATE a Use Case related to the unlocking procedure under section 4.2: Use Cases
 	\end{itemize}
 	SZ: 3h of work on 4/12
-	
+
+	\item v 1.3
+	\begin{itemize}
+		\item UPDATE goal ``LOOKUP`` to better specify it.
+	\end{itemize}	
+
 \end{itemize}
 
 \end{document}

@@ -176,89 +176,113 @@ All these four components will be examined in more detail in the subsequent sect
 \section{Architectural Design}
 The overall design process has been carried in a bottom-up approach, starting from the analysis of the requirements moving upwards to the definition of the higher level components of the system. In the following sections we provide more details on the designed architecture.
 
-\subsection{Overview}
+\subsection{Design Process Description}
 
-The overall design process started from the interface between the world and the machine. Given our goals we identify what interface the machine should provide in order to accomplish such goals.
+The overall design process started from the interface between the world and the machine. Given our goals we identified what interfaces the machine should provide in order to accomplish such goals.
 
-Once the interface have been identified we proced to organize those interface in components having care to respect the single responsability principle in order to provide highly decouple components.
+Once the interfaces have been identified, we proceeded organizing those interfaces in components, caring at respecting the Single Responsability principle in order to provide highly decoupled components.
 
-Once the components are defined we proced to deploy them on the right part of our system.
+Once the components have been defined, we proceeded with their deployement on the logical elements of our system, and then on physical nodes building up the proposed architecture.
 
-Once the components are logically deployed on different parts of the system we started to reason about what technology use to actually implement them.
+Once the components have been logically deployed on different parts of the system, we started reasoning about which technologies to use in order to actually implement them.
 
-The rest of this section will follow our mental flow, guiding the reader in our reasoning and finally providing the overal design.
+The rest of this section follows this flow, starting from the goals analysis and finally providing the overall design.
 
-\subsection{Interface}
 
-Starting from our goals we enumerate what interface should be define.
+\subsection{Interfaces}
+
+Here we enumerate what interfaces should be defined for the system to accomplish the required goals. 
+
+We reported goals definition for clarity's sake, but only requirement's codes: for requirements definitions, see RASD section 3.2: Functional Requirements.
 
 \begin{description}
-	\item[REGISTRATION] \hfill
+	\item[REGISTRATION] Users can register to \pe.\hfill  {\color{red}{missing REG4, REG5}}
 		\begin{description}
-			\item[REGISTER] The user provide it's personal information including license number and billing information and then is register to the system.
-			\item[VALIDATION] The system must validate the information provided.
+			\item[REGISTER] Users provide their personal informations, including license number and billing information, and obtain an account. \\ Fulfills \textbf{REG1}.
+			\item[VALIDATE] The system validates the informations provided at registration time. \\ Fulfills \textbf{REG2} and \textbf{REG3}.
 		\end{description}
-	\item[LOGIN] \hfill
+
+	\item[LOGIN] Users can login to \pe.\hfill {\color{red}{double-check LOG4}}
 		\begin{description}
-			\item[LOGIN] Provided the correct information the user is logged into the system and now has the possibility to book cars, unlock cars, paying riding, etc.
+			\item[LOGIN] Provided valid credentials, users are logged into the system and from now on they have the possibility to book cars, unlock cars, etc. \\ Fulfills \textbf{LOG1, LOG2, LOG3} and \textbf{LOG4}
 		\end{description}
-	\item[LOOKUP] \hfill
+
+	\item[LOOKUP] Users can find cars nearby a given position, according to their search settings. \hfill  {\color{red}{missing LOOK4, LOOK5, LOOK6}}
 		\begin{description}
-			\item[LOOKUP] A logged user is able to locate and visualize the position of cars.
+			\item[LOOKUP] Logged users can retrieve a list of available cars according to their search settings.\\ Fulfills \textbf{LOOK1, LOOK2} and \textbf{LOOK3} 
 		\end{description}
-	\item[BOOK] \hfill
+
+	\item[BOOK] Users can book a car for a short amount of time.\hfill {\color{red}{double-check. Missing BOOK1. EXPIRE added}}
 		\begin{description}
-			\item[BOOK] A logged user is able to book a cars.
+			\item[BOOK] Logged users can reserve a car. \\ Fulfills \textbf{BOOK2?, BOOK3?, BOOK4?, BOOK5? }
+			\item[EXPIRE] A booked car not unlocked after a system-defined period of time has passed is automatically unbooked and the user who booked it is fined. \\ Fulfills \textbf{BOOK6}
 		\end{description}
-	\item[UNBOOK] \hfill
+
+	\item[UNBOOK] Users can decide to cancel a booking made before the expiration.\hfill {\color{red}{Missing UNBOOK1}}
 		\begin{description}
-			\item[UNBOOK] A logged user is able to cancell a prenotation previously made.
+			\item[UNBOOK] Logged users can cancel a reservation they made. \\ Fulfills \textbf{UNBOOK2}
 		\end{description}
-	\item[UNLOCK] \hfill
+
+	\item[UNLOCK] Users can unlock the car they booked. \hfill {\color{red}{Missing UNLK4}}
 		\begin{description}
-			\item[UNLOCK] A logged user in proximity of a car booked at its name is able to unlock it.
-			\item[POSITION] The system must be able to locate the user.
-			\item[UNLOCK\_CAR] The system must be able to unlock a car.
+			\item[UNLOCK] Logged users can unlock the car they booked. \\ Fulfills \textbf{UNLK1, UNLK2, UNLK5}
+			\item[POSITION] {\color{red}{ The system must be able to locate the user. }}
+			\item[UNLOCK\_CAR] The system can unlock a car. \\ Fulfills \textbf{UNLK3}
 		\end{description}
-	\item[RIDE] \hfill
+
+	\item[RIDE] Users can drive to their destination. \hfill  {\color{red}{change RIDE def. Add PARK}}
 		\begin{description}
-			\item[RIDE] User can drive the car to their destination.
-			\item[READ\_LICENSE] The system must be able to acquire information about the user driving license and to decide to let the user start the engine or not.
-			\item[SHOW\_INFORMATION] The system must be able to show the user some information such as nearby safe areas or nearby power stations.
+			\item[RIDE] The system knows which user is driving which car at the present time and at any moment in the past. \\ Fulfills \textbf{RIDE1}
+			\item[READ\_LICENSE] The system acquires information about the user's driving license and decides whether to let the user start the engine or not. \\ Fulfills \textbf{RIDE2, RIDE3}
+			\item[SHOW\_INFORMATIONS] Once the ride started, the system shows to users basic informations such as nearby safe parking areas and nearby charging stations. \\ Fulfills \textbf{RIDE4, SAFE1, SAFE2, PWRS1, PWRS2}
+			\item[PARK] Users can lock the car once they finished the ride and exited from the car. \\ Fulfills \textbf{RIDE5, SAFE3, SAFE4}
 		\end{description}
-	\item[SAFE\_AREAS] \hfill
+
+	\item[SAFE\_AREAS] Users can locate safe parking areas. \hfill   {\color{red}{Overlaps with RIDE!}}
 		\begin{description}
-			\item[SHOW\_INFORMATION] The system must be able to show the user nearby safe ares.
+			\item[SHOW\_INFORMATIONS] Once the ride started, the system shows to users basic informations such as nearby safe parking areas and nearby charging stations. \\ Fulfills \textbf{RIDE4, SAFE1, SAFE2, PWRS1, PWRS2}
+			\item[PARK] Users can lock the car once they finished the ride and exited from the car. \\ Fulfills \textbf{RIDE5, SAFE3, SAFE4}
 		\end{description}
-	\item[UNSAFE\_PARKING] \hfill
+
+	\item[UNSAFE\_PARKING] The system reacts to an unsafe parking.\hfill {\color{red}{Missing UNSF1, UNSF2}}
 		\begin{description}
-			\item[TURN\_OFF] The system is able to turn off a car left is an unsafe area.
-			\item[LOCK\_CAR] The system is able to lock a car left parked in an unsafe area.
+			\item[TURN\_OFF] The system turns off a car left in an unsafe area. \\ Fulfills \textbf{UNSF3}
+			\item[LOCK\_CAR] The system locks a car left parked in an unsafe area. \\ Fulfills \textbf{UNSF4}
 		\end{description}
-	\item[POWER\_STATION] \hfill
+
+	\item[POWER\_STATION] Users can locate and use charging stations correctly. \hfill {\color{red}{Missing PWRS4}}
 		\begin{description}
-			\item[SHOW\_INFORMATION] The system must be able to show the user nearby power stations.
-			\item[CAR\_PLUGGED] The system must be able to detect whenever a car is plugged to a power station.
+			\item[SHOW\_INFORMATIONS] Once the ride started, the system shows to users basic informations such as nearby safe parking areas and nearby charging stations. \\ Fulfills \textbf{RIDE4, SAFE1, SAFE2, PWRS1, PWRS2}
+			\item[CAR\_PLUGGED] The system detects whenever a car is plugged to a power station. \\ Fulfills \textbf{PWRS3}
 		\end{description}
-	\item[CHANRGE] \hfill
+
+	\item[CHARGE] At the end of the ride, the user is charged a fee.\hfill
 		\begin{description}
-			\item[CALCULATE\_FEE] The system is able to calculate the total fee that the user must pay.
-			\item[SEND\_FEE] The system is able to communicate to the user the total cost of the ride.
+			\item[CALCULATE\_FEE] The system calculates the total fee that the user must pay. \\ Fulfills \textbf{FEE1, FEE2, FEE3, FEE4, FEE5, FEE6}
+			\item[SEND\_FEE] The system communicates to the user the total cost of the ride when the car gets locked. \\ Fulfills \textbf{FEE7}
 		\end{description}
-	\item[PAYMENT] \hfill
+
+	\item[PAYMENT] Users can pay bills through the app.\hfill {\color{red}{Missing PAY2, PAY3, PAY4}}
 		\begin{description}
-			\item[PAY] The system ask the user to pay a bill.
+			\item[PAY] The system asks users to pay ride fares. {\color{red}{No matching req. found .-.}}
+			\item[SET\_PAYMENT\_METHOD] Users can set their preferred paying method. \\ Fulfills \textbf{PAY1}
 		\end{description}
-	\item[FIND\_ISSUES] \hfill
+
+	\item[FIND\_ISSUES] The staff can locate cars that need their intervention. \hfill {\color{red}{Missing ISS2, ISS4}}
 		\begin{description}
-			\item[RAISE\_ISSUE] The user is able to raise an issue about a car.
+			\item[FIND\_ISSUE] Staff operators can locate issued cars that needs their intervantion. \\ Fulfills \textbf{ISS1, ISS3}
+			\item[REPORT\_ISSUE] Users can report issues about a car.  {\color{red}{No matching req. found .-.}}
 		\end{description}
-	\item[SUPPORT] \hfill
+
+	\item[SUPPORT] The staff can identify and solve car’s issues. \hfill {\color{red}{Add CONFIRM\_AVAILABILITY}}
 		\begin{description}
-			\item[TAKE\_CHARGE] The system allow operator to take charge of certain issues.
-			\item[SET\_STATUS] The operator is able to change the status of an issues.
+			\item[TAKE\_CHARGE] The system allows operator to take charge of certain issues. \\ Fulfills \textbf{SUP1}
+			\item[SET\_STATUS] Operators can change the statuses of issued cars. \\ Fulfills \textbf{SUP2, SUP4}
+			\item[CONFIRM\_AVAILABILITY] The system checks if the issues marked as Solved are really related to cars that shows no issue. \\ Fulfills \textbf{SUP3}
 		\end{description}
 \end{description}
+
+
 
 \subsection{Components}
 
@@ -558,6 +582,12 @@ Mockups have already been included in the RASD (section 3.3: Non Functional Requ
 	\centering
 	\includegraphics[width=1\textwidth]{UML/BCEDiagramPublicApp.png}
 	\caption{BCE Diagram of the interface of customer's application}
+\end{figure}	
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{UML/BCEDiagramStaffApp.png}
+	\caption{BCE Diagram of the interface of staff's application}
 \end{figure}	
 	
 
