@@ -121,6 +121,16 @@ Output:
 	- 401 Unauthorized
 	- 400 Expire
 
+/calculate_fee
+GET:
+Input:
+	- ID ride
+Output:
+	- total_cost
+Input:
+	- ID booking
+Output:
+	- total_cost
 
 /pay
 POST:
@@ -138,6 +148,7 @@ Input:
 	- license
 Output:
 	- 200 OK
+		- ID ride
 	- 401 Unauthorized
 	- 400 Bad image
 
