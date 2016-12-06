@@ -191,7 +191,7 @@ The rest of this section follows this flow, starting from the goals analysis and
 
 \subsection{Interfaces}
 
-Here we enumerate what interfaces should be defined for the system to accomplish the required goals. 
+Now we enumerate which interfaces should be defined for the system to accomplish the required goals. 
 
 We reported goals definition for clarity's sake, but only requirement's codes: for requirements definitions, see RASD section 3.2: Functional Requirements.
 
@@ -286,169 +286,181 @@ We reported goals definition for clarity's sake, but only requirement's codes: f
 
 \subsection{Components}
 
-Given the interface we have identify above we have organize such interfaces in the following components.
+Given the interface we identified in the previous section, we organize such interfaces into higher level components as follows.
 
-All the component are responsable to return meaningfull error messages in case of errors.
+Note that all the components are responsible of returning meaningful error messages in case of error.
 
 \begin{description}
 	\item[USER\_MANAGER] \hfill
 	\begin{description}
-		\item[Responsability] Manage the users.
+		\item[Responsability] Manages the users.
 	\item[USER/Register] \hfill
 		\begin{description}
-			\item[Responsability] the functionality is responsible to register a new user into the system.
-			\item[Input] It need as input information from the user such as:
+			\item[Responsability] Registers a new user into the system.
+			\item[Input] Information from the user such as:
 				\begin{itemize}
 					\item Name
 					\item Lastname
 					\item Password
 					\item Email
 					\item License ID
-					\item Credit Card informations
+					\item Credit card informations: credit card number, control code, expiry date, owner, etc.
 				\end{itemize}
-			\item[Output] in case of success it provide as output the ID of the user just created.
+			\item[Output] The ID of the newly created user.
 		\end{description}
 	\item[USER/Login] \hfill
 		\begin{description}
-			\item[Responsability] the functionality allow the user to log into the system.
-			\item[Input] The component require as input the email and the password.
-			\item[Output] It log the user into the system.
+			\item[Responsability] Allows users to log into the system.
+			\item[Input] Email (considered a unique user ID) and password.
+			\item[Output] A session key, meaning that the user is logged into the system.
 		\end{description}
 	\end{description}
 	
 	\item[LOCATION] \hfill
 	\begin{description}
-		\item[Responsability] This component takes care of locate elements.
+		\item[Responsability] Locates elements, points and areas of interest around a specific coordinate. ``Search`` service for elements of interest.
 	\item[LOCATION/AvailableCar] \hfill
 		\begin{description}
-			\item[Responsability] the functionality allow the user to retrive the position of the available car.
-			\item[Input] Geographically coordinates and radius of the research.
-			\item[Output] The set of available cars inside the circle of radius provided centered to the coordinated provide.
+			\item[Responsability] Retrives the position of available cars.
+			\item[Input] Search parameters such as:
+			\begin{itemize}
+				\item Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) 
+				\item Maximum walking distance from the specified position
+				\item Other search settings, like minimum battery level, etc.
+			\end{itemize}
+			\item[Output] A set of available cars matching the search parameters.
 		\end{description}
+
 	\item[LOCATION/Areas] \hfill
-		\begin{description}
-			\item[Responsability] the functionality allow the user to retrive the position of the areas of interest, such as power station or safe parking area.
-			\item[Input] Geographically coordinates and radius of the research.
-			\item[Output] The set of area of intereste inside the circle of radius provided centered to the coordinated provide.
+		\begin{description} 
+			\item[Responsability] Retrives the position of areas of interest, such as power stations and safe parking areas.
+			\item[Input] Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) and a search radius.
+			\item[Output] A set of areas of interest inside the circle of radius provided centered on the coordinates provided.
 		\end{description}
+
 	\item[LOCATION/IssuesCar] \hfill
 		\begin{description}
-			\item[Responsability] the functionality allow the user to retrive the position of the car with some issues.
-			\item[Input] Geographically coordinates and radius of the research.
-			\item[Output] The set of cars with issues inside the circle of radius provided centered to the coordinated provide.
-		\end{description}
-	\end{description}
-	
-	\item[BOOK\_MANAGER] \hfill
-	\begin{description}
-		\item[Responsability] This component will take care of managing the prenotations.
-	\item[BOOK/Book] \hfill
-		\begin{description}
-			\item[Responsability] the functionality allow the user to book one of the available car.
-			\item[Input] The ID of the car and the ID of the user.
-			\item[Output] The car is booked and the ID of the prenotation is provided.
-		\end{description}
-	\item[BOOK/Unbook] \hfill
-		\begin{description}
-			\item[Responsability] the functionality allow the user to remove a prenotation.
-			\item[Input] The ID of the user and the ID of the prenotation.
-			\item[Output] The prenotation is cancelled.
-		\end{description}
-	\end{description}
-	
-	\item[CAR] \hfill
-	\begin{description}
-		\item[Responsability] This component will manage all the iteraction between the users, the system and the actuall car.
-	\item[CAR/Unlock] \hfill
-		\begin{description}
-			\item[Responsability] the functionality allow to unlock the car.
-			\item[Input] The ID of the car and the ID of the user requiring the unlock.
-			\item[Output] The car is unlocked.
-		\end{description}
-	\item[CAR/Lock] \hfill
-		\begin{description}
-			\item[Responsability] the functionality lock the car.
-			\item[Input] The ID of the car.
-			\item[Output] The car is locked.
-		\end{description}
-	\item[CAR/TurnOff] \hfill
-		\begin{description}
-			\item[Responsability] the functionality turn off the engines of the car.
-			\item[Input] The ID of the car.
-			\item[Output] The car is turned off.
-		\end{description}
-	\item[CAR/Telemetry] \hfill
-		\begin{description}
-			\item[Responsability] the functionality allow to retrieve all the information associated with the car.
-			\item[Input] The ID of the car.
-			\item[Output] All the puntual information about the car.
+			\item[Responsability] Retrives the position of cars with some issues.
+			\item[Input] Search parameters such as:
+			\begin{itemize}
+				\item Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) 
+				\item Radius of the search
+				\item Issue type, Exeption status, and other similar search settings.
+			\end{itemize}
+			\item[Output] A set of cars with issues matching the search parameters inside the circle of radius provided centered on the coordinates provided.
 		\end{description}
 	\end{description}
 
 	\item[POSITION] \hfill
 	\begin{description}
-		\item[Responsability] This component will locate persons, cars and areas.
+		\item[Responsability] Locatse elements of interest given their ID. ``Lookup`` service for elements of interest.
 	\item[POSITION/Car] \hfill
 		\begin{description}
-			\item[Responsability] the functionality allow to know the position of a car.
+			\item[Responsability] Retrieves the position of a specific car.
 			\item[Input] The ID of the car.
 			\item[Output] The coordinates of the car.
 		\end{description}
 	\item[POSITION/User] \hfill
 		\begin{description}
-			\item[Responsability] the functionality allow to know the position of an user.
+			\item[Responsability] Retrieves the position of an user.
 			\item[Input] The ID of the user.
 			\item[Output] The coordinates of the user.
 		\end{description}
 	\item[POSITION/Areas] \hfill
 		\begin{description}
-			\item[Responsability] the functionality allow to know the position of an area of interest.
+			\item[Responsability]Retrieves the position of an area of interest.
 			\item[Input] The ID of the area.
-			\item[Output] The coordinates of the area.
+			\item[Output] The coordinates of the area as a set of boundary points.
+		\end{description}
+	\end{description}
+	
+	\item[BOOK\_MANAGER] \hfill
+	\begin{description}
+		\item[Responsability] Manages reservations.
+	\item[BOOK/Book] \hfill
+		\begin{description}
+			\item[Responsability] Books one available car.
+			\item[Input] The ID of the car and the ID of the user.
+			\item[Output] The car is booked and the ID of the reservation is provided.
+		\end{description}
+	\item[BOOK/Unbook] \hfill
+		\begin{description}
+			\item[Responsability] Removes a reservation.
+			\item[Input] The ID of the user and the ID of the reservation.
+			\item[Output] The reservation is cancelled.
+		\end{description}
+	\end{description}
+	
+	\item[CAR] \hfill
+	\begin{description}
+		\item[Responsability] Manages the iteractions between users and cars.
+	\item[CAR/Unlock] \hfill
+		\begin{description}
+			\item[Responsability] Unlocks the car.
+			\item[Input] The ID of the car and the ID of the user asking to unlock.
+			\item[Output] The car is unlocked.
+		\end{description}
+	\item[CAR/Lock] \hfill
+		\begin{description}
+			\item[Responsability] Locks the car.
+			\item[Input] The ID of the car.
+			\item[Output] The car is locked.
+		\end{description}
+	\item[CAR/TurnOff] \hfill
+		\begin{description}
+			\item[Responsability] Turns off the engine of a car.
+			\item[Input] The ID of the car.
+			\item[Output] The car is turned off.
+		\end{description}
+	\item[CAR/Telemetry] \hfill
+		\begin{description}
+			\item[Responsability] Retrieves real-time, updated informations about a car.
+			\item[Input] The ID of the car.
+			\item[Output] All the latest informations available about the car.
 		\end{description}
 	\end{description}
 
 	\item[BILLING\_SYSTEM] \hfill
 	\begin{description}
-		\item[Responsability] This component will manage all the fees.
+		\item[Responsability] Manages all the fees.
 	\item[BILL/Calculate] \hfill
 		\begin{description}
-			\item[Responsability] the functionality calculate how much is a riding fee.
+			\item[Responsability] Calculatesthe amount of a riding fee.
 			\item[Input] The ID of the ride.
-			\item[Output] The total cost.
+			\item[Output] The final fee, including eventual discounts or overprices.
 		\end{description}
 	\item[BILL/Pay] \hfill
 		\begin{description}
-			\item[Responsability] the functionality ask the user to pay a specific bill.
-			\item[Input] The ID of the user and the ID of the ride at which the bill refer to.
-			\item[Output] The request of payment is done.
+			\item[Responsability] Requires user to pay a specific bill.
+			\item[Input] The ID of the user and the ID of the ride the bill refers to.
+			\item[Output] The request of payment.
 		\end{description}
 	\item[BILL/Collect] \hfill
 		\begin{description}
-			\item[Responsability] After the user confirm the payment this component will actually collect the money.
-			\item[Input] Credit car information of the user and the total fee.
-			\item[Output] The money are collected.
+			\item[Responsability] Complete the money transaction.
+			\item[Input] Credit card informations of users and the ID of the bill they have to pay.
+			\item[Output] The fee is paid.
 		\end{description}
 	\end{description}
 
 	\item[ISSUE\_MANAGER] \hfill
 	\begin{description}
-		\item[Responsability] This component will manage the issues at the cars.
+		\item[Responsability] Manages car's issues.
 	\item[ISSUE/New] \hfill
 		\begin{description}
-			\item[Responsability] the functionality rise a new issue.
-			\item[Input] A reference to a car, the ID of the user raising the issue and a description of the issue.
-			\item[Output] The ID of the issue.
+			\item[Responsability] Rise a new issue.
+			\item[Input] ID of the car, ID of the user raising the issue, a title and a description of the issue.
+			\item[Output] The ID of the reported issue.
 		\end{description}
 	\item[ISSUE/Modify] \hfill
 		\begin{description}
-			\item[Responsability] the functionality let the operators modify the status of some issues, the operator may have fixed the issue, may decide that he is not capable to fix the issues or it may decide that the issues is un-fixable.
-			\item[Input] The ID of the issue, the ID of the operator and the new status.
-			\item[Output] The status of a issue is fixed.
+			\item[Responsability] Allows operators to modify the statuses of some issues.\\ {\color{red}{ The operator may have fixed the issue, may decide that he is not capable to fix the issues or it may decide that the issues is un-fixable.}}
+			\item[Input] The ID of the issue, the ID of the operator, the affected status and the new status value.
+			\item[Output] The status of a issue is updated.
 		\end{description}
 	\item[ISSUE/TakeCare] \hfill
 		\begin{description}
-			\item[Responsability] the functionality let the operator take charge of a particular issues.
+			\item[Responsability] Allows operators to take charge of a particular issue.
 			\item[Input] The ID of the issue, the ID of the operator.
 			\item[Output] The operator is now responsable for the issue.
 		\end{description}
