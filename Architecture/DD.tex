@@ -264,7 +264,7 @@ List of interfaces exposed by the server to both customer's and staff's apps.
 	\item[LOGIN] Provided valid credentials, users are logged into the system. \\ Fulfills \textbf{LOG1, LOG2, LOG3} and \textbf{LOG4}
 	\item[UNLOCK] Logged users can unlock the car they booked. \\ Fulfills \textbf{UNLK1, UNLK2, UNLK3, UNLK5, SUP5, SUP6}	
 	\item[LOCK] Logged users lock their car. \\ Fulfills \textbf{RIDE5, SAFE3, SAFE4}
-	\item[REPORT\_ISSUE] Users can report issues about a car.  {\color{red}{No matching req. found .-.}}
+	\item[REPORT\_ISSUE] Users can report issues about a car. \\ Fulfills \textbf{REP1}
 \end{description}
 
 
@@ -333,31 +333,19 @@ Note that the communication protocol between the server and the car is meant to 
 	\item[SET\_EXCEPTION\_STATUS] The system sets the car's Exception Status to ``Unsafely Parked`` if it understands it is parked in an unsafe area. \\ Fulfills \textbf{UNSF2}
 	
 	\item[VALIDATE\_SOLVE] The car performs a self-check and confirms to the server its Exception status can be set back to ``No Issue``
+	\item[REPORTED\_ISSUE] The car sets its Avaliability status as ``Not Available`` and its Exception status as ``Other issue`` as the system receives a related issue report. \\ Fulfills \textbf{REP2}
 \end{description}
 
 \subsubsection{External Services to Server API}
-List of interfaces exposed by external services to the main server. {\color{red} {TODO! }}
+List of interfaces exposed by external services to the main server. {\color{red} {TODO! }} 
 
+{\color{blue} { Qui il diagramma delle interfacce a pagina 18 dell'esempio. Non capisco come faccia il loro a essere cosi magro...}}
 
 \subsection{User Interfaces}
 
 {\color{red} {TODO! }}
 
 Now we define in details which interfaces are being exposed to the final user. These are going to be better defined later, but we report them here in order to show exactly which requirements are meant to satisfy.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -601,6 +589,7 @@ All the components are responsible of returning meaningful error messages in cas
 
 \end{description}
 
+{\color{blue} { Qui un Components View simile a quello a pagina 8 dell'esempio... possibilmente con un font un po' piu' grande che nell'esempio. \\ Non so bene se qui o in fondo alla sezione successiva. }}
 
 
 
@@ -660,13 +649,14 @@ Up to this point we defined the logical components of the system in terms of imp
 
 	\end{description}
 \end{description}
-
+{\color{blue} {Il graficino High-level Arch a pagina 8 del DD di esempio, per quanto inutile possa essere in questo caso.}}
 
 \subsection{Deployement View}
-Il graficino del deploy
+{\color{blue} {Il graficino del deploy a pagina 10 del DD di esempio, se capisci che cosa diavolo sia.}}
 
 \subsection{Runtime View}
-Tanti bei Sequence Diagrams :P
+{\color{blue} {Tanti bei Sequence Diagrams :P }}
+
 
 \subsection{Selected Technologies}
 
@@ -1128,6 +1118,8 @@ Mockups have already been included in the RASD (section 3.3: Non Functional Requ
 \newpage
 \section{Requirements Traceability}
 
+{\color{red} {Lo stesso lavoro fatto nel definire le interfacce, ma a rovescio. Non piu' Interfaccia -> Req soddisfatti, ma Req-> interfaccia che lo soddisfa.}}
+
 Considering we designed the system using a bottom-up approach, designed components maps in a straightforward way to the goals specified in the RASD. Hoever we provide an explicit mapping of the two.
 
  \begin{description}
@@ -1241,8 +1233,11 @@ During the development of this document we used the following tools:
 	\item SZ: 1h on 30/11
 	\item SM: 5h on 2/12
 	\item SZ: 5h on 2/12
+	SZ: 3h of work on 4/12 (RASD review)
+
 	\item SZ: 3h on 5/12
 	\item SZ: 4h on 6/12
+	\item SZ: 7h on 7/12
 \end{itemize}
 
 
