@@ -174,32 +174,550 @@ All these four components will be examined in more detail in the subsequent sect
 
 \newpage
 \section{Architectural Design}
-The overall design process has been carried in a bottom-up approach, starting from the analysis of the requirements moving upwards to the definition of the higher level components of the system. In the following sections we provide more details on the designed architecture.
+The overall design process has been carried in a bottom-up approach, starting from the analysis of goals and requirements moving upwards to the definition of the higher level components of the system. In the following sections we provide more details on the designed architecture.
 
 \subsection{Design Process Description}
 
-The overall design process started from the interface between the world and the machine. Given our goals we identified what interfaces the machine should provide in order to accomplish such goals.
+The overall design process starts from the physical structure of the system. Taking forward the considerations made in the RASD, we identify which physical nodes that are to be deployed in order to meet the requirements, and make the very first design choices onto them.
 
-Once the interfaces have been identified, we proceeded organizing those interfaces in components, caring at respecting the Single Responsability principle in order to provide highly decoupled components.
+Then we analyse the interface between the world and the machine, according to our choices. Given the list of goals and requirements, we identify what interfaces each node should provide to the world and to other nodes in order to accomplish such goals.
 
-Once the components have been defined, we proceeded with their deployement on the logical elements of our system, and then on physical nodes building up the proposed architecture.
+Once the interfaces are identified, we proceed organizing those interfaces into higher-level components, caring at respecting the Single Responsability principle in order to provide highly decoupled and reusable components.
 
-Once the components have been logically deployed on different parts of the system, we started reasoning about which technologies to use in order to actually implement them.
+Once components have been defined, we organize them into an high level architecture and define in detail how they interact with the help of some Sequence Diagrams.
 
-The rest of this section follows this flow, starting from the goals analysis and finally providing the overall design.
+The rest of this section follows this flow, starting from the deploy analysis and finally providing the overall design.
 
+
+
+\subsection{System's Structure}
+
+Asfor the RASD (section 2: Overall Description), the system is be divided into four parts:
+\begin{itemize}[noitemsep]
+	\item the \textbf{customer's app}, used by customers to access the service.
+	\item the \textbf{main server}, a centralized backend that provides the service.
+	\item the \textbf{cars’ onboard system}, that communicates only with the centralized backend.
+	\item the \textbf{staff's app}, used exclusively by the staff members to better organize their job.
+\end{itemize}
+
+For the scope of this analysis we often consider the customer's app and the staff's app as a single entity, called simply ``app``.
+
+At a first glance, the above elements can be organized in a two-tier Client-Server architecture as follows:
+\begin{itemize}[noitemsep]
+	\item Tier 1, the main server, which handles Application Logic and Data Management.
+	\item Tier 2, comprising mobile apps and cars, hosts the User Interface.
+\end{itemize}
+From now on, we design the system basing on these fundamentals elements, defining their roles and interactions.
+
+
+
+
+\subsection{Main Design Choices}
+
+Our choices are, first of all, focused on enforcing the architecture identified above. 
+
+\subsubsection{Car to app communication}
+We decide to completely avoid all kinds of communication between the cars and the apps. 
+
+ The main server is always an intermediary for app-to-car and car-to-app communications, in order for the system to have always full control on these otherwhise completely hidden interactions.
+
+\subsubsection{Interactions with 3rd-parties}
+We decided to prevent any access to third-part services to every component but the main server, mainly for security reasons.
+
+The main server will expose the necessary API to apps and cars to allow them retrieving all the informations they need without having them communicating indipendently with any external service.
+
+\subsubsection{Communication protocols}
+More specific choices has been made on the communication protocols too.
+
+A pure \textbf{Client-Server} communication protocol is implemented only for server-to-app and app-to-server communications, as they seem to naturally fit this model.
+
+On the other hand, communications between the server and the fleet is clearly more suitable for a \textbf{Publisher-Subscriber} pattern. The car has to communicate very often a lot of valuable information to the main servet, and a PubSub pattern achieves high troughput and low latency.
+ 
+To describe the communication approach in terms of the protocol itself, the car publishes messages about it own status and the server subscribes to those messages. The server is meant to host brokers too.
+
+Moreover, we decided to model the most part of external services as Web services, so the server will communicate with them using a \textbf{Service-Oriented} approach.
+
+\hfill\
+
+Here we provide a high-level diagram of the system and some proposed technologies that we will discuss in the last sections of  the document.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{proposed_system.png}
+	\caption{High-level organization of the system's required elements}
+\end{figure}
+
+
+
+
+
+\subsection{Component Interfaces}
+
+We now proceed defining the API that the nodes expose to each other, mapping them to the requirements they fulfill. Note that we are defining only internal interfaces: interface that components are exposing to the user are specified in the subsequent section ``User Interfaces``.
+
+In interfaces definitions, we reported only requirement's codes. For requirements definitions, see RASD section 3.2: Functional Requirements.
+
+\subsubsection{Server to All Apps API }
+List of interfaces exposed by the server to both customer's and staff's apps.
+\begin{description}
+	\item[LOGIN] Provided valid credentials, users are logged into the system. \\ Fulfills \textbf{LOG1, LOG2, LOG3} and \textbf{LOG4}
+	\item[UNLOCK] Logged users can unlock the car they booked. \\ Fulfills \textbf{UNLK1, UNLK2, UNLK3, UNLK5, SUP5, SUP6}	
+	\item[LOCK] Logged users lock their car. \\ Fulfills \textbf{RIDE5, SAFE3, SAFE4}
+	\item[REPORT\_ISSUE] Users can report issues about a car.  {\color{red}{No matching req. found .-.}}
+\end{description}
+
+
+\subsubsection{Server to Customer's App API}
+List of interfaces exposed by the server only to customer's apps.
+\begin{description}
+	\item[REGISTER] Users provide their personal informations, including license number and billing information, and obtain an account. \\ Fulfills \textbf{REG1}.
+	\item[VALIDATE] The system validates the informations provided at registration time. \\ Fulfills \textbf{REG2} and \textbf{REG3}.
+	\item[LOOKUP] Logged users can retrieve a list of available cars according to their search settings.\\ Fulfills \textbf{LOOK1, LOOK2} and \textbf{LOOK3} 
+	\item[BOOK] Logged users can reserve a car. \\ Fulfills \textbf{BOOK2, BOOK3, BOOK4, BOOK5 }	
+	\item[UNBOOK] Logged users can cancel a reservation they made. \\ Fulfills \textbf{UNBOOK2}	
+	\item[CALCULATE\_FEE] The system calculates the total fee that the user must pay when the car gets locked. \\ Fulfills \textbf{FEE1, FEE2, FEE3, FEE4, FEE5, FEE6}	
+	\item[SET\_PAYMENT\_METHOD] Users can set their preferred paying method. \\ Fulfills \textbf{PAY1}
+\end{description}
+
+
+\subsubsection{Server to Staff's App API}
+List of interfaces exposed by the server only to staff's apps.
+\begin{description}
+	\item[RIDE] The system cal tell which user is driving which car at the present time and at any moment in the past. \\ Fulfills \textbf{RIDE1}
+	\item[FIND\_ISSUE] Staff operators can locate issued cars that needs their intervantion. \\ Fulfills \textbf{ISS1, ISS3}
+	\item[TAKE\_CHARGE] The system allows operators to take charge of certain issues. \\ Fulfills \textbf{SUP1, SUP6}
+	\item[SOLVE] The system allows the operator to mark an issue as solved. \\ Fulfills \textbf{SUP3}
+	\item[GIVE\_UP] The system allows the operator to give up over an issue. \\ Fulfills \textbf{SUP7}
+	\item[SET\_STATUS] Operators can change the Exception status of issued cars. \\ Fulfills \textbf{SUP4}
+\end{description}
+
+
+\subsubsection{Server to Car API}
+List of interfaces exposed by the server only to the cars' onboard system.
+\begin{description}
+	\item[SHOW\_INFORMATIONS] Once the ride started, the car receives basic informations such as nearby safe parking areas and nearby charging stations. \\ Fulfills \textbf{RIDE4, SAFE1, SAFE2, PWRS1, PWRS2}
+	\item[VALIDATE\_LICENSE] The system uses input information about the user's driving license to decide whether to grant the user permission to start the car's engine. \\ Fulfills \textbf{RIDE2, RIDE3, SUP6}
+\end{description}
+
+
+\subsubsection{Customer's App to Server API}
+List of interfaces exposed by the customer's apps to the main server.
+\begin{description}
+	\item[EXPIRE] A booked car not unlocked after a system-defined period of time has passed is automatically unbooked and the user who booked it is fined. \\ Fulfills \textbf{BOOK6}
+	\item[PAY] The app receive payment requests. \\ Fulfills \textbf{PAY4}
+\end{description}
+
+
+\subsubsection{Staff's App to Server API}
+We identified no interfaces exposed by the staff's apps to the main server at this stage.
+
+
+\subsubsection{Car to Server API}
+List of interfaces exposed by the car's onboard system to the main server.
+
+Note that the communication protocol between the server and the car is meant to be message-based: these API thus represent messages exchanged between the server and the car.
+\begin{description}
+	\item[ENGINE\_STATUS] The car reports the engine status (True if running, False otherwise). \\ Fulfills \textbf{UNSF2}
+	\item[NUM\_PASSENGERS] The car reports how many passengers are onboard (excluding the driver).
+	\item[DRIVER\_PRESENT] The car reports if the driver is inside the car (True) or not (False). \\ Fulfills \textbf{UNSF2}
+	\item[PLUGGED] The car reports if it is connected to a charging station (True) or not (False). \\ Fulfills \textbf{PWRS3}
+	\item[LOCKED] The car reports if it is locked (True) or unlocked (False). \\ Fulfills \textbf{UNSF2}
+	\item[BATTERY\_LEVEL] The car reports its battery level (100 fully charged, 0 fully empty)
+	\item[GPS\_DATA] The car reports its GPS coordinates as retrieved from the sensor. \\ Fulfills \textbf{UNSF2}
+	\item[MOVING] The car reports if it is moving (True) or if it stopped (False), regardless of the engine status. \\ Fulfills \textbf{UNSF2}
+	\item[ISSUES] The car reports its Exception Status (could be ``No Issue``).
+
+	\item[LOCK\_CAR] The system forces the car to lock when left in an unsafe area. \\ Fulfills \textbf{UNSF3}
+	\item[ENGINE\_OFF] The system forces the cas to switch its engine off when the car is left in an unsafe area.\\ Fulfills \textbf{UNSF4}
+	\item[SET\_EXCEPTION\_STATUS] The system sets the car's Exception Status to ``Unsafely Parked`` if it understands it is parked in an unsafe area. \\ Fulfills \textbf{UNSF2}
+	
+	\item[VALIDATE\_SOLVE] The car performs a self-check and confirms to the server its Exception status can be set back to ``No Issue``
+\end{description}
+
+\subsubsection{External Services to Server API}
+List of interfaces exposed by external services to the main server. {\color{red} {TODO! }}
+
+
+\subsection{User Interfaces}
+
+{\color{red} {TODO! }}
+
+Now we define in details which interfaces are being exposed to the final user. These are going to be better defined later, but we report them here in order to show exactly which requirements are meant to satisfy.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Component View}
+Given the interface we identified in the previous section, we organize such interfaces into higher level components as follows.
+
+Components are described as \textbf{COMPONENT\_NAME/Functionality\_Name}, then highlighting responsibility, input and output data, and related interfaces for each function.
+
+All the components are responsible of returning meaningful error messages in case of error that we are not going to specify in detail.
+
+\begin{description}
+	\item[USER\_MANAGER] \hfill
+	\begin{description}
+		\item[Responsability] Manages the users.
+	\item[USER/Register] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Registers a new user into the system.
+			\item[Interfaces Implemented] REGISTER, VALIDATE.
+			\item[Input] Information from the user such as:
+				\begin{itemize}
+					\item First name
+					\item Last name
+					\item Password
+					\item Email
+					\item License ID
+					\item Credit card informations: credit card number, control code, expiry date, owner, etc.
+				\end{itemize}
+			\item[Output] The ID of the newly created user.
+		\end{description}
+	\item[USER/Login] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Allows users to log into the system.
+			\item[Interfaces Implemented] LOGIN.
+			\item[Input] Email (considered a unique user ID) and password.
+			\item[Output] A session key, meaning that the user is logged into the system.
+		\end{description}
+	\item[USERL/SetPaymentMethod] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Update user's information about the preferred payment method.
+			\item[Interfaces Implemented] SET\_PAYMENT\_METHOD.
+			\item[Input] The ID of the user and new payment informations.
+			\item[Output] The payment method data related to this user is updated.
+		\end{description}
+	\end{description}
+	
+	\item[LOCATION] \hfill
+	\begin{description}
+		\item[Responsability] Locates elements, points and areas of interest around a specific coordinate. ``Search`` service for elements of interest.
+	\item[LOCATION/AvailableCar] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrives the position of available cars.
+			\item[Interfaces Implemented] LOOKUP
+			\item[Input] Search parameters such as:
+			\begin{itemize}
+				\item Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) 
+				\item Maximum walking distance from the specified position
+				\item Other search settings, like minimum battery level, etc.
+			\end{itemize}
+			\item[Output] A set of available cars matching the search parameters.
+		\end{description}
+
+	\item[LOCATION/Areas] \hfill
+		\begin{description} [noitemsep]
+			\item[Responsability] Retrives the position of areas of interest, such as power stations and safe parking areas.
+			\item[Interfaces Implemented] SHOW\_INFORMATIONS
+			\item[Input] Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) and a search radius.
+			\item[Output] A set of areas of interest inside the circle of radius provided centered on the coordinates provided.
+		\end{description}
+
+	\item[LOCATION/Issues] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrives the position of cars with some issues.
+			\item[Interfaces Implemented] FIND\_ISSUES.
+			\item[Input] Search parameters such as:
+			\begin{itemize}
+				\item Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) 
+				\item Radius of the search
+				\item Issue type, Exeption status, and other similar search settings.
+			\end{itemize}
+			\item[Output] A set of cars with issues matching the search parameters inside the circle of radius provided centered on the coordinates provided.
+		\end{description}
+	\end{description}
+
+	\item[POSITION] \hfill
+	\begin{description}
+		\item[Responsability] Locatse elements of interest given their ID. ``Lookup`` service for elements of interest.
+	\item[POSITION/Car] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieves the position of a specific car.
+			\item[Interfaces Implemented] {\color{red} { USER Interface! }}
+			\item[Input] The ID of the car.
+			\item[Output] The coordinates of the car.
+		\end{description}
+	\item[POSITION/User] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieves the position of an user.
+			\item[Interfaces Implemented] {\color{red} { ??? }}
+			\item[Input] The ID of the user.
+			\item[Output] The coordinates of the user.
+		\end{description}
+	\item[POSITION/Areas] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability]Retrieves the position of an area of interest.
+			\item[Interfaces Implemented] {\color{red} { USER Interface! }}
+			\item[Input] The ID of the area.
+			\item[Output] The coordinates of the area as a set of boundary points.
+		\end{description}
+	\end{description}
+	
+	\item[BOOKING\_MANAGER] \hfill
+	\begin{description}
+		\item[Responsability] Manages reservations.
+	\item[BOOKING/Book] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Books one available car.
+			\item[Interfaces Implemented] BOOK
+			\item[Input] The ID of the car and the ID of the user.
+			\item[Output] The car is booked and the ID of the reservation is provided.
+		\end{description}
+	\item[BOOKING/Unbook] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Removes a reservation.
+			\item[Interfaces Implemented] UNBOOK
+			\item[Input] The ID of the user and the ID of the reservation.
+			\item[Output] The reservation is cancelled.
+		\end{description}
+	\item[BOOKING/Expire] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Removes an expired reservation and fines the related user.
+			\item[Interfaces Implemented] EXPIRE
+			\item[Input] ID of the reservation.
+			\item[Output] The reservation is cancelled and the user is fined.
+		\end{description}	
+	\end{description}
+	
+	\item[CAR\_MANAGER] \hfill
+	\begin{description}
+		\item[Responsability] Manages the iteractions between users and cars.
+	\item[CAR/Unlock] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Unlocks the car.
+			\item[Interfaces Implemented] UNLOCK
+			\item[Input] The ID of the car and the ID of the user asking to unlock.
+			\item[Output] The car is unlocked.
+		\end{description}
+	\item[CAR/ValidateLicense] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Confirms the scanned license is related to the user who booked the car.
+			\item[Interfaces Implemented] VALIDATE\_LICENSE
+			\item[Input] The scanned image of the driving license and the ID of the booking
+			\item[Output] The car is unlocked.
+		\end{description}
+	\item[CAR/Lock] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Locks the car.
+			\item[Interfaces Implemented] LOCK, LOCK\_CAR
+			\item[Input] The ID of the car.
+			\item[Output] The car is locked.
+		\end{description}
+	\item[CAR/TurnOff] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Turns off the engine of a car.
+			\item[Interfaces Implemented] ENGINE\_OFF
+			\item[Input] The ID of the car.
+			\item[Output] The car is turned off.
+		\end{description}
+	\item[CAR/Telemetry] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieves real-time, updated informations about a car.
+			\item[Interfaces Implemented] ENGINE\_STATUS, NUM\_PASSENGERS, DRIVER\_PRESENT, PLUGGED, LOCKED, BATTERY\_LEVEL,  GPS\_DATA, MOVING, ISSUES
+			\item[Input] The ID of the car.
+			\item[Output] All the latest informations available about the car.
+		\end{description}
+	\item[CAR/SetStatus] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Sets the Exception status of a car to a new value.
+			\item[Interfaces Implemented] SET\_STATUS, SET\_EXCEPTION\_STATUS
+			\item[Input] The ID of the car and the new status.
+			\item[Output] The new status is set.
+		\end{description}
+	\item[CAR/Rides] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieve the list of rides done with a specific car in a defined time range.
+			\item[Interfaces Implemented] RIDE
+			\item[Input] The ID of the car and a time range.
+			\item[Output] The list of rides performed with that car in that time range.
+		\end{description}
+	\end{description}
+
+	\item[BILLING\_SYSTEM] \hfill
+	\begin{description}
+		\item[Responsability] Manages all the fees.
+	\item[BILL/Calculate] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Calculates the amount of a riding fee.
+			\item[Interfaces Implemented] CALCULATE\_FEE
+			\item[Input] The ID of the ride.
+			\item[Output] The final fee, including eventual discounts or overprices.
+		\end{description}
+	\item[BILL/Pay] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Requires user to pay a specific bill.
+			\item[Interfaces Implemented] PAY
+			\item[Input] The ID of the user and the ID of the ride the bill refers to.
+			\item[Output] The fee is paid.
+		\end{description}
+
+	\item[ISSUE\_MANAGER] \hfill
+	\begin{description}
+		\item[Responsability] Manages car's issues.
+	\item[ISSUE/New] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Rise a new issue.
+			\item[Interfaces Implemented] REPORT\_ISSUE
+			\item[Input] ID of the car, ID of the user raising the issue, a title and a description of the issue.
+			\item[Output] The ID of the reported issue.
+		\end{description}
+	\item[ISSUE/TakeCare] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Allows operators taking in charge of a particular issue.
+			\item[Interfaces Implemented] TAKE\_CHARGE
+			\item[Input] The ID of the issue, the ID of the operator.
+			\item[Output] The operator is now responsable for the issue.
+		\end{description}
+	\item[ISSUE/Solve] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Allows operators to close an issue marking it as Solved. The system is resposible of allowing this operation only if it can confirm the issue has been solved.
+			\item[Interfaces Implemented] SOLVE, VALIDATE\_SOLVE
+			\item[Input] The ID of the issue, the ID of the operator.
+			\item[Output] The issue is set as Solved, or set as Closed and another new issue is opened.
+		\end{description}
+	\item[ISSUE/GiveUp] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Allows operators to give up over an issue.
+			\item[Interfaces Implemented] GIVE\_UP
+			\item[Input] The ID of the issue, the ID of the operator.
+			\item[Output] The issue is no more related to the specified operator and available for others to be took in charge.
+		\end{description}
+	\end{description}
+
+\end{description}
+
+
+
+
+\subsection{High-Level Architecture}
+
+Up to this point we defined the logical components of the system in terms of implemented interfaces. We now proceed deploying them on the nodes identified in the first section of the analysis in order to end up with a complete, high-level logical architecture for our system.
+
+
+\begin{description}
+	\item[USER\_MANAGER] \hfill \\
+	Considering that all its three functions are exposed as API by the server to the apps, the component is deployed on the server entirely.
+		
+	\item[LOCATION] \hfill \\
+	Considering that all its three functions are exposed as API by the server, the component is deployed on the server entirely.
+
+	\item[POSITION] \hfill \\
+	Considering that all its three functions are exposed as API by the server, the component is deployed on the server entirely. {\color{red} {Define this better}}
+	
+	\item[BOOKING\_MANAGER] \hfill \\
+	Considering that all its three functions are exposed as API by the server, the component is deployed on the server entirely. {\color{red} {What about EXPIRE?}}
+	
+	\item[CAR\_MANAGER] \hfill \\
+	This component requires a deeper analysis, as its interfaces are exposed by different elements. In details:
+	\begin{itemize}
+		\item CAR/Unlock is exposed by Server to Apps
+		\item CAR/Rides is exposed by Server to Apps
+		\item CAR/ValidateLicense is exposed by Server to Cars
+		\item CAR/Lock is exposed by Cars to Server
+		\item CAR/TurnOff is exposed by Cars to Server
+		\item CAR/Telemetry is exposed by Cars to Server
+		\item CAR/SetStatus is exposed by Cars to Server
+	\end{description}
+	Thus we create two CAR\_MANAGER subcomponents:
+	\begin{description}
+		\item[REMOTE\_CAR\_MANAGER] \hfill \\ Comprises all the functions exposed by the server:
+		\begin{itemize}
+			\item CAR/Unlock
+			\item CAR/Rides
+			\item CAR/ValidateLicense
+		\end{itemize}
+		\item[LOCAL\_CAR\_MANAGER] \hfill \\ Comprises all the functions exposed by the cars:
+		\begin{itemize}
+			\item CAR/Lock
+			\item CAR/TurnOff
+			\item CAR/Telemetry
+			\item CAR/SetStatus
+		\end{itemize}
+	\end{description}
+
+	\item[BILLING\_SYSTEM] \hfill \\
+	Considering that all its three functions are exposed as API by the server to the customer's apps, the component is deployed on the server entirely. {\color{red} {Recheck PAY : is it on server or on the app?}}
+
+	\item[ISSUE\_MANAGER] \hfill \\
+	Considering that all its three functions are exposed as API by the server to the customer's apps, the component is deployed on the server entirely. \\
+	Indeed, ISSUE/Solve involves an interface that is exposed by the car: thus we define another subcomponent, \textbf{VALIDATE\_SOLVE}, to be deployed on the car to fulfill this function.
+
+
+	\end{description}
+\end{description}
+
+
+\subsection{Deployement View}
+Il graficino del deploy
+
+\subsection{Runtime View}
+Tanti bei Sequence Diagrams :P
+
+\subsection{Selected Technologies}
+
+Having defined the interface between the several functionality provided by the components, all possible communication technologies may have been choosen. Obviously some choices are more apt than others with the respect of latency, throughput, elegance of the design and other factors; however the whole design will remain intact whichever technology we choose.
+
+Here we simply give some reasonable suggestions for protocols and technologies that seems us a better fit for the system we modeled.
+
+\subsubsection{RESTful API}
+
+The main server will expose its API in the most conventional way, using the classical HTTP/TCP/IP stack. In particular we provide RESTful interfaces. Model everything as an entity provides enough capabilities to actual implement the whole system while remaining constrainted to only the basic REST verb. This helped a lot in keeping the whole API scheme simple to understand and to implement.
+
+Apps consume the REST interface provide by the server, however to implement the communication between the server and the app we will use the long polling strategy.
+
+\subsubsection{MQTT}
+
+As for now, most of the communication between the server and the car will happens using the PubSub protocol, while some special messages (like, for example, the ValidateSolve function) will stay on a more basic Client-Server approach.
+
+ Between all the implementation of the PubSub protocol we chose to use MQTT for its low overhead, its QoS and because it is widely used in the industry.
+
+\subsubsection{Distributing the main server}
+
+{\color{red} {what about this?}}
+
+\subsubsection{Database}
+
+{\color{red} {what about this?}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\section{OLD STUFF}
 
 \subsection{Interfaces}
 
-Now we enumerate which interfaces should be defined for the system to accomplish the required goals. 
-
-We reported goals definition for clarity's sake, but only requirement's codes: for requirements definitions, see RASD section 3.2: Functional Requirements.
-
-\begin{description}
-	\item[REGISTRATION] Users can register to \pe.\hfill  {\color{red}{missing REG4, REG5}}
-		\begin{description}
-			\item[REGISTER] Users provide their personal informations, including license number and billing information, and obtain an account. \\ Fulfills \textbf{REG1}.
-			\item[VALIDATE] The system validates the informations provided at registration time. \\ Fulfills \textbf{REG2} and \textbf{REG3}.
+ns provided at registration time. \\ Fulfills \textbf{REG2} and \textbf{REG3}.
 		\end{description}
 
 	\item[LOGIN] Users can login to \pe.\hfill {\color{red}{double-check LOG4}}
@@ -281,8 +799,6 @@ We reported goals definition for clarity's sake, but only requirement's codes: f
 			\item[CONFIRM\_AVAILABILITY] The system checks if the issues marked as Solved are really related to cars that shows no issue. \\ Fulfills \textbf{SUP3}
 		\end{description}
 \end{description}
-
-
 
 \subsection{Components}
 
@@ -374,16 +890,16 @@ Note that all the components are responsible of returning meaningful error messa
 		\end{description}
 	\end{description}
 	
-	\item[BOOK\_MANAGER] \hfill
+	\item[BOOKING\_MANAGER] \hfill
 	\begin{description}
 		\item[Responsability] Manages reservations.
-	\item[BOOK/Book] \hfill
+	\item[BOOKING/Book] \hfill
 		\begin{description}
 			\item[Responsability] Books one available car.
 			\item[Input] The ID of the car and the ID of the user.
 			\item[Output] The car is booked and the ID of the reservation is provided.
 		\end{description}
-	\item[BOOK/Unbook] \hfill
+	\item[BOOKING/Unbook] \hfill
 		\begin{description}
 			\item[Responsability] Removes a reservation.
 			\item[Input] The ID of the user and the ID of the reservation.
@@ -391,7 +907,7 @@ Note that all the components are responsible of returning meaningful error messa
 		\end{description}
 	\end{description}
 	
-	\item[CAR] \hfill
+	\item[CAR\_MANAGER] \hfill
 	\begin{description}
 		\item[Responsability] Manages the iteractions between users and cars.
 	\item[CAR/Unlock] \hfill
@@ -425,7 +941,7 @@ Note that all the components are responsible of returning meaningful error messa
 		\item[Responsability] Manages all the fees.
 	\item[BILL/Calculate] \hfill
 		\begin{description}
-			\item[Responsability] Calculatesthe amount of a riding fee.
+			\item[Responsability] Calculates the amount of a riding fee.
 			\item[Input] The ID of the ride.
 			\item[Output] The final fee, including eventual discounts or overprices.
 		\end{description}
@@ -454,7 +970,7 @@ Note that all the components are responsible of returning meaningful error messa
 		\end{description}
 	\item[ISSUE/Modify] \hfill
 		\begin{description}
-			\item[Responsability] Allows operators to modify the statuses of some issues.\\ {\color{red}{ The operator may have fixed the issue, may decide that he is not capable to fix the issues or it may decide that the issues is un-fixable.}}
+			\item[Responsability] Allows operators to modify the statuses of some issues.\\ {\color{red}{ The operator may have fixed the issue, may decide that he is not capable to fix the issues or it may decide that the issues is \textbf{un-fixable}.}}
 			\item[Input] The ID of the issue, the ID of the operator, the affected status and the new status value.
 			\item[Output] The status of a issue is updated.
 		\end{description}
@@ -468,33 +984,39 @@ Note that all the components are responsible of returning meaningful error messa
 
 \end{description}
 
-\subsection{Deploying}
 
-Now that we have understand and named our componet we can start logically deploying them into our architecture.
-
-As we have already anticipated in the RASD we are going to adopt a Client-Server between our main services and the users.
-
-Then we have identify that is extremely practical to use a Pub-Sub mechanism for the communication between our fleet and the main server.
-
-Moreover we decide to completely avoid all the digital communication between the cars and the final user.
-
-The system is so divided into three parts, the fleet, composed by cars, the user applications and the main server.
-
-Clearly most functionality are invoke in one part of the system and execute in another part of the system following standard comunication mechanism.
 
 \subsection{Logical Deploying}
 
 \begin{description}
-	\item[USER\_MANAGER] The user manager is logically deployed in the main server, while its functionality are invoke only by the users.
-	\item[LOCATION] The location service is logically deployed in the main server, its functionality are invoked by the users (LOCATION/AvailableCar), by the fleet (LOCATION/Areas) and by the staff (LOCATION/IssuesCar).
-	\item[BOOK\_MANAGER] The book manager is deployed on the main server while its functionality are invoked by the users.
-	\item[CAR] This component is logically deployed in both the main server and the fleet.
-	The functionality CAR/Unlock, invoked by the users, involve both the main server, that guarantee that the request is legitimate, and the cars, that actuall unlock the door.
-	The functionalities CAR/Lock and CAR/TurnOff are both invoked by the server and actuatted by the cars.
-	Finally the functionality CAR/Telemetry is logically invoked by the server and actuatted by the cars.
-	\item[POSITION] This component is deployed on the cars, on the users app and on 3rd part system. POSITION/Car is deployed on the car itself and invoked, indirectly, by the user. POSITION/User is deployed on the user application and invoked by the main server and, indirectly by the user itself (when the user ask to unlock a car he must be nearby the car itself). POSITION/Areas is deployed on 3rd part system and on the main server, its functionality are invoked by the car.
-	\item[BILLING\_SYSTEM] The functionality of this component are logically deployed on the main server, the users' app and in a 3rd part system. BILL/Calculate is deployed and invoked by the server. BILL/Pay is invoked by the server but executed on the users application; while BILL/Collect is invoked in the server but actually executed in a 3rd part system.
-	\item[ISSUE\_MANAGER] This manager is deployed in the main server and it functionality are invoked by the staff and by the users.
+	\item[USER\_MANAGER] Logically deployed on the main server, while its API are invoked only by the apps.
+	\item[LOCATION] Logically deployed on the main server. Its API are invoked by customer's apps (LOCATION/AvailableCar), by the fleet (LOCATION/Areas) and by the staff's apps (LOCATION/IssuesCar).
+	\item[BOOKING\_MANAGER] Logically deployed on the main server, while its API are invoked by the customer's apps.
+
+	\item[CAR\_MANAGER] Logically deployed in both the main server and the fleet. {\color{red}{Non dovremmo definire due componenti diversi, quello dell'auto e quello del server?}}
+	\begin{description}	
+		\item[CAR/Unlock], invoked by the apps, involves both the main server, that guarantees that the request is legitimate, and the selected car, that actually unlocks the door.
+		\item[CAR/Lock] can be invoked by apps on directly by the server (in case of unsafe parking) and actuated by the cars.
+		\item[CAR/TurnOff] is invoked by the server and actuated by the cars.
+		\item[CAR/Telemetry]
+ is invoked by the server and actuated by the cars.
+	\end{description}
+
+	\item[POSITION] Logically deployed partly on cars, partly on the users app and partly on a 3rd-part service. 
+	\begin{description}
+		\item[POSITION/Car] Deployed on the car itself and invoked, by the server on behalf of the customer's apps. 
+		\item[POSITION/User] Deployed on the user application and invoked by the main server and, indirectly by the user itself (when the user ask to unlock a car he must be nearby the car itself). 
+		\item[POSITION/Areas] Deployed on a 3rd-part service and invoked by the server on behalf of the cars.
+	\end{description}
+
+	\item[BILLING\_SYSTEM] Logically deployed partly on the main server, partly on the users' app and partly on a 3rd-part system. 
+		\begin{description}
+		\item[BILL/Calculate] Deployed and invoked by the server. 
+		\item[BILL/Pay] Invoked by the server but executed on the users application
+		\item[BILL/Collect] is invoked on the server but actually executed in a 3rd part system.
+		\end{description}
+
+	\item[ISSUE\_MANAGER] This manager is deployed in the main server and it functionality are invoked by the apps, both customer's apps to report issues and staff's app to find issued cars.
 \end{description}
 	
 \subsection{Deploy}
@@ -505,7 +1027,7 @@ Now we are going to physically deploy all the functionality in the correct part 
 
 The interface between the several functionality provided by the components are already defined, from this point on we are going to pick a particular technology only for the sake of simplicity, all the possible communication technology may have been choosen. Obviously some choices are more apt than others with the respect of latency, throughput, elegance of the design and other factors; however the whole design will remain intact whichever technology we choose.
 
-\subsubsection{Reason Technology Choice}
+\subsection{Selected Patterns and Technologies}
 
 The reason for the technology choice we made are expressed in this section.
 
@@ -720,6 +1242,7 @@ During the development of this document we used the following tools:
 	\item SM: 5h on 2/12
 	\item SZ: 5h on 2/12
 	\item SZ: 3h on 5/12
+	\item SZ: 4h on 6/12
 \end{itemize}
 
 
