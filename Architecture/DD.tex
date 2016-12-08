@@ -255,7 +255,7 @@ Each iteration also describe what other functionality is required to actually wo
 			\item Sy/StartRide $\Leftrightarrow$ RIDE/Start
 			\item Sy/EndRide $\Leftrightarrow$ RIDE/End
 			\item Sy/ValidateLicense $\Leftrightarrow$ CAR/ValidateLicense
-			\item Sy/GeoLocationAreas
+			\item Sy/GeoLocationAreas $\Leftrightarrow$ GEOLOCATION/Areas
 			\item Sy/Lock $\Leftrightarrow$ CAR/Lock
 		\end{itemize}
 	\end{description}
@@ -274,7 +274,7 @@ Each iteration also describe what other functionality is required to actually wo
 		\begin{itemize}
 			\item Sy/EngineOff $\Leftrightarrow$ CAR/TurnOff
 			\item Sy/Lock $\Leftrightarrow$ CAR/Lock
-			\item Sy/NotifyUser
+			\item Sy/UnsafeParkNotification $\Leftrightarrow$  NOTIFY/UnsafePark
 		\end{itemize}
 	\end{description}
 	\item[UI/PowerStation] \hfill
@@ -283,8 +283,8 @@ Each iteration also describe what other functionality is required to actually wo
 		\item[Requires] \hfill
 		\begin{itemize}
 			\item Sy/GeoLocationAreas $\Leftrightarrow$ GEOLOCATION/Areas
-			\item Sy/Pluged
-			\item Sy/NotifyUser
+			\item Sy/Pluged $\Leftrightarrow$ CAR/Telemetry
+			\item Sy/CarPluggedNotification $\Leftrightarrow$ NOTIFY/CarPlugged
 		\end{itemize}
 	\end{description}
 	\item[UI/Charge] \hfill
@@ -292,7 +292,7 @@ Each iteration also describe what other functionality is required to actually wo
 		\item[Description] User are charged a fee at the end of the ride or if a prenotation expires.
 		\item[Requires] \hfill
 		\begin{itemize}
-			\item Sy/SendFee $\Leftrightarrow$ GEOLOCATION/Areas
+			\item Sy/SendFee $\Leftrightarrow$ NOTIFY/SendFee
 			\item Sy/BookExpire $\Leftrightarrow$ BOOKING/Expire
 			\item Sy/CalculateFee $\Leftrightarrow$ BILL/Calculate
 		\end{itemize}
@@ -311,7 +311,7 @@ Each iteration also describe what other functionality is required to actually wo
 		\item[Description] User can report issues to the system.
 		\item[Requires] \hfill
 		\begin{itemize}
-			\item Sy/ReportIssue
+			\item Sy/ReportIssue $\Leftrightarrow$ ISSUE/New
 		\end{itemize}
 	\end{description}
 	\item[UI/FindIssues] \hfill
@@ -319,7 +319,7 @@ Each iteration also describe what other functionality is required to actually wo
 		\item[Description] The staff can locate cars that need their intervention.
 		\item[Requires] \hfill
 		\begin{itemize}
-			\item Sy/GeoLocationIssues
+			\item Sy/GeoLocationIssues $\Leftrightarrow$ GEOLOCATION/Issues
 		\end{itemize}
 	\end{description}
 	\item[UI/Support] \hfill
@@ -327,13 +327,11 @@ Each iteration also describe what other functionality is required to actually wo
 		\item[Description] The staff can identify and solve car’s issues.
 		\item[Requires] \hfill
 		\begin{itemize}
-			\item Sy/ChangeStatus
-			\item Sy/Lock
-			\item Sy/Unlock
-			\item Sy/Engine
-			\item Sy/TakeChargeIssue
-			\item Sy/SolveIssue
-			\item Sy/GiveUpIssue
+			\item Sy/Lock $\Leftrightarrow$ CAR/Lock
+			\item Sy/Unlock $\Leftrightarrow$ CAR/Unlock
+			\item Sy/TakeChargeIssue  $\Leftrightarrow$ ISSUE/TakeCharge
+			\item Sy/SolveIssue $\Leftrightarrow$ ISSUE/Solve
+			\item Sy/GiveUpIssue $\Leftrightarrow$ ISSUE/GiveUp
 		\end{itemize}
 	\end{description}
 \end{description}
@@ -382,7 +380,7 @@ Moreover we are also mapping, one by one each abstract functionality of the prev
 			\item[Input] Email (considered a unique user ID) and password.
 			\item[Output] A session key, meaning that the user is logged into the system.
 		\end{description}
-	\item[USERL/SetPaymentMethod $\Leftrightarrow$ Sy/SetPaymentMethod] \hfill
+	\item[USER/SetPaymentMethod $\Leftrightarrow$ Sy/SetPaymentMethod] \hfill
 		\begin{description}[noitemsep]
 			\item[Responsability] Update user's information about the preferred payment method.
 			\item[Input] The ID of the user and new payment informations.
@@ -579,7 +577,29 @@ Moreover we are also mapping, one by one each abstract functionality of the prev
 			\item[Output] The issue is no more related to the specified operator and available for others to be took in charge.
 		\end{description}
 	\end{description}
-
+	
+	\item[NOTIFIER] \hfill
+	\begin{description}
+		\item[Responsability] This component takes care to notify user of events.
+	\item[NOTIFY/SendFee $\Leftrightarrow$ Sy/SendFee] \hfill
+	\begin{description}[noitemsep]
+			\item[Responsability] Ask for payment to the user before to actually execute the transaction.
+			\item[Input] The ID of the user and the total to pay.
+			\item[Output] The user is ask to confirm the payment.
+		\end{description}
+	\item[NOTIFY/UnsafePark $\Leftrightarrow$ Sy/UnsafeParkNotification] \hfill
+	\begin{description}[noitemsep]
+			\item[Responsability] Communicate at the user that he parked in an usafe area.
+			\item[Input] The ID of the user.
+			\item[Output] The user is prompt to acknoledge that he is aware to have parked in an unsafe area.
+		\end{description}
+	\item[NOTIFY/CarPlugged $\Leftrightarrow$ Sy/CarPluggedNotification] \hfill
+	\begin{description}[noitemsep] 
+			\item[Responsability] Communicate at the user that he succesfully plugged the car into a power station.
+			\item[Input] The ID of the user.
+			\item[Output] The user is prompt to acknoledge that he plugged the car into a power station.
+		\end{description}
+	\end{description}
 \end{description}
 
 
