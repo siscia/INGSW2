@@ -188,6 +188,403 @@ Once components have been defined, we organize them into an high level architect
 
 The rest of this section follows this flow, starting from the deploy analysis and finally providing the overall design.
 
+\subsection{From Functional Requirement to User Interfaces}
+
+In this part of the document we describe the iteraction between the user and the system.
+
+Each iteration also describe what other functionality is required to actually works, those functionality are described using the convetion Sy/NameFunctionality, where ``Sy'' indicate an abstract system that we are going to model in the next parts.
+
+\begin{description}
+	\item[UI/Registration] \hfill
+	\begin{description}
+		\item[Description] User can register to the system, the user need to provide personal information and payment information, the system check whenever the user is already registered and if the information provided are correct, then proceed with the registration and provide feedback to the user.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/Register $\Leftrightarrow$ USER/Register
+			\item Sy/Validate $\Leftrightarrow$ USER/Validate
+		\end{itemize}
+	\end{description}
+	\item[UI/Login] \hfill
+	\begin{description}
+		\item[Description] User can log into the system providing their username (email) and password.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/Login $\Leftrightarrow$ USER/Login
+		\end{itemize}
+	\end{description}
+	\item[UI/Lookup] \hfill
+	\begin{description}
+		\item[Description] User can lookup the position of cars near them or near a specific position.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/GeoLocationCars $\Leftrightarrow$ GEOLOCATION/AvailableCars
+			\item Sy/PositionUser $\Leftrightarrow$ POSITION/User
+		\end{itemize}
+	\end{description}
+	\item[UI/Book] \hfill
+	\begin{description}
+		\item[Description] User can book cars to use in the next our.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/Book $\Leftrightarrow$ BOOKING/Book
+		\end{itemize}
+	\end{description}
+	\item[UI/Unbook] \hfill
+	\begin{description}
+		\item[Description] User can remove a previously made prenotation.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/Unbook $\Leftrightarrow$ BOOKING/Unbook
+		\end{itemize}
+	\end{description}
+	\item[UI/Unlock] \hfill
+	\begin{description}
+		\item[Description] User can unlock a nearby car that was previously booked.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/PositionUser $\Leftrightarrow$ POSITION/User
+			\item Sy/PositionCar $\Leftrightarrow$ POSITION/Car
+			\item Sy/Unlock $\Leftrightarrow$ CAR/Unlock
+		\end{itemize}
+	\end{description}
+	\item[UI/Ride] \hfill
+	\begin{description}
+		\item[Description] User can ride a car.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/StartRide $\Leftrightarrow$ RIDE/Start
+			\item Sy/EndRide $\Leftrightarrow$ RIDE/End
+			\item Sy/ValidateLicense $\Leftrightarrow$ CAR/ValidateLicense
+			\item Sy/GeoLocationAreas
+			\item Sy/Lock $\Leftrightarrow$ CAR/Lock
+		\end{itemize}
+	\end{description}
+	\item[UI/SafeAreas] \hfill
+	\begin{description}
+		\item[Description] User can locate safe parking areas.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/GeoLocationAreas $\Leftrightarrow$ GEOLOCATION/Areas
+		\end{itemize}
+	\end{description}
+	\item[UI/UnsafeParking] \hfill
+	\begin{description}
+		\item[Description] The system react to unsafe parking.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/EngineOff $\Leftrightarrow$ CAR/TurnOff
+			\item Sy/Lock $\Leftrightarrow$ CAR/Lock
+			\item Sy/NotifyUser
+		\end{itemize}
+	\end{description}
+	\item[UI/PowerStation] \hfill
+	\begin{description}
+		\item[Description] User can locate and use charging station.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/GeoLocationAreas $\Leftrightarrow$ GEOLOCATION/Areas
+			\item Sy/Pluged
+			\item Sy/NotifyUser
+		\end{itemize}
+	\end{description}
+	\item[UI/Charge] \hfill
+	\begin{description}
+		\item[Description] User are charged a fee at the end of the ride or if a prenotation expires.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/SendFee $\Leftrightarrow$ GEOLOCATION/Areas
+			\item Sy/BookExpire $\Leftrightarrow$ BOOKING/Expire
+			\item Sy/CalculateFee $\Leftrightarrow$ BILL/Calculate
+		\end{itemize}
+	\end{description}
+	\item[UI/Payment] \hfill
+	\begin{description}
+		\item[Description] User can pay the bills through the app and set the default payment method.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/MakePayment $\Leftrightarrow$ BILL/Pay
+			\item Sy/SetPaymentMethod $\Leftrightarrow$ USER/SetPaymentMethod
+		\end{itemize}
+	\end{description}
+	\item[UI/ReportIssues] \hfill
+	\begin{description}
+		\item[Description] User can report issues to the system.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/ReportIssue
+		\end{itemize}
+	\end{description}
+	\item[UI/FindIssues] \hfill
+	\begin{description}
+		\item[Description] The staff can locate cars that need their intervention.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/GeoLocationIssues
+		\end{itemize}
+	\end{description}
+	\item[UI/Support] \hfill
+	\begin{description}
+		\item[Description] The staff can identify and solve car’s issues.
+		\item[Requires] \hfill
+		\begin{itemize}
+			\item Sy/ChangeStatus
+			\item Sy/Lock
+			\item Sy/Unlock
+			\item Sy/Engine
+			\item Sy/TakeChargeIssue
+			\item Sy/SolveIssue
+			\item Sy/GiveUpIssue
+		\end{itemize}
+	\end{description}
+\end{description}
+
+\subsection{Functionality}
+
+In this part of the document we are going to gather together all the functionality that we describe earlier and we are going to organize them in component.
+
+Moreover we are also mapping, one by one each abstract functionality of the previous section with the functionality described in the components.
+
+\begin{description}
+	\item[USER\_MANAGER] \hfill
+	\begin{description}
+		\item[Responsability] Manages the users.
+	\item[USER/Register $\Leftrightarrow$ Sy/Register] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Registers a new user into the system.
+			\item[Input] Information from the user such as:
+				\begin{itemize}
+					\item First name
+					\item Last name
+					\item Password
+					\item Email
+					\item License ID
+					\item Credit card informations: credit card number, control code, expiry date, owner, etc.
+				\end{itemize}
+			\item[Output] The ID of the newly created user.
+		\end{description}
+	\item[USER/Validate $\Leftrightarrow$ Sy/Validate] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Validate the information provided by the user, it makes sure that the user is not already registered into the system, that the License is valid as well the credit card information.
+			\item[Input] Information from the user such as:
+				\begin{itemize}
+					\item First name
+					\item Last name
+					\item Password
+					\item Email
+					\item License ID
+					\item Credit card informations: credit card number, control code, expiry date, owner, etc.
+				\end{itemize}
+			\item[Output] Confirm correctness and validity of the informations.
+		\end{description}
+	\item[USER/Login $\Leftrightarrow$ Sy/Login] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Allows users to log into the system.
+			\item[Input] Email (considered a unique user ID) and password.
+			\item[Output] A session key, meaning that the user is logged into the system.
+		\end{description}
+	\item[USERL/SetPaymentMethod $\Leftrightarrow$ Sy/SetPaymentMethod] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Update user's information about the preferred payment method.
+			\item[Input] The ID of the user and new payment informations.
+			\item[Output] The payment method data related to this user is updated.
+		\end{description}
+	\end{description}
+	
+	\item[GEOLOCATION] \hfill
+	\begin{description}
+		\item[Responsability] Locates elements, points and areas of interest around a specific coordinate. ``Search`` service for elements of interest.
+	\item[GEOLOCATION/AvailableCars $\Leftrightarrow$ Sy/GeoLocationCars] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrives the position of available cars.
+			\item[Input] Search parameters such as:
+			\begin{itemize}
+				\item Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) 
+				\item Maximum walking distance from the specified position
+				\item Other search settings, like minimum battery level, etc.
+			\end{itemize}
+			\item[Output] A set of available cars matching the search parameters.
+		\end{description}
+
+	\item[GEOLOCATION/Areas $\Leftrightarrow$ Sy/GeoLocationAreas] \hfill
+		\begin{description} [noitemsep]
+			\item[Responsability] Retrives the position of areas of interest, such as power stations and safe parking areas.
+			\item[Input] Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) and a search radius.
+			\item[Output] A set of areas of interest inside the circle of radius provided centered on the coordinates provided.
+		\end{description}
+
+	\item[GEOLOCATION/Issues $\Leftrightarrow$ Sy/GeoLocationIssues] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrives the position of cars with some issues.
+			\item[Input] Search parameters such as:
+			\begin{itemize}
+				\item Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) 
+				\item Radius of the search
+				\item Issue type, Exeption status, and other similar search settings.
+			\end{itemize}
+			\item[Output] A set of cars with issues matching the search parameters inside the circle of radius provided centered on the coordinates provided.
+		\end{description}
+	\end{description}
+
+	\item[POSITION] \hfill
+	\begin{description}
+		\item[Responsability] Locates elements of interest given their ID. ``Lookup`` service for elements of interest.
+	\item[POSITION/Car $\Leftrightarrow$ Sy/PositionCar] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieves the position of a specific car.
+			\item[Input] The ID of the car.
+			\item[Output] The coordinates of the car.
+		\end{description}
+	\item[POSITION/User $\Leftrightarrow$ Sy/PositionUser] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieves the position of an user.
+			\item[Input] The ID of the user.
+			\item[Output] The coordinates of the user.
+		\end{description}
+	\item[POSITION/Areas] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability]Retrieves the position of an area of interest.
+			\item[Input] The ID of the area.
+			\item[Output] The coordinates of the area as a set of boundary points.
+		\end{description}
+	\end{description}
+	
+	\item[BOOKING\_MANAGER] \hfill
+	\begin{description}
+		\item[Responsability] Manages reservations.
+	\item[BOOKING/Book $\Leftrightarrow$ Sy/Book] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Books one available car.
+			\item[Input] The ID of the car and the ID of the user.
+			\item[Output] The car is booked and the ID of the reservation is provided.
+		\end{description}
+	\item[BOOKING/Unbook $\Leftrightarrow$ Sy/Unbook] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Removes a reservation.
+			\item[Input] The ID of the user and the ID of the reservation.
+			\item[Output] The reservation is cancelled.
+		\end{description}
+	\item[BOOKING/Expire $\Leftrightarrow$ Sy/BookExpire] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Removes an expired reservation and fines the related user.
+			\item[Input] ID of the reservation.
+			\item[Output] The reservation is cancelled and the user is fined.
+		\end{description}	
+	\end{description}
+	
+	\item[CAR\_MANAGER] \hfill
+	\begin{description}
+		\item[Responsability] Manages the iteractions between users and cars.
+	\item[CAR/Unlock $\Leftrightarrow$ Sy/Unlock] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Unlocks the car.
+			\item[Input] The ID of the car and the ID of the user asking to unlock.
+			\item[Output] The car is unlocked.
+		\end{description}
+	\item[CAR/ValidateLicense $\Leftrightarrow$ Sy/ValidateLicense] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Confirms the scanned license is related to the user who booked the car.
+			\item[Input] The scanned image of the driving license and the ID of the booking
+			\item[Output] The car is unlocked.
+		\end{description}
+	\item[CAR/Lock $\Leftrightarrow$ Sy/Lock] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Locks the car.
+			\item[Input] The ID of the car.
+			\item[Output] The car is locked.
+		\end{description}
+	\item[CAR/TurnOff $\Leftrightarrow$ Sy/EngineOff] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Turns off the engine of a car.
+			\item[Input] The ID of the car.
+			\item[Output] The car is turned off.
+		\end{description}
+	\item[CAR/Telemetry] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieves real-time, updated informations about a car.
+			\item[Input] The ID of the car.
+			\item[Output] All the latest informations available about the car.
+		\end{description}
+	\item[CAR/SetStatus] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Sets the Exception status of a car to a new value.
+			\item[Input] The ID of the car and the new status.
+			\item[Output] The new status is set.
+		\end{description}
+	\item[CAR/Rides] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieve the list of rides done with a specific car in a defined time range.
+			\item[Input] The ID of the car and a time range.
+			\item[Output] The list of rides performed with that car in that time range.
+		\end{description}
+	\end{description}
+	
+	\item[RIDE] \hfill
+	\begin{description}
+		\item[Responsability] Manage the rides.
+	\item[RIDE/Start $\Leftrightarrow$ Sy/StartRide]
+		\begin{description}[noitemsep]
+			\item[Responsability] Start counting the time of the ride.
+			\item[Input] The ID of the user and the ID of the booking.
+			\item[Output] The ID of the ride.
+		\end{description}
+	\item[RIDE/End $\Leftrightarrow$ Sy/EndRide]
+		\begin{description}[noitemsep]
+			\item[Responsability] Stop counting the time of the ride.
+			\item[Input] The ID of the ride.
+			\item[Output] Stop the count of time for the ride.
+		\end{description}
+	\end{description}
+	
+	\item[BILLING\_SYSTEM] \hfill
+	\begin{description}
+		\item[Responsability] Manages all the fees.
+	\item[BILL/Calculate $\Leftrightarrow$ Sy/CalculatFee] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Calculates the amount of a riding fee.
+			\item[Input] The ID of the ride.
+			\item[Output] The final fee, including eventual discounts or overprices.
+		\end{description}
+	\item[BILL/Pay $\Leftrightarrow$ Sy/MakePayment] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Requires user to pay a specific bill.
+			\item[Input] The ID of the user and the ID of the ride the bill refers to.
+			\item[Output] The fee is paid.
+		\end{description}
+
+	\item[ISSUE\_MANAGER] \hfill
+	\begin{description}
+		\item[Responsability] Manages car's issues.
+	\item[ISSUE/New $\Leftrightarrow$ Sy/ReportIssue] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Rise a new issue.
+			\item[Input] ID of the car, ID of the user raising the issue, a title and a description of the issue.
+			\item[Output] The ID of the reported issue.
+		\end{description}
+	\item[ISSUE/TakeCharge $\Leftrightarrow$ Sy/TakeChargeIssue] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Allows operators taking in charge of a particular issue.
+			\item[Input] The ID of the issue, the ID of the operator.
+			\item[Output] The operator is now responsable for the issue.
+		\end{description}
+	\item[ISSUE/Solve $\Leftrightarrow$ Sy/SolveIssue] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Allows operators to close an issue marking it as Solved. The system is resposible of allowing this operation only if it can confirm the issue has been solved.
+			\item[Input] The ID of the issue, the ID of the operator.
+			\item[Output] The issue is set as Solved, or set as Closed and another new issue is opened.
+		\end{description}
+	\item[ISSUE/GiveUp $\Leftrightarrow$ Sy/GiveUpIssue] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Allows operators to give up over an issue.
+			\item[Input] The ID of the issue, the ID of the operator.
+			\item[Output] The issue is no more related to the specified operator and available for others to be took in charge.
+		\end{description}
+	\end{description}
+
+\end{description}
+
+
+
+
 
 
 \subsection{System's Structure}
@@ -357,237 +754,6 @@ Components are described as \textbf{COMPONENT\_NAME/Functionality\_Name}, then h
 
 All the components are responsible of returning meaningful error messages in case of error that we are not going to specify in detail.
 
-\begin{description}
-	\item[USER\_MANAGER] \hfill
-	\begin{description}
-		\item[Responsability] Manages the users.
-	\item[USER/Register] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Registers a new user into the system.
-			\item[Interfaces Implemented] REGISTER, VALIDATE.
-			\item[Input] Information from the user such as:
-				\begin{itemize}
-					\item First name
-					\item Last name
-					\item Password
-					\item Email
-					\item License ID
-					\item Credit card informations: credit card number, control code, expiry date, owner, etc.
-				\end{itemize}
-			\item[Output] The ID of the newly created user.
-		\end{description}
-	\item[USER/Login] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Allows users to log into the system.
-			\item[Interfaces Implemented] LOGIN.
-			\item[Input] Email (considered a unique user ID) and password.
-			\item[Output] A session key, meaning that the user is logged into the system.
-		\end{description}
-	\item[USERL/SetPaymentMethod] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Update user's information about the preferred payment method.
-			\item[Interfaces Implemented] SET\_PAYMENT\_METHOD.
-			\item[Input] The ID of the user and new payment informations.
-			\item[Output] The payment method data related to this user is updated.
-		\end{description}
-	\end{description}
-	
-	\item[LOCATION] \hfill
-	\begin{description}
-		\item[Responsability] Locates elements, points and areas of interest around a specific coordinate. ``Search`` service for elements of interest.
-	\item[LOCATION/AvailableCar] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Retrives the position of available cars.
-			\item[Interfaces Implemented] LOOKUP
-			\item[Input] Search parameters such as:
-			\begin{itemize}
-				\item Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) 
-				\item Maximum walking distance from the specified position
-				\item Other search settings, like minimum battery level, etc.
-			\end{itemize}
-			\item[Output] A set of available cars matching the search parameters.
-		\end{description}
-
-	\item[LOCATION/Areas] \hfill
-		\begin{description} [noitemsep]
-			\item[Responsability] Retrives the position of areas of interest, such as power stations and safe parking areas.
-			\item[Interfaces Implemented] SHOW\_INFORMATIONS
-			\item[Input] Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) and a search radius.
-			\item[Output] A set of areas of interest inside the circle of radius provided centered on the coordinates provided.
-		\end{description}
-
-	\item[LOCATION/Issues] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Retrives the position of cars with some issues.
-			\item[Interfaces Implemented] FIND\_ISSUES.
-			\item[Input] Search parameters such as:
-			\begin{itemize}
-				\item Geographical coordinates of the center of the search range (latitude and longitude as provided by GPS sensors) 
-				\item Radius of the search
-				\item Issue type, Exeption status, and other similar search settings.
-			\end{itemize}
-			\item[Output] A set of cars with issues matching the search parameters inside the circle of radius provided centered on the coordinates provided.
-		\end{description}
-	\end{description}
-
-	\item[POSITION] \hfill
-	\begin{description}
-		\item[Responsability] Locatse elements of interest given their ID. ``Lookup`` service for elements of interest.
-	\item[POSITION/Car] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Retrieves the position of a specific car.
-			\item[Interfaces Implemented] {\color{red} { USER Interface! }}
-			\item[Input] The ID of the car.
-			\item[Output] The coordinates of the car.
-		\end{description}
-	\item[POSITION/User] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Retrieves the position of an user.
-			\item[Interfaces Implemented] {\color{red} { ??? }}
-			\item[Input] The ID of the user.
-			\item[Output] The coordinates of the user.
-		\end{description}
-	\item[POSITION/Areas] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability]Retrieves the position of an area of interest.
-			\item[Interfaces Implemented] {\color{red} { USER Interface! }}
-			\item[Input] The ID of the area.
-			\item[Output] The coordinates of the area as a set of boundary points.
-		\end{description}
-	\end{description}
-	
-	\item[BOOKING\_MANAGER] \hfill
-	\begin{description}
-		\item[Responsability] Manages reservations.
-	\item[BOOKING/Book] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Books one available car.
-			\item[Interfaces Implemented] BOOK
-			\item[Input] The ID of the car and the ID of the user.
-			\item[Output] The car is booked and the ID of the reservation is provided.
-		\end{description}
-	\item[BOOKING/Unbook] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Removes a reservation.
-			\item[Interfaces Implemented] UNBOOK
-			\item[Input] The ID of the user and the ID of the reservation.
-			\item[Output] The reservation is cancelled.
-		\end{description}
-	\item[BOOKING/Expire] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Removes an expired reservation and fines the related user.
-			\item[Interfaces Implemented] EXPIRE
-			\item[Input] ID of the reservation.
-			\item[Output] The reservation is cancelled and the user is fined.
-		\end{description}	
-	\end{description}
-	
-	\item[CAR\_MANAGER] \hfill
-	\begin{description}
-		\item[Responsability] Manages the iteractions between users and cars.
-	\item[CAR/Unlock] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Unlocks the car.
-			\item[Interfaces Implemented] UNLOCK
-			\item[Input] The ID of the car and the ID of the user asking to unlock.
-			\item[Output] The car is unlocked.
-		\end{description}
-	\item[CAR/ValidateLicense] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Confirms the scanned license is related to the user who booked the car.
-			\item[Interfaces Implemented] VALIDATE\_LICENSE
-			\item[Input] The scanned image of the driving license and the ID of the booking
-			\item[Output] The car is unlocked.
-		\end{description}
-	\item[CAR/Lock] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Locks the car.
-			\item[Interfaces Implemented] LOCK, LOCK\_CAR
-			\item[Input] The ID of the car.
-			\item[Output] The car is locked.
-		\end{description}
-	\item[CAR/TurnOff] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Turns off the engine of a car.
-			\item[Interfaces Implemented] ENGINE\_OFF
-			\item[Input] The ID of the car.
-			\item[Output] The car is turned off.
-		\end{description}
-	\item[CAR/Telemetry] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Retrieves real-time, updated informations about a car.
-			\item[Interfaces Implemented] ENGINE\_STATUS, NUM\_PASSENGERS, DRIVER\_PRESENT, PLUGGED, LOCKED, BATTERY\_LEVEL,  GPS\_DATA, MOVING, ISSUES
-			\item[Input] The ID of the car.
-			\item[Output] All the latest informations available about the car.
-		\end{description}
-	\item[CAR/SetStatus] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Sets the Exception status of a car to a new value.
-			\item[Interfaces Implemented] SET\_STATUS, SET\_EXCEPTION\_STATUS
-			\item[Input] The ID of the car and the new status.
-			\item[Output] The new status is set.
-		\end{description}
-	\item[CAR/Rides] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Retrieve the list of rides done with a specific car in a defined time range.
-			\item[Interfaces Implemented] RIDE
-			\item[Input] The ID of the car and a time range.
-			\item[Output] The list of rides performed with that car in that time range.
-		\end{description}
-	\end{description}
-
-	\item[BILLING\_SYSTEM] \hfill
-	\begin{description}
-		\item[Responsability] Manages all the fees.
-	\item[BILL/Calculate] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Calculates the amount of a riding fee.
-			\item[Interfaces Implemented] CALCULATE\_FEE
-			\item[Input] The ID of the ride.
-			\item[Output] The final fee, including eventual discounts or overprices.
-		\end{description}
-	\item[BILL/Pay] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Requires user to pay a specific bill.
-			\item[Interfaces Implemented] PAY
-			\item[Input] The ID of the user and the ID of the ride the bill refers to.
-			\item[Output] The fee is paid.
-		\end{description}
-
-	\item[ISSUE\_MANAGER] \hfill
-	\begin{description}
-		\item[Responsability] Manages car's issues.
-	\item[ISSUE/New] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Rise a new issue.
-			\item[Interfaces Implemented] REPORT\_ISSUE
-			\item[Input] ID of the car, ID of the user raising the issue, a title and a description of the issue.
-			\item[Output] The ID of the reported issue.
-		\end{description}
-	\item[ISSUE/TakeCare] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Allows operators taking in charge of a particular issue.
-			\item[Interfaces Implemented] TAKE\_CHARGE
-			\item[Input] The ID of the issue, the ID of the operator.
-			\item[Output] The operator is now responsable for the issue.
-		\end{description}
-	\item[ISSUE/Solve] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Allows operators to close an issue marking it as Solved. The system is resposible of allowing this operation only if it can confirm the issue has been solved.
-			\item[Interfaces Implemented] SOLVE, VALIDATE\_SOLVE
-			\item[Input] The ID of the issue, the ID of the operator.
-			\item[Output] The issue is set as Solved, or set as Closed and another new issue is opened.
-		\end{description}
-	\item[ISSUE/GiveUp] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Allows operators to give up over an issue.
-			\item[Interfaces Implemented] GIVE\_UP
-			\item[Input] The ID of the issue, the ID of the operator.
-			\item[Output] The issue is no more related to the specified operator and available for others to be took in charge.
-		\end{description}
-	\end{description}
-
-\end{description}
 
 {\color{blue} { Qui un Components View simile a quello a pagina 8 dell'esempio... possibilmente con un font un po' piu' grande che nell'esempio. \\ Non so bene se qui o in fondo alla sezione successiva. }}
 
@@ -621,8 +787,10 @@ Up to this point we defined the logical components of the system in terms of imp
 		\item CAR/TurnOff is exposed by Cars to Server
 		\item CAR/Telemetry is exposed by Cars to Server
 		\item CAR/SetStatus is exposed by Cars to Server
-	\end{description}
-	Thus we create two CAR\_MANAGER subcomponents:
+	\end{itemize}
+\end{description}
+	
+Thus we create two CAR\_MANAGER subcomponents:
 	\begin{description}
 		\item[REMOTE\_CAR\_MANAGER] \hfill \\ Comprises all the functions exposed by the server:
 		\begin{itemize}
@@ -647,7 +815,7 @@ Up to this point we defined the logical components of the system in terms of imp
 	Indeed, ISSUE/Solve involves an interface that is exposed by the car: thus we define another subcomponent, \textbf{VALIDATE\_SOLVE}, to be deployed on the car to fulfill this function.
 
 
-	\end{description}
+	%\end{description}
 \end{description}
 {\color{blue} {Il graficino High-level Arch a pagina 8 del DD di esempio, per quanto inutile possa essere in questo caso.}}
 
@@ -708,8 +876,8 @@ As for now, most of the communication between the server and the car will happen
 \subsection{Interfaces}
 
 ns provided at registration time. \\ Fulfills \textbf{REG2} and \textbf{REG3}.
-		\end{description}
-
+		%\end{description}
+	\begin{description}
 	\item[LOGIN] Users can login to \pe.\hfill {\color{red}{double-check LOG4}}
 		\begin{description}
 			\item[LOGIN] Provided valid credentials, users are logged into the system and from now on they have the possibility to book cars, unlock cars, etc. \\ Fulfills \textbf{LOG1, LOG2, LOG3} and \textbf{LOG4}
@@ -1152,7 +1320,7 @@ Considering we designed the system using a bottom-up approach, designed componen
 	\begin{itemize}
 		\item Server: CarLockController
 		\item Car: LockController
-		\item Customer's App: CarNearby (----------------- SEE ISSUE #14)
+		\item Customer's App: CarNearby (----------------- SEE ISSUE \#14)
 	\end{itemize}
 
 	\item[RIDE] Users can drive to their destination.
@@ -1245,6 +1413,7 @@ During the development of this document we used the following tools:
 
 %%%%%%%%%% PARTE VECCHIA QUA SOTTO %%%%%%%%%%%%%%%%%
 
+\begin{comment}
 
 \subsection{Proposed System}
 
@@ -1267,4 +1436,4 @@ The backend is the core of the system. Being able to process a lot of parallel o
 \subsubsection{Car's Onboard system}
 The cars are equipped with an onboard system that monitors the status of the car, its location, and can send all the necessary informations to the main server. There won't be direct interactions between the car and the user's app.
 
-
+\end{comment}
