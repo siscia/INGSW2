@@ -298,7 +298,9 @@ As we are going to see, many use cases require some specific funcionalities to b
 		\begin{itemize}
 			\item Sy/SendFee %$\Leftrightarrow$ NOTIFY/SendFee
 			\item Sy/BookExpire %$\Leftrightarrow$ BOOKING/Expire
-			\item Sy/CalculateFee %$\Leftrightarrow$ BILL/Calculate
+			\item Sy/CalculateUnsafeParkingFee %$\Leftrightarrow$ BILL/Calculate
+			\item Sy/CalculateRideFee 
+			\item Sy/CalculateExpireBookFee
 		\end{itemize}
 	\end{description}
 	\item[UI/Payment] \hfill
@@ -549,25 +551,31 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 	\item[BILLING\_SYSTEM] \hfill
 	\begin{description}
 		\item[Responsability] Manages all the fees.
-	\item[BILL/Calculate $\Leftrightarrow$ Sy/CalculatFee] \hfill
+	\item[BILL/CalculateRideFee $\Leftrightarrow$ Sy/CalculateRideFee] \hfill
 		\begin{description}[noitemsep]
 			\item[Responsability] Calculates the amount of a riding fee.
 			\item[Input] The ID of the ride.
-			\item[Output] The final fee, including eventual discounts or overprices.
+			\item[Output] The ID of the fee with a complete total which include eventual discounts or overprices.
+		\end{description}
+	\item[BILL/CalculateExpireBookFee $\Leftrightarrow$ Sy/CalculateExipreBookFee ] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Calculates the amount of a expired prenotation fee.
+			\item[Input] The ID of the booking.
+			\item[Output] The ID of the fee refered to the expired prenotation.
+		\end{description}
+	\item[BILL/CalculateUnsafeParkingFine $\Leftrightarrow$ Sy/CalculateUnsafeParkingFee] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Requires user to pay a fine for an unsafe parking.
+			\item[Input] The ID of the user and the ID of the ride which left the car unsafely parked.
+			\item[Output] The ID of the fee refered to the fine for unsafe parking.
 		\end{description}
 	\item[BILL/Pay $\Leftrightarrow$ Sy/MakePayment] \hfill
 		\begin{description}[noitemsep]
-			\item[Responsability] Requires user to pay a specific bill.
-			\item[Input] The ID of the user and the ID of the ride the bill refers to.
+			\item[Responsability] Requires user to pay a specific fee.
+			\item[Input] The ID of the user and the ID of a fee.
 			\item[Output] The fee is paid.
 		\end{description}
-	\item[BILL/UnsafeParkingFine $\Leftrightarrow$ Sy/MakePayment] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Requires user to pay a fine for an unsafe parking.
-			\item[Input] The ID of the user and the ID of the car unsafely parked.
-			\item[Output] The fine is paid.
-		\end{description}
-	\end{description}
+
 
 	\item[ISSUE\_MANAGER] \hfill
 	\begin{description}
