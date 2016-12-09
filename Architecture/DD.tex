@@ -343,12 +343,12 @@ As we are going to see, many use cases require some specific funcionalities to b
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.88\textwidth]{UML/UI.png}
+	\includegraphics[width=0.6\textwidth]{UML/UI.png}
 	\caption{Graphical visulaization of the UI divided by tipology of users.}
 \end{figure}	
 
 
-\subsection{From Functionality to Componets}
+\subsection{Components Design}
 
 Now we gather all the functionalities we just described and we organize them into higher-level components, being careful at respecting the responsibilities given to each one of them.
 
@@ -627,7 +627,7 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.88\textwidth]{UML/Components.png}
+	\includegraphics[width=0.8\textwidth]{UML/Components.png}
 	\caption{Graphical visualization of the abstract components needed.}
 \end{figure}	
 
@@ -639,7 +639,7 @@ In order to actually implements the components we - first - need to know where t
 
 In the next sub section we are going to explain what physical nodes will compose our system.
 
-\subsubsection{Physiscal structure}
+\subsubsection{Physical structure}
 
 Overall there are 3 main identifiable nodes in our system:
 \begin{itemize}
@@ -807,7 +807,11 @@ Thus we create two CAR\_MANAGER subcomponents:
 {\color{blue} {Il graficino High-level Arch a pagina 8 del DD di esempio, per quanto inutile possa essere in questo caso.}}
 
 \subsection{Deployement View}
-{\color{blue} {Il graficino del deploy a pagina 10 del DD di esempio, se capisci che cosa diavolo sia.}}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{UML/DeployementView.png}
+	\caption{Deployement View of the system}
+\end{figure}	
 
 \subsection{Runtime View}
 {\color{blue} {Tanti bei Sequence Diagrams :P }}
