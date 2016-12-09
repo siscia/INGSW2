@@ -640,6 +640,22 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 	\caption{Graphical visualization of the abstract components needed.}
 \end{figure}	
 
+\subsubsection{Motivations}
+
+In this part of the design we made several choice where alternative approach may have been considered as well; we are going to motivate some of those choices.
+
+\subsubsection{Notifier}
+
+To notify the user about something we could have use several strategies. In a static world, where the product doesn't change, all of the choice are equivalent. However if we put ourselves in the situation of a dynamic world where the need of the software always evolves our choice makes more sense.
+
+\begin{enumerate}
+	\item Each component that needed to notify the user could have its own NOTIFIER (eg. instead of NOTIFY/UnsafePark we could have something like CAR/NotifyUnsafePark), indeed as more component will need to notify the user more and more different version of the same functionality risk to be reimplemented in different part of the code base, a problem we would like to avoid.
+
+	\item The NOTIFIER itself could have been more dynamic (eg. instead of multiple functionality NOTIFY/{SendFee, UnsafePark, CarPlugged} we could just have a single NOTIFY/Notify). This option while appealing risk to provide too much freedom to the implementators and it may be abused or not used correctly.
+\end{enumerate}
+
+Overall we believe that our choice require to think carefully before to add a new notification, but, at the same time, having everything in the same component, will make the actual implementation capable to re-use pre-developed pieces easily.
+
 \subsection{From Abstract Components to Physical Nodes}
 
 Now that we have identify the abstract components that, together, provide the fucntionality of our project we are going to makes those components real.
