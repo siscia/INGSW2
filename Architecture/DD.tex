@@ -531,16 +531,17 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 		\end{description}
 	\end{description}
 	
-	\item[RIDE] \hfill
+	\item[RIDE\_MANAGER] \hfill
 	\begin{description}
 		\item[Responsability] Manage the rides.
-	\item[RIDE/Start $\Leftrightarrow$ Sy/StartRide]
+	\item[RIDE/Start $\Leftrightarrow$ Sy/StartRide]  \hfil
+
 		\begin{description}[noitemsep]
 			\item[Responsability] Start counting the time of the ride.
 			\item[Input] The ID of the user and the ID of the booking.
 			\item[Output] The ID of the ride.
 		\end{description}
-	\item[RIDE/End $\Leftrightarrow$ Sy/EndRide]
+	\item[RIDE/End $\Leftrightarrow$ Sy/EndRide] \hfil
 		\begin{description}[noitemsep]
 			\item[Responsability] Stop counting the time of the ride.
 			\item[Input] The ID of the ride.
@@ -575,7 +576,7 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 			\item[Input] The ID of the user and the ID of a fee.
 			\item[Output] The fee is paid.
 		\end{description}
-
+	\end{description}
 
 	\item[ISSUE\_MANAGER] \hfill
 	\begin{description}
@@ -847,7 +848,39 @@ When the registration/login process is completed server-side, User\_Manager retu
 	\includegraphics[width=1\textwidth]{UML/DDSequenceDiagramBooking.png}
 	\caption{Sequence Diagram for Lookup and Booking process of customers.}
 \end{figure}
+This diagram shows clearly the two processes of looking for available cars and booking.
 
+The first goals is achieved with the sole need of GeoLocation, deployed only server-side, that hides to the final user the interaction with linf.io, which is an external service. The app is only responsible of rendering the informations into an interactive map the user can easily navigate.
+
+Once on the map, users can navigate cars details without the need to connect anymore with the server (all the required data has been cached from the previous call) until they decide to book a car. At that moment, a call to Booking\_Manager is issued, which handles the full procedure internally.
+
+The app is responsible only to provide the user feedback about the successfullness of the operation once Booking\_Manager returns.
+
+Note that, after a booking is completed successfully, the user is redirected to the Bookings Page, because it is not possible for a user to issue multiple reservations at the same time.
+
+
+\subsubsection{Ride}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{UML/DDSequenceDiagramRide.png}
+	\caption{Sequence Diagram for the Riding process of customers.}
+\end{figure}
+
+This diagram describes what's probably the most complex interaction between users, cars and the main server.
+
+The first step, unlocking the car, is straightforward: Car\_Manager receives a call fro PublicAppGUI requiring the unlock, and Car\_Manager handles internally the process. Notice that, as Car\_Manager is deployed both on the car and on the main server, the call to Car\_Manager/unlock( IDUser, IDCar ) hides another internal process where the server communicates with the car.
+
+Then the driver has to scan its driving licence in order to unlock the engine of the car. Again, Car\_Manager handles some communication between the car's system and the server internally, validate the licence and, if everything is fine, unlocks the engine (step not shown, as it is considered an internal call).
+
+Once the engine is switched on, or 5 minutes from unlocking has passed (regardless of the engine status), Car\_Manager calls Ride\_Manager and starts a new Ride. The lenght of the ride is calculated from this moment until the Ride is closed (see later).
+
+During the whole ride, CarGUI receives continuous updates from Car\_Manager about nearby safe areas and charging station: this data has been retrieved from GeoLocation, that in turn obtained them with a call to linf.io.
+
+When the user exits from the car (regardless of the engine status), Car\_Manager reacts checking if the car has been left in a safe area or not calling GeoLocation/CheckIntoSafeArea( location ).
+
+If not, a series of operations are performed. First, a notification is sent to CarGUI in order to notify the user and possibly have them back in the car. If the user does not come back within a short amount of time (a minute, for example), the engine is switched off, the car is locked, its Exception status is set to ``Unsafely parked`` and a fine is sent to the driver's app.
+
+Otherwhise, the system waits for the car to get locked. Once the locking requests arrives, first the ride is ended with a call to Ride\_Manager/endRide( IDRide ) and the car is locked. Then the regular fee is calculated and the payment issued.
 
 
 
