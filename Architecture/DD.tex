@@ -336,7 +336,15 @@ Each iteration also describe what other functionality is required to actually wo
 	\end{description}
 \end{description}
 
-\subsection{Functionality}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.88\textwidth]{UML/UI.png}
+	\caption{Graphical visulaization of the UI divided by tipology of users.}
+\end{figure}	
+
+
+\subsection{From Functionality to Componets}
 
 In this part of the document we are going to gather together all the functionality that we describe earlier and we are going to organize them in component.
 
@@ -604,6 +612,67 @@ Moreover we are also mapping, one by one each abstract functionality of the prev
 
 
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.88\textwidth]{UML/Components.png}
+	\caption{Graphical visualization of the abstract components needed.}
+\end{figure}	
+
+\subsection{From Abstract Components to Physical Nodes}
+
+Now that we have identify the abstract components that, together, provide the fucntionality of our project we are going to makes those components real.
+
+In order to actually implements the components we - first - need to know where those components will be deployed and the form of comunication between and intra them.
+
+In the next sub section we are going to explain what physical nodes will compose our system.
+
+\subsubsection{Physiscal structure}
+
+Overall there are 3 main identifiable nodes in our system:
+\begin{itemize}
+	\item Main Server
+	\item Car Onboard system
+	\item User interface (App, web site, etc...)
+\end{itemize}
+
+We have refer to the User Interface as App throught the whole document and we will keep such terminology for sake of clarity, however, must be clear that a whole spectrum of technologies could be used to actually implement the user Interface, not only mobile application.
+
+Also, for the scope of this analysis we often consider the customer's app and the staff's app as a single entity, called simply ``app''.
+
+
+\subsection{Communication between nodes}
+
+Now that our nodes are defined we need to understand the comunication between them.
+
+It would have been possible to make each node comunicate with each other node, however this raise some concern about the security of the system, especially for the communication between the users and the cars. Of course a well done, and a well tested system should not raise these concerns, however real word engineering is constrained, and the authors believe that a more defensive and conservative approach is more suitable.
+
+Following these consideration we decided that would be more maneagable to have only two communication channel, one between the main server and the user, and another between the main server and the cars. 
+
+\subsubsection{Actual channel implementation}
+
+The communication between the main server and the user will employ a simple Client-Server approach which seems to naturally fit the domain space, it is a well know industry standard and is widely used.
+
+On the other hand, communications between the server and the fleet is clearly more suitable for a \textbf{Publisher-Subscriber} pattern. The car has to communicate very often a lot of valuable information to the main servet, and a PubSub pattern achieves high troughput and low latency. Even if the Pub-Sub pattern may not be so widely used and know, our experience suggested that the trade-off is well worth.
+
+\subsection{Actual deploy of components into nodes}
+
+Now that we have identify the components that we need to deploy, the nodes where those components can be deployed and the communication mechanism between the nodes we are ready to actually decide where to put each component.
+
+Most of the functionality will be invoked by the user, however, logically, the componentthey will reside on the main server.
+
+Some component will be shared between the main server and the user or the car or both.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.88\textwidth]{UML/Deploy.png}
+	\caption{Graphical visualization of the abstract components needed.}
+\end{figure}	
+
+
+REEXPLAIN WHY SOME COMPONENTES ARE SHARED
+
+
 
 
 
@@ -625,8 +694,6 @@ At a first glance, the above elements can be organized in a two-tier Client-Serv
 	\item Tier 2, comprising mobile apps and cars, hosts the User Interface.
 \end{itemize}
 From now on, we design the system basing on these fundamentals elements, defining their roles and interactions.
-
-
 
 
 \subsection{Main Design Choices}
