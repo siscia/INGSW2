@@ -821,17 +821,26 @@ Thus we create two CAR\_MANAGER subcomponents:
 
 \subsection{Runtime View}
 
+\subsubsection{Register and Login}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{UML/DDSequenceDiagramLoginReg.png}
-	\caption{
-	Sequence Diagram for Registration and Login process of customers.	}
+	\caption{Sequence Diagram for Registration and Login process of customers.	}
 \end{figure}	
 Here we can clearly see how the responsibility of managing users is set to the \textbf{User\_Manager} component, fully deployed on the main server.
 
 PublicAppGUI is simply responsible of gathering useful data and sending it to User\_Manager, which takes care of contacting external services if needed. 
 
 When the registration/login process is completed server-side, User\_Manager returns control to PublicAppGUI, that is in charge of informing the user about the result of their request and eventually redirected to another page (login after registration is completed successfully, homepage after login is completed successfully).
+
+\subsubsection{Lookup and Book}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{UML/DDSequenceDiagramBooking.png}
+	\caption{Sequence Diagram for Lookup and Booking process of customers.}
+\end{figure}
+
+
 
 
 \subsection{Selected Technologies}
