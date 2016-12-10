@@ -31,6 +31,43 @@
 
 % \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
 
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.4,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+ 
+\lstdefinestyle{mystyle}{ 
+    commentstyle=\color{magenta},
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+   emph={self}, 
+   emphstyle=\color{blue}, 
+   emph={[2] BookingManager, FineManager}, 
+   emphstyle=[2]\color{codegreen}\bfseries, 
+   emph={[3]__init__, newBook, removeReservation, getReservation, manageExpired, min_heap, pop, now, timedelta, expireReservation}, 
+   emphstyle=[3]\color{codegreen}, 
+}
+ 
+\lstset{style=mystyle}
+
+
+
+
+
 %%% PACKAGES
 \usepackage{booktabs} % for much better looking tables
 \usepackage{array} % for better arrays (eg matrices) in maths
@@ -957,17 +994,14 @@ Indeed, considering our server is going to handle a lot of parallel operations, 
 
 
 
-
-
-
-
-
 \newpage
 \section{Algorithm Design}
 
 In this section we define a first sketch of a BOOKING\_MANAGER, clearly this implementation is extremely naive, it doesn't take care of persisting its status nor it doesn't validate the input, however is effective to show our intention and expectation from the implementator.
 
-\lstinputlisting[language=Python]{Algo/BookingManager.py}
+\hfil\\
+
+\lstinputlisting[language=Python, breaklines=true,]{Algo/BookingManager.py}
 
 \newpage
 \section{User Interface Design}
@@ -979,23 +1013,17 @@ Mockups have already been included in the RASD (section 3.3: Non Functional Requ
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.88\textwidth]{UML/UXDiagramPublicApp.png}
-	\caption{UX Diagram of the interface of customer's application}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
 	\includegraphics[width=0.88\textwidth]{UML/UXDiagramStaffApp.png}
 	\caption{UX Diagram of the interface of staff's application}
 \end{figure}	
 
-\subsection{BCE Diagrams}
-
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{UML/BCEDiagramPublicApp.png}
-	\caption{BCE Diagram of the interface of customer's application}
-\end{figure}	
+	\includegraphics[width=0.88\textwidth]{UML/UXDiagramPublicApp.png}
+	\caption{UX Diagram of the interface of customer's application}
+\end{figure}
+
+\subsection{BCE Diagrams}
 
 \begin{figure}[H]
 	\centering
@@ -1003,105 +1031,12 @@ Mockups have already been included in the RASD (section 3.3: Non Functional Requ
 	\caption{BCE Diagram of the interface of staff's application}
 \end{figure}	
 	
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{UML/BCEDiagramPublicApp.png}
+	\caption{BCE Diagram of the interface of customer's application}
+\end{figure}	
 
-\newpage
-\section{Requirements Traceability}
-
-{\color{red} {Lo stesso lavoro fatto nel definire le interfacce, ma a rovescio. Non piu' Interfaccia -> Req soddisfatti, ma Req-> interfaccia che lo soddisfa.}}
-
-Considering we designed the system using a bottom-up approach, designed components maps in a straightforward way to the goals specified in the RASD. Hoever we provide an explicit mapping of the two.
-
- \begin{description}
- 	\item[REGISTRATION] Users can register to \pe.
-	\begin{itemize}
-		\item Server: RegistrationController
-		\item Customer's App: RegistrationView (?)
-	\end{itemize}
-
-	\item[LOGIN] Users can login to \pe.
-	\begin{itemize}
-		\item Server: LoginController
-		\item Customer's App: LoginView (?)
-		\item Staff's App: LoginView (?)
-	\end{itemize}
-
- 	\item[LOOKUP] Users can find cars nearby a given position, it could be its position or a point in the map.
-	\begin{itemize}
-		\item Server: CarsLocation
-		\item Customer's App: CarsView (?)
-	\end{itemize}
-
- 	\item[BOOK] Users can book a car for a short amount of time.
-	\begin{itemize}
-		\item Server: BookingController
-		\item Customer's App: BookingView (?)
-	\end{itemize}
-
- 	\item[UNLOCK] When users are in proximity of the car they booked, the system can unlock it.
-	\begin{itemize}
-		\item Server: CarLockController
-		\item Car: LockController
-		\item Customer's App: CarNearby (----------------- SEE ISSUE \#14)
-	\end{itemize}
-
-	\item[RIDE] Users can drive to their destination.
-	\begin{itemize}
-		\item Server: AuthDriver
-		\item Car: LicenceScanner, EngineController, MQTT publishers, CarGUI
-	\end{itemize}
-
-	\item[SAFE\_AREAS] Users can locate safe parking areas.
-	\begin{itemize}
-		\item Server: AreasLocation
-		\item External Services: linf.io
-		\item Car: MQTT publishers, CarGUI
-	\end{itemize}
-
-	\item[UNSAFE\_PARKING] The system must react to an unsafe parking.
-	\begin{itemize}
-		\item Server: UnsafeParkingController, IssuesController (?)
-		\item Car: EngineController, LockController (MQTT publishers too?)
-	\end{itemize}
-
-	\item[POWER\_STATIONS] Users can locate charging stations.
-	\begin{itemize}
-		\item Server: AreasLocation
-		\item External Services: linf.io
-		\item Car: CarGUI
-	\end{itemize}
-
-	\item[CHARGE] At the end of the ride, users are charged a fee.
-	\begin{itemize}
-		\item Server: BillingController
-		\item Customer's App: PaymentDetailsView
-	\end{itemize}
-
-	\item[PAYMENTS] Users can pay bills through the app.
-	\begin{itemize}
-		\item Server: PaymentController
-		\item External Services: stripe.com
-		\item Customer's App: PaymentDetailsView
-	\end{itemize}
-
-	\item[FIND\_ISSUES] The staff can locate cars that need their intervention.
-	\begin{itemize}
-		\item Server: IssuesLocation
-		\item Staff's App: IssuesView (?)
-	\end{itemize}
-
-	\item[SUPPORT] The staff can identify and solve car's issues.
-	\begin{itemize}
-		\item Server: IssuesController
-		\item Staff's App: IssueDetailsView (?)
-	\end{itemize}
-
-	\item[FINES] The system can provide enough details for the staff to manage correctly the fines they receive from local authorities.
-	\begin{itemize}
-		\item Server: FindDriverController (?)
-		\item Staff's App: FindDriverView (?)
-	\end{itemize}
-
- \end{description}
 
 
 \newpage
@@ -1127,6 +1062,7 @@ During the development of this document we used the following tools:
 	\item SZ: 4h on 6/12
 	\item SZ: 7h on 7/12
 	\item SZ: 10h on 9/12 
+	\item SZ: 12h on 10/12
 \end{itemize}
 
 

@@ -1,37 +1,34 @@
-
-
 class BookingManager():
     def __init__(self):
-        self.prenotation_running = min_heap()
-        self.prenotations = {}
+        self.reservation_running = min_heap()
+        self.reservations = {}
         thread_expired = threading.Thread(target = self.manageExpired)
         thread_expired.start()
 
     def newBook(self, id_user, id_car):
-        prenotation = {"id_prenotation" : newID(),
+        reservation = {"id_reservation" : newID(),
                        "id_car" : id_car,
                        "id_user" : id_user,
                        "expire_time" : time.now() + time.timedelta(hours = 1)}
-        self.prenotation_running.add((prenotation["expire_time"], prenotation))
-        self.prenotations[prenotation["id_prenotation"]] = prenotation        
-        return prenotation["id_prenotation"]
+        self.reservation_running.add((reservation["expire_time"], reservation))
+        self.reservations[reservation["id_reservation"]] = reservation        
+        return reservation["id_reservation"]
 
-    def removePrenotation(self, id_prenotation):
-        if id_prenotation in self.prenotations:
-            prenotation = self.prenotations[id_prenotation]
-            self.prenotation_running.remove(prenotation)
-            del self.prenotation[id_prenotation]
+    def removeReservation(self, id_reservation):
+        if id_reservation in self.reservations:
+            reservation = self.reservations[id_reservation]
+            self.reservation_running.remove(reservation)
+            del self.reservation[id_reservation]
             return True
         return False
 
-    def getPrenotation(self, id_prenotation):
-        return self.prenotation[id_prenotation]
+    def getReservation(self, id_reservation):
+        return self.reservation[id_reservation]
 
     def manageExpired(self):
         while True:
-            (expire_time, prenotation) = self.prenotation_running.pop()
+            (expire_time, reservation) = self.reservation_running.pop()
             if expire_time > time.now():
-                FineManager.expirePrenotation(prenotation)
-                self.removePrenotation(prenotation["id_prenotation"])
+                FineManager.expireReservation(reservation)
+                self.removeReservation(reservation["id_reservation"])
             time.sleep(1)
-            
