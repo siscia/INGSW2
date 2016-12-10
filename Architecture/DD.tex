@@ -523,19 +523,12 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 			\item[Input] The ID of the car and the new status.
 			\item[Output] The new status is set.
 		\end{description}
-	\item[CAR/Rides] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Retrieve the list of rides done with a specific car in a defined time range.
-			\item[Input] The ID of the car and a time range.
-			\item[Output] The list of rides performed with that car in that time range.
-		\end{description}
 	\end{description}
 	
 	\item[RIDE\_MANAGER] \hfill
 	\begin{description}
 		\item[Responsability] Manage the rides.
 	\item[RIDE/Start $\Leftrightarrow$ Sy/StartRide]  \hfil
-
 		\begin{description}[noitemsep]
 			\item[Responsability] Start counting the time of the ride.
 			\item[Input] The ID of the user and the ID of the booking.
@@ -546,6 +539,12 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 			\item[Responsability] Stop counting the time of the ride.
 			\item[Input] The ID of the ride.
 			\item[Output] Stop the count of time for the ride.
+		\end{description}
+	\item[RIDE/FindRides] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieve the list of rides done with a specific car in a defined time range.
+			\item[Input] The ID of the car and a time range.
+			\item[Output] The list of rides performed with that car in that time range.
 		\end{description}
 	\end{description}
 	
@@ -902,6 +901,7 @@ It is evident how these additional steps are all managed by Issue\_Manager alone
 
 
 
+
 \subsection{Selected Technologies}
 
 Having defined the interface between the several functionality provided by the components, all possible communication technologies may have been choosen. Obviously some choices are more apt than others with the respect of latency, throughput, elegance of the design and other factors; however the whole design will remain intact whichever technology we choose.
@@ -1099,39 +1099,12 @@ During the development of this document we used the following tools:
 	\item SZ: 1h on 30/11
 	\item SM: 5h on 2/12
 	\item SZ: 5h on 2/12
-	SZ: 3h of work on 4/12 (RASD review)
-
+	\item SZ: 3h on 4/12 (RASD review)
 	\item SZ: 3h on 5/12
 	\item SZ: 4h on 6/12
 	\item SZ: 7h on 7/12
+	\item SZ: 10h on 9/12 
 \end{itemize}
 
 
 \end{document}  
-
-%%%%%%%%%% PARTE VECCHIA QUA SOTTO %%%%%%%%%%%%%%%%%
-
-\begin{comment}
-
-\subsection{Proposed System}
-
-The proposed system features a client-server architecture, so it is divided into two parts: a frontend app for smartphones, which allows the users to use the service, and a backend system wich deals with all the operations and coordinates them. The backend also interact with the cars, that can be seen as a third part of the system.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{proposed_system.png}
-	\caption{Description of the proposed system.}
-\end{figure}
-
-\subsubsection{App Frontend}
-The frontend is a thin app that relies on the smartphone's internet connections in order to work. Almost no operations can be performed with the app alone: all transactions are sent to the main server first, then processed and the result sent back to the app.
-
-The app can be classified as a thin client.
-
-\subsubsection{Centralized Backend}
-The backend is the core of the system. Being able to process a lot of parallel operations, it can deal with all the requests coming from che clients ina reasonable amount of time (see Non Functionals Requirements). The backend is based on an MVC architecture and a REST API.
-
-\subsubsection{Car's Onboard system}
-The cars are equipped with an onboard system that monitors the status of the car, its location, and can send all the necessary informations to the main server. There won't be direct interactions between the car and the user's app.
-
-\end{comment}
