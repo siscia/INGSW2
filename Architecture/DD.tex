@@ -682,7 +682,7 @@ However, we believe that our choice allow very fast development cycles while mai
 
 \subsection{From Abstract Components to Physical Nodes}
 
-Now that we have identify the abstract components that, together, provide the fucntionality of our project we are going to makes those components real.
+After we have identify the abstract components that, together, provide the functionalities of our project we are going to makes those components real.
 
 In order to actually implements the components we - first - need to know where those components will be deployed and the form of comunication between and intra them.
 
@@ -720,28 +720,15 @@ On the other hand, communications between the server and the fleet is clearly mo
 
 Now that we have identify the components that we need to deploy, the nodes where those components can be deployed and the communication mechanism between the nodes we are ready to actually decide where to put each component.
 
-Most of the functionality will be invoked by the user, however, logically, the componentthey will reside on the main server.
+Most of the functionality will be invoked by the user, however, logically, the component will reside on the main server.
 
 Some component will be shared between the main server and the user or the car or both.
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.88\textwidth]{UML/Deploy.png}
-	\caption{Graphical visualization of the abstract components needed.}
-\end{figure}	
-
-
-REEXPLAIN WHY SOME COMPONENTES ARE SHARED
-
-
-
 
 
 
 \subsection{Main Design Choices}
 
-Asfor the RASD (section 2: Overall Description), the system is be divided into four parts:
+As for the RASD (section 2: Overall Description), the system is be divided into four parts:
 \begin{itemize}[noitemsep]
 	\item the \textbf{customer's app}, used by customers to access the service.
 	\item the \textbf{main server}, a centralized backend that provides the service.
@@ -808,16 +795,16 @@ Up to this point we defined the logical components of the system in terms of imp
 
 \begin{description}
 	\item[USER\_MANAGER] \hfill \\
-	Considering that all its three functions are exposed as API by the server to the apps, the component is deployed on the server entirely.
+	Considering that all its five functionalities are exposed as API by the server to the apps, the component is deployed on the server entirely.
 		
-	\item[LOCATION] \hfill \\
-	Considering that all its three functions are exposed as API by the server, the component is deployed on the server entirely.
+	\item[GEOLOCATION] \hfill \\
+	Considering that all its four functionalities are exposed as API by the server, the component is deployed on the server entirely.
 
 	\item[POSITION] \hfill \\
-	Considering that all its three functions are exposed as API by the server, the component is deployed on the server entirely. {\color{red} {Define this better}}
+	This component need the partecipation of both the user and the car. Thus the component is deployed in all three nodes: the user app, the car and the main server. On the main server act as coordinator and cache.
 	
 	\item[BOOKING\_MANAGER] \hfill \\
-	Considering that all its three functions are exposed as API by the server, the component is deployed on the server entirely. {\color{red} {What about EXPIRE?}}
+	Considering that all its three functions are exposed as API by the server, the component is deployed on the server entirely.
 	
 	\item[CAR\_MANAGER] \hfill \\
 	This component requires a deeper analysis, as its interfaces are exposed by different elements. In details:
@@ -849,12 +836,24 @@ Thus we create two CAR\_MANAGER subcomponents:
 		\end{itemize}
 	%\end{description}
 
+	\item[RIDE\_MANAGER] \hfill \\
+	Considering that all its three functionalities are exposed as API by the server to the customer's apps, the component is deployed on the server entirely.
+
 	\item[BILLING\_SYSTEM] \hfill \\
-	Considering that all its three functions are exposed as API by the server to the customer's apps, the component is deployed on the server entirely. {\color{red} {Recheck PAY : is it on server or on the app?}}
+	Considering that all its four functionalities are exposed as API by the server to the customer's apps, the component is deployed on the server entirely. 
 
 	\item[ISSUE\_MANAGER] \hfill \\
-	Considering that all its three functions are exposed as API by the server to the customer's apps, the component is deployed on the server entirely. \\
+	Considering that all its four functionalities are exposed as API by the server to the customer's apps, the component is deployed on the server entirely. \\
 	Indeed, ISSUE/Solve involves an interface that is exposed by the car: thus we define another subcomponent, \textbf{VALIDATE\_SOLVE}, to be deployed on the car to fulfill this function.
+
+	\item[NOTIFIER] \hfill \\
+	Considering that its functionality is exposed by the user app, this component is deployed entirely on the user app.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.88\textwidth]{UML/Deploy.png}
+	\caption{Graphical visualization of the abstract components needed.}
+\end{figure}	
 
 
 \end{description}
@@ -940,11 +939,6 @@ In the above diagram we can see how the process of managing issues is carried on
 The process share more or less the same workflow as the booking and unlock process for customers, plus some steps related specifically to issues.
 
 It is evident how these additional steps are all managed by Issue\_Manager alone, as to highlight the single, coherent responsibility we assigned to components.
-
-
-
-
-
 
 
 \subsection{Selected Technologies}
