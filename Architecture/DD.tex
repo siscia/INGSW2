@@ -200,12 +200,17 @@ The next section will show the uses cases.
 
 In this part of the document we analyze Goals as defined in RASD, in order to list and describe in detail which interactions betwen the world and the machine will be performed and how to provide them. 
 
-These are named \textbf{SB/FunctionalityName} in order to highlight that these functions are related to the system's boundaries. We are not designing the actual user interface: a deeper and detailed design of the UI is carried out in section 4: User Interfaces.
+These are named \textbf{SB/FunctionalityName} in order to highlight that these functions are related to the system's boundaries. Indeed we know already that some goals are specific for customers, some are specific for the staff operators, and some are shared. In order to highlight this difference, we decided to enforce the following naming schema:
+\begin{itemize}[noitemsep]
+	\item \textbf{SB/ALL/FunctionalityName} for shared functionalities
+	\item \textbf{SB/CUST/FunctionalityName} for customer's reserved functionalities
+	\item \textbf{SB/STAFF/FunctionalityName} for staff's reserved functionalities
+\end{itemize}
 
 Many of the following use cases requires some specific funcionalities to be provided by the backend. These are highlighted and named \textbf{Sy/FunctionalityName}, where ``Sy`` indicate an abstract system that we are going to model in detail in the next paragraphs.
 
 \begin{description}
-	\item[SB/Registration] \hfill
+	\item[SB/ALL/Registration] \hfill
 	\begin{description}
 		\item[Description] Users can register to the system.
 		\item[Requires] \hfill
@@ -214,7 +219,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/Validate %$\Leftrightarrow$ USER/Validate
 		\end{itemize}
 	\end{description}
-	\item[SB/Login] \hfill
+	\item[SB/ALL/Login] \hfill
 	\begin{description}
 		\item[Description] Users can log into the system providing their email and password and logout from the system.
 		\item[Requires] \hfill
@@ -223,7 +228,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/Logout
 		\end{itemize}
 	\end{description}
-	\item[SB/Lookup] \hfill
+	\item[SB/CUST/Lookup] \hfill
 	\begin{description}
 		\item[Description] Users can look for cars near them or near a specific position and range.
 		\item[Requires] \hfill
@@ -232,7 +237,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/PositionUser %$\Leftrightarrow$ POSITION/User
 		\end{itemize}
 	\end{description}
-	\item[SB/Book] \hfill
+	\item[SB/CUST/Book] \hfill
 	\begin{description}
 		\item[Description] Users can book cars to use within the next hour.
 		\item[Requires] \hfill
@@ -240,7 +245,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/Book %$\Leftrightarrow$ BOOKING/Book
 		\end{itemize}
 	\end{description}
-	\item[SB/Unbook] \hfill
+	\item[SB/CUST/Unbook] \hfill
 	\begin{description}
 		\item[Description] Users can remove a previously made reservation.
 		\item[Requires] \hfill
@@ -248,7 +253,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/Unbook %$\Leftrightarrow$ BOOKING/Unbook
 		\end{itemize}
 	\end{description}
-	\item[SB/Unlock] \hfill
+	\item[SB/ALL/Unlock] \hfill
 	\begin{description}
 		\item[Description] Users can unlock a nearby car that was previously booked.
 		\item[Requires] \hfill
@@ -258,7 +263,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/Unlock %$\Leftrightarrow$ CAR/Unlock
 		\end{itemize}
 	\end{description}
-	\item[SB/Ride] \hfill
+	\item[SB/CUST/Ride] \hfill
 	\begin{description}
 		\item[Description] Users can ride a reserved car.
 		\item[Requires] \hfill
@@ -270,7 +275,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/Lock %$\Leftrightarrow$ CAR/Lock
 		\end{itemize}
 	\end{description}
-	\item[SB/SafeAreas] \hfill
+	\item[SB/ALL/SafeAreas] \hfill
 	\begin{description}
 		\item[Description] Users can locate safe parking areas while driving.
 		\item[Requires] \hfill
@@ -278,7 +283,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/GeoLocationAreas %$\Leftrightarrow$ GEOLOCATION/Areas
 		\end{itemize}
 	\end{description}
-	\item[SB/UnsafeParking] \hfill
+	\item[SB/CUST/UnsafeParking] \hfill
 	\begin{description}
 		\item[Description] The system reacts to unsafe parking. It first tells users they are going to be fined if they leave the car unsafely parked, then it fines users who leaves the car in an unsafe area.
 		\item[Requires] \hfill
@@ -289,7 +294,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/UnsafeParkFine
 		\end{itemize}
 	\end{description}
-	\item[SB/PowerStation] \hfill
+	\item[SB/ALL/PowerStation] \hfill
 	\begin{description}
 		\item[Description] Users can locate and use charging station.
 		\item[Requires] \hfill
@@ -299,7 +304,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/CarPluggedNotification %$\Leftrightarrow$ NOTIFY/CarPlugged
 		\end{itemize}
 	\end{description}
-	\item[SB/Charge] \hfill
+	\item[SB/CUST/Charge] \hfill
 	\begin{description}
 		\item[Description] Users are charged a fee at the end of the ride or if a reservation expires.
 		\item[Requires] \hfill
@@ -311,7 +316,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/CalculateExpireBookFee
 		\end{itemize}
 	\end{description}
-	\item[SB/Payment] \hfill
+	\item[SB/CUST/Payment] \hfill
 	\begin{description}
 		\item[Description] Users can pay bills through the app and set their default payment method.
 		\item[Requires] \hfill
@@ -320,7 +325,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/SetPaymentMethod %$\Leftrightarrow$ USER/SetPaymentMethod
 		\end{itemize}
 	\end{description}
-	\item[SB/ReportIssues] \hfill
+	\item[SB/ALL/ReportIssues] \hfill
 	\begin{description}
 		\item[Description] Users can report issues to the system.
 		\item[Requires] \hfill
@@ -328,7 +333,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/ReportIssue %$\Leftrightarrow$ ISSUE/New
 		\end{itemize}
 	\end{description}
-	\item[SB/FindIssues] \hfill
+	\item[SB/STAFF/FindIssues] \hfill
 	\begin{description}
 		\item[Description] The staff can locate cars that need their intervention.
 		\item[Requires] \hfill
@@ -336,7 +341,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 			\item Sy/GeoLocationIssues %$\Leftrightarrow$ GEOLOCATION/Issues
 		\end{itemize}
 	\end{description}
-	\item[SB/Support] \hfill
+	\item[SB/STAFF/Support] \hfill
 	\begin{description}
 		\item[Description] The staff can identify and solve car’s issues.
 		\item[Requires] \hfill
@@ -353,8 +358,7 @@ Many of the following use cases requires some specific funcionalities to be prov
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{UML/UI
-.png}
+	\includegraphics[width=0.6\textwidth]{UML/UI.png}
 	\caption{Graphical visulaization of the UI divided by tipology of users.}
 \end{figure}	
 
@@ -470,6 +474,12 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 			\item[Input] The ID of the car.
 			\item[Output] The coordinates of the car.
 		\end{description}
+	\item[POSITION/User $\Leftrightarrow$ Sy/PositionUser] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieves the position of an user.
+			\item[Input] The ID of the user.
+			\item[Output] The coordinates of the user.
+		\end{description}
 	\item[POSITION/Areas] \hfill
 		\begin{description}[noitemsep]
 			\item[Responsability]Retrieves the position of an area of interest.
@@ -529,7 +539,7 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 			\item[
 Output] The car is turned off.
 		\end{description}
-	\item[CAR/Telemetry $\Leftrightarrow$ \{ Sy/Plugged \}] \hfill
+	\item[CAR/Telemetry] \hfill
 		\begin{description}[noitemsep]
 			\item[Responsability] Retrieves real-time, updated informations about a car.
 			\item[Input] The ID of the car.
