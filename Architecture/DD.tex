@@ -202,9 +202,9 @@ In this part of the document we analyze Goals as defined in RASD, in order to li
 
 These are named \textbf{SB/FunctionalityName} in order to highlight that these functions are related to the system's boundaries. Indeed we know already that some goals are specific for customers, some are specific for the staff operators, and some are shared. In order to highlight this difference, we decided to enforce the following naming schema:
 \begin{itemize}[noitemsep]
-	\item \textbf{SB/ALL/FunctionalityName} for shared functionalities
-	\item \textbf{SB/CUST/FunctionalityName} for customer's reserved functionalities
-	\item \textbf{SB/STAFF/FunctionalityName} for staff's reserved functionalities
+	\item SB/ALL/FunctionalityName for shared functionalities
+	\item SB/CUST/FunctionalityName for customer's reserved functionalities
+	\item SB/STAFF/FunctionalityName for staff's reserved functionalities
 \end{itemize}
 
 Many of the following use cases requires some specific funcionalities to be provided by the backend. These are highlighted and named \textbf{Sy/FunctionalityName}, where ``Sy`` indicate an abstract system that we are going to model in detail in the next paragraphs.
@@ -671,12 +671,14 @@ In this part of the design we made several choice where alternative approach may
 
 To notify the user about something we could have use several strategies. In a static world, where the product doesn't change, all of the choice are equivalent. However if we put ourselves in the situation of  dynamic world where the need of the software always evolves our choice makes more sense.
 
+We evaluated other options for the notifier, like:
+
 \begin{enumerate}
-	\item Each component that needed to notify the user could have its own NOTIFIER (eg. instead of NOTIFY/Notify we could have something like CAR/NotifyUnsafePark), indeed as more component will need to notify the user more and more different version of the same functionality risk to be reimplemented in different part of the code base, a problem we would like to avoid.
-	\item Each type of notification could have its own functionality (eg. instead of NOTIFY/Notify and as input a notifiaction about an UnsafePark we could have something like NOTIFY/UnsafePark). We believe that this choice would make the overall developing time too slow, since a new functionality would have to be implemented for every and each type of notification we want to send.
+	\item Each component that needed to notify the user could have its own NOTIFIER (eg. instead of NOTIFY/Notify we could have something like CAR/NotifyUnsafePark). Indeed as more components need to notify the user, more and more different version of the same functionality may be reimplemented in different part of the code base, a problem we would like to avoid.
+	\item Each type of notification could have its own functionality (eg., instead of NOTIFY/Notify taking in input a notification about an UnsafeParking, we could have had something like NOTIFY/UnsafePark). We believe this choice would make the overall developing time too slow, since a new functionality would have to be implemented for every and each type of notification we want to send.
 \end{enumerate}
 
-Overall we believe that our choice allow very fast development cycles while maintaining an high decouple between the components.
+However, we believe that our choice allow very fast development cycles while maintaining an high decouple between the components.
 
 \subsection{From Abstract Components to Physical Nodes}
 
@@ -762,6 +764,12 @@ Now we list the design choices we made, first of all, to enforce the architectur
 We decide to completely avoid all kinds of communication between the cars and the apps. 
 
  The main server is always an intermediary for app-to-car and car-to-app communications, in order for the system to have always full control on these otherwhise completely hidden interactions.
+
+\subsubsection{Car's GUI role}
+For reasons very similar to the above ones, we decided to model a non-interactive GUI for cars: that is, cars use their GUI to show informations to drivers, but drivers cannot use the same GUI to communicate with the car or with the main server.
+
+All interactions between users and cars are recorded by car's sensors (for example, the scanned licence, the driver plugging the car, the driver entering or exiting, etc.) and are interpreted by the server as car's related events. From the server's point of view, users never interact with cars autonomously.
+
 
 \subsubsection{Interactions with 3rd-parties}
 We decided to prevent any access to third-part services to every component but the main server, mainly for security reasons.
