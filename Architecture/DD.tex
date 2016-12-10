@@ -14,6 +14,7 @@
 \usepackage{color} % to color text
 \usepackage{enumitem} % for lists
 \usepackage{subfigure} % for mockups
+\usepackage[font={it}]{caption} % for captions
 
 %%% Examples of Article customizations
 % These packages are optional, depending whether you want the features they provide.
@@ -363,11 +364,11 @@ Many of the following use cases requires some specific funcionalities to be prov
 \end{figure}	
 
 
-\subsection{Components Design}
+\subsection{Interfaces Design}
 
-Now we gather all the functionalities we just described and we organize them into higher-level components, being careful at respecting the responsibilities given to each one of them.
+Now we gather all the functionalities we just described and we organize them into higher-level interfaces, being careful at respecting the responsibilities given to each one of them.
 
-In order to clarify how previously defined ``Sy/FunctionalityName`` maps with the component's specific functions, we used a notation \textbf{COMPONENT/FuncionalityName $\Leftrightarrow$ Sy/FunctionalityName}. The functionality name can vary, according to the context.
+In order to clarify how previously defined ``Sy/FunctionalityName`` maps with the interface's specific functions, we used a notation \textbf{INTERFACE/FuncionalityName $\Leftrightarrow$ Sy/FunctionalityName}. The functionality name can vary, according to the context.
 
 \begin{description}
 	\item[USER\_MANAGER] \hfill
@@ -655,88 +656,45 @@ Output] The car is turned off.
 
 
 {\color{blue} { Qui un Components View simile a quello a pagina 8 dell'esempio... possibilmente con un font un po' piu' grande che nell'esempio. \\ Non so bene se qui o in fondo alla sezione successiva. }}
+\\
 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1.1\textwidth]{UML/InterfaceDiagram.png}
-	\caption{Graphical visualization of the interfaces identified above.}
-\end{figure}	
-
-\subsubsection{Motivations}
-
-In this part of the design we made several choice where alternative approach may have been onsidered as well; we are going to motivate some of those choices.
+In this part of the design we made some choices where alternative approach may have been considered as well. We now motivate some of those choices.
 
 \subsubsection{Notifier}
 
-To notify the user about something we could have use several strategies. In a static world, where the product doesn't change, all of the choice are equivalent. However if we put ourselves in the situation of  dynamic world where the need of the software always evolves our choice makes more sense.
+To make the user able to receive notification from server we could use several strategies. In a static world, where the product doesn't change, all of the choice are equivalent. However, if we put ourselves in a dynamic situation where the goals and requirements of the software evolve, our choice are more critical and must be justified.
 
-We evaluated other options for the notifier, like:
+Before deciding for an isolated component responsible only to forward a notification to the user, we evaluated other options for the notifier:
 
 \begin{enumerate}
-	\item Each component that needed to notify the user could have its own NOTIFIER (eg. instead of NOTIFY/Notify we could have something like CAR/NotifyUnsafePark). Indeed as more components need to notify the user, more and more different version of the same functionality may be reimplemented in different part of the code base, a problem we would like to avoid.
-	\item Each type of notification could have its own functionality (eg., instead of NOTIFY/Notify taking in input a notification about an UnsafeParking, we could have had something like NOTIFY/UnsafePark). We believe this choice would make the overall developing time too slow, since a new functionality would have to be implemented for every and each type of notification we want to send.
+	\item Each component could have its own NOTIFIER: eg. instead of NOTIFY/Notify(Notification) we could have something like CAR/NotifyUnsafePark(). Indeed, as more components need to notify the user, more and more different versions of the same functionality will probably be reimplemented in different part of the code base: a problem we would like to avoid.
+	\item Each kind of notification could have its own function: eg. instead of NOTIFY/Notify(Notification) we could have something like NOTIFY/UnsafePark(). We believe this choice would make the overall developing time too slow, since every new functionality which requires a notification would have to be implemented into NOTIFY, making it unstable.
 \end{enumerate}
 
-However, we believe that our choice allow very fast development cycles while maintaining an high decouple between the components.
+We believe that our choice allows a very fast development cycles while maintaining an high decoupling between different components.
 
-\subsection{From Abstract Components to Physical Nodes}
 
-After we have identify the abstract components that, together, provide the functionalities of our project we are going to makes those components real.
 
-In order to actually implements the components we - first - need to know where those components will be deployed and the form of comunication between and intra them.
 
-In the next sub section we are going to explain what physical nodes will compose our system.
+\subsection{Communication Design}
+
+Once we have identified the abstract interfaces that, together, provide the functionalities of our system, we are going to design the components which implements them.
+
+In order to actually implements the components we first need to know where those components are deployed, and the form of comunication used between or inside them.
 
 \subsubsection{Physical structure}
-
-Overall there are 3 main identifiable nodes in our system:
-\begin{itemize}
-	\item Main Server
-	\item Car Onboard system
-	\item User interface (App, web site, etc...)
-\end{itemize}
-
-We have refer to the User Interface as App throught the whole document and we will keep such terminology for sake of clarity, however, must be clear that a whole spectrum of technologies could be used to actually implement the user Interface, not only mobile application.
-
-Also, for the scope of this analysis we often consider the customer's app and the staff's app as a single entity, called simply ``app''.
-
-
-\subsection{Communication between nodes}
-
-Now that our nodes are defined we need to understand the comunication between them.
-
-It would have been possible to make each node comunicate with each other node, however this raise some concern about the security of the system, especially for the communication between the users and the cars. Of course a well done, and a well tested system should not raise these concerns, however real word engineering is constrained, and the authors believe that a more defensive and conservative approach is more suitable.
-
-Following these consideration we decided that would be more maneagable to have only two communication channel, one between the main server and the user, and another between the main server and the cars. 
-
-\subsubsection{Actual channel implementation}
-
-The communication between the main server and the user will employ a simple Client-Server approach which seems to naturally fit the domain space, it is a well know industry standard and is widely used.
-
-On the other hand, communications between the server and the fleet is clearly more suitable for a \textbf{Publisher-Subscriber} pattern. The car has to communicate very often a lot of valuable information to the main servet, and a PubSub pattern achieves high troughput and low latency. Even if the Pub-Sub pattern may not be so widely used and know, our experience suggested that the trade-off is well worth.
-
-\subsection{Actual deploy of components into nodes}
-
-Now that we have identify the components that we need to deploy, the nodes where those components can be deployed and the communication mechanism between the nodes we are ready to actually decide where to put each component.
-
-Most of the functionality will be invoked by the user, however, logically, the component will reside on the main server.
-
-Some component will be shared between the main server and the user or the car or both.
-
-
-
-\subsection{Main Design Choices}
 
 As for the RASD (section 2: Overall Description), the system is be divided into four parts:
 \begin{itemize}[noitemsep]
 	\item the \textbf{customer's app}, used by customers to access the service.
+	\item the \textbf{staff's app}, used exclusively by the staff members to better organize their job.
 	\item the \textbf{main server}, a centralized backend that provides the service.
 	\item the \textbf{cars’ onboard system}, that communicates only with the centralized backend.
-	\item the \textbf{staff's app}, used exclusively by the staff members to better organize their job.
 \end{itemize}
 
-For the scope of this analysis we often consider the customer's app and the staff's app as a single entity, called simply ``app``.
+As said in the RASD, also in this Design Document we are using the term ``App`` to refer to a User Interface deployed on a smartphone, and we will keep such terminology for sake of clarity. However it must be clear that a whole spectrum of technologies could be used to actually implement the user Interface, not only mobile application.
+
+Also, for the scope of this analysis we often consider the customer's app and the staff's app as a single entity, called simply ``app''.
 
 At a first glance, the above elements can be organized in a two-tier Client-Server architecture as follows:
 \begin{itemize}[noitemsep]
@@ -745,72 +703,86 @@ At a first glance, the above elements can be organized in a two-tier Client-Serv
 \end{itemize}
 From now on, we design the system basing on these fundamentals elements, defining their roles and interactions.
 
-Now we list the design choices we made, first of all, to enforce the architecture identified above. 
 
-\subsubsection{Car to app communication}
+\end{description}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{UML/HighLevelComponents.png}
+	\caption{Higher level components of the system}
+\end{figure}	
+
+
+\subsubsection{Communication Strategy}
+
+Now that our nodes are defined, we need to design the comunication protocols between them.
+
+It would have been possible to make each node comunicate with each other node: however this approach raises some concerns about the security of the system, especially for the communication between the users and the cars (see below). 
+
+Of course a well done, and a well tested system should not raise these concerns, however real word engineering is constrained and the authors believe that a more defensive and conservative approach is more suitable.
+
+Following these consideration we decided that would be more maneagable to have only two communication channels:
+\begin{itemize}[noitemsep]
+	\item one between the main server and the user apps;
+	\item another one between the main server and the cars.
+\end{itemize}
+
 We decide to completely avoid all kinds of communication between the cars and the apps. 
 
- The main server is always an intermediary for app-to-car and car-to-app communications, in order for the system to have always full control on these otherwhise completely hidden interactions.
-
-\subsubsection{Car's GUI role}
-For reasons very similar to the above ones, we decided to model a non-interactive GUI for cars: that is, cars use their GUI to show informations to drivers, but drivers cannot use the same GUI to communicate with the car or with the main server.
-
-All interactions between users and cars are recorded by car's sensors (for example, the scanned licence, the driver plugging the car, the driver entering or exiting, etc.) and are interpreted by the server as car's related events. From the server's point of view, users never interact with cars autonomously.
-
+The main server always acts as an intermediary for app-to-car and car-to-app communications, in order for the system to have full control on these otherwhise completely hidden interactions.
 
 \subsubsection{Interactions with 3rd-parties}
 We decided to prevent any access to third-part services to every component but the main server, mainly for security reasons.
 
-The main server will expose the necessary API to apps and cars to allow them retrieving all the informations they need without having them communicating indipendently with any external service.
+The main server will expose the necessary APIs to apps and cars to allow them retrieving all the informations they need without having them communicating indipendently with any external service.
 
-\subsubsection{Communication protocols}
-More specific choices has been made on the communication protocols too.
+\subsubsection{Communication Protocols}
 
-A pure \textbf{Client-Server} communication protocol is implemented only for server-to-app and app-to-server communications, as they seem to naturally fit this model.
+The communication between the main server and the user will employ a simple \textbf{Client-Server} approach which seems to naturally fit the domain space, it is a well know industry standard and is widely used.
 
-On the other hand, communications between the server and the fleet is clearly more suitable for a \textbf{Publisher-Subscriber} pattern. The car has to communicate very often a lot of valuable information to the main servet, and a PubSub pattern achieves high troughput and low latency.
- 
-To describe the communication approach in terms of the protocol itself, the car publishes messages about it own status and the server subscribes to those messages. The server is meant to host brokers too.
+On the other hand, communications between the server and the fleet is clearly more suitable for a \textbf{Publisher-Subscriber} pattern. The car has to communicate very often a lot of valuable information to the main server, and a PubSub pattern achieves high troughput and low latency. Even if the Pub-Sub pattern may not be so widely used and know, our experience suggested that the trade-off is well worth.
 
 Moreover, we decided to model the most part of external services as Web services, so the server will communicate with them using a \textbf{Service-Oriented} approach.
-
-\hfill\
-
-Here we provide a high-level diagram of the system and some proposed technologies that we will discuss in the last sections of  the document.
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{proposed_system.png}
-	\caption{High-level organization of the system's required elements}
+	\caption{Communication design of the process (anticipating some technology choices we are going to justify in next sections).}
 \end{figure}
 
 
 
 
-\subsection{High-Level Architecture}
 
-Up to this point we defined the logical components of the system in terms of implemented interfaces. We now proceed deploying them on the nodes identified in the first section of the analysis in order to end up with a complete, high-level logical architecture for our system.
 
+
+\subsection{Components Design}
+
+Up to this point we defined the logical components of the system in terms of interfaces and communication protocols. We now proceed deploying them on the physical nodes identified above in order to end up with a complete, high-level logical architecture for our system.
 
 \begin{description}
 	\item[USER\_MANAGER] \hfill \\
-	Considering that all its five functionalities are exposed as API by the server to the apps, the component is deployed on the server entirely.
+	Considering that all its functionalities are exposed as API by the server to the apps, the component is deployed on the server entirely.
 		
 	\item[GEOLOCATION] \hfill \\
-	Considering that all its four functionalities are exposed as API by the server, the component is deployed on the server entirely.
+	Considering that all its functionalities are exposed as API by the server, the component is deployed on the server entirely.
 
 	\item[POSITION] \hfill \\
-	This component need the partecipation of both the user and the car. Thus the component is deployed in all three nodes: the user app, the car and the main server. On the main server act as coordinator and cache.
+	This component need the partecipation of both users and cars. Thus the component is deployed on all the three nodes:  user apps, cars and the main server.
+	\begin{description}
+		\item[POSITION/Users] is deployed as \textbf{USER\_POSITION} on the user apps.
+		\item[POSITION/Cars] is deployed as \textbf{CAR\_POSITION} on the cars.
+		\item[POSITION/Areas] is deployed as \textbf{COORDINATOR} on the main server, as it acts as a dispatcher for all incomig requests, keeps a cache of the retrieved data, and so on.
+	\end{description}
 	
 	\item[BOOKING\_MANAGER] \hfill \\
-	Considering that all its three functions are exposed as API by the server, the component is deployed on the server entirely.
+	Considering that all its functionalities are exposed as API by the server, the component is deployed on the server entirely.
 	
 	\item[CAR\_MANAGER] \hfill \\
 	This component requires a deeper analysis, as its interfaces are exposed by different elements. In details:
 	\begin{itemize}
 		\item CAR/Unlock is exposed by Server to Apps
-		\item CAR/Rides is exposed by Server to Apps
+		\item CAR/GetDetails is exposed by Cars to Server
 		\item CAR/ValidateLicense is exposed by Server to Cars
 		\item CAR/Lock is exposed by Cars to Server
 		\item CAR/TurnOff is exposed by Cars to Server
@@ -824,7 +796,7 @@ Thus we create two CAR\_MANAGER subcomponents:
 		\item[REMOTE\_CAR\_MANAGER] \hfill \\ Comprises all the functions exposed by the server:
 		\begin{itemize}
 			\item CAR/Unlock
-			\item CAR/Rides
+			\item CAR/GetDetails
 			\item CAR/ValidateLicense
 		\end{itemize}
 		\item[LOCAL\_CAR\_MANAGER] \hfill \\ Comprises all the functions exposed by the cars:
@@ -837,13 +809,13 @@ Thus we create two CAR\_MANAGER subcomponents:
 	%\end{description}
 
 	\item[RIDE\_MANAGER] \hfill \\
-	Considering that all its three functionalities are exposed as API by the server to the customer's apps, the component is deployed on the server entirely.
+	Considering that all its functionalities are exposed as API by the server to the customer's apps, the component is deployed on the server entirely.
 
 	\item[BILLING\_SYSTEM] \hfill \\
-	Considering that all its four functionalities are exposed as API by the server to the customer's apps, the component is deployed on the server entirely. 
+	Considering that all its functionalities are exposed as API by the server to the customer's apps, the component is deployed on the server entirely. 
 
 	\item[ISSUE\_MANAGER] \hfill \\
-	Considering that all its four functionalities are exposed as API by the server to the customer's apps, the component is deployed on the server entirely. \\
+	Considering that all its functionalities are exposed as API by the server to the customer's apps, the component is deployed on the server entirely. \\
 	Indeed, ISSUE/Solve involves an interface that is exposed by the car: thus we define another subcomponent, \textbf{VALIDATE\_SOLVE}, to be deployed on the car to fulfill this function.
 
 	\item[NOTIFIER] \hfill \\
@@ -855,21 +827,15 @@ Thus we create two CAR\_MANAGER subcomponents:
 	\caption{Graphical visualization of the abstract components needed.}
 \end{figure}	
 
-
-\end{description}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{UML/HighLevelComponents.png}
-	\caption{Higher level components of the system}
+	\includegraphics[width=1.1\textwidth]{UML/InterfaceDiagram.png}
+	\caption{Diagram od the interfaces identified above.}
 \end{figure}	
 
 
-\subsection{Deployement View}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{UML/DeployementView.png}
-	\caption{Deployement View of the system}
-\end{figure}	
+
+
 
 \subsection{Runtime View}
 
@@ -941,6 +907,18 @@ The process share more or less the same workflow as the booking and unlock proce
 It is evident how these additional steps are all managed by Issue\_Manager alone, as to highlight the single, coherent responsibility we assigned to components.
 
 
+\subsection{Deployement View}
+
+In order to better understand the technology we chosed to design this deployment diagram, refer to section 2.8: Selected Technologies
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{UML/DeployementView.png}
+	\caption{Deployement View of the system}
+\end{figure}
+
+
+
 \subsection{Selected Technologies}
 
 Having defined the interface between the several functionality provided by the components, all possible communication technologies may have been choosen. Obviously some choices are more apt than others with the respect of latency, throughput, elegance of the design and other factors; however the whole design will remain intact whichever technology we choose.
@@ -959,7 +937,11 @@ As for now, most of the communication between the server and the car will happen
 
  Between all the implementation of the PubSub protocol we chose to use MQTT for its low overhead, its QoS and because it is widely used in the industry.
 
-\subsubsection{Distributing the main server}
+\subsubsection{Nginx}
+
+We decided to use Nginx on the main server instead of a more common Apache server. This choice has been made with care, because Apaceh is surely a more widely used standard for running servers, whereas Nginx is a younger, less used solution. 
+
+Indeed, considering our server is going to handle a lot of parallel operations, we chose a software designed exactly to tackle this issue better than standard Apache-based solutions.
 
 {\color{red} {what about this?}}
 
