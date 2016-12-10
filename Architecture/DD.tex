@@ -180,14 +180,21 @@ The overall design process has been carried in a bottom-up approach, starting fr
 
 The overall design process starts from the analysis of the goals. 
 
-Taking forward the considerations made in the RASD, we analyse the interface between the world and the machine: given the list of goals and requirements, we identify what interfaces each node should provide to the world and to other nodes in order to accomplish such goals.
+Taking forward the considerations made in the RASD, we analyse the interface between the world and the machine: given the list of goals and requirements, we identify what interfaces the system need to provide to the users.
+If those interfaces would have been alreay implemented our work would have been completed, however such is not the case, and those interfaces require some functionalities.
 
-Once the interfaces are identified, we proceed organizing those interfaces into higher-level components, caring at respecting the Single Responsability principle in order to provide highly decoupled and reusable components.
+Once all the necessary functionalities have been identified we organize them into high-level components taking care to respect the ``Single Responsability'' principle in order to provide highly decoupled and reusable components.
+Again, if those functionalities were already working our works would have been done, however these components need to be actually implemented and deployed into physical machines.
 
-Once components have been defined, we organize them into an high level architecture and proceed deploying them on the physical nodes of the system. Then we define in detail how they interact with the help of some Sequence Diagrams.
+At this point we proceed to identify the physical nodes of our system and where our components should be deployed in order to fullfil their functionalities. We also analyze what comunication mechanism to use between the node.
+
+Finally we proceed to deploy the components into the physical node.
+
+To double check the correctness of the overall design we produce several sequence diagram showing for the uses cases what functionality is involved and what functionality is called.
 
 The rest of this section follows this flow, starting from the goals analysis and finally providing the overall design.
 
+The next section will show the uses cases.
 
 \subsection{Goals Analysis}
 
@@ -811,7 +818,6 @@ Thus we create two CAR\_MANAGER subcomponents:
 	Indeed, ISSUE/Solve involves an interface that is exposed by the car: thus we define another subcomponent, \textbf{VALIDATE\_SOLVE}, to be deployed on the car to fulfill this function.
 
 
-	\end{description}
 \end{description}
 \begin{figure}[H]
 	\centering
