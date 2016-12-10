@@ -883,6 +883,24 @@ If not, a series of operations are performed. First, a notification is sent to C
 Otherwhise, the system waits for the car to get locked. Once the locking requests arrives, first the ride is ended with a call to Ride\_Manager/endRide( IDRide ) and the car is locked. Then the regular fee is calculated and the payment issued.
 
 
+\subsubsection{Issue Management}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9
+\textwidth]{UML/DDSequenceDiagramIssue.png}
+	\caption{Sequence Diagram for the Issue Management process for staff operators.}
+\end{figure}
+
+In the above diagram we can see how the process of managing issues is carried on by staff operators.
+
+The process share more or less the same workflow as the booking and unlock process for customers, plus some steps related specifically to issues.
+
+It is evident how these additional steps are all managed by Issue\_Manager alone, as to highlight the single, coherent responsibility we assigned to components.
+
+
+
+
+
 
 \subsection{Selected Technologies}
 
