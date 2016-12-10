@@ -469,7 +469,7 @@ We analyze the goals that the application should fullfill, then moving on explic
  	\item[LOOKUP] Users can find cars nearby a given position, according to their search settings.
  	\item[BOOK] Users can book a car for a short amount of time.
  	\item[UNBOOK] Users can decide to cancel a booking made before the expiration.
- 	\item[UNLOCK] Users can unlock the car they booked.
+ 	\item[UNLOCK] Users can unlock the car they booked once they are near it.
 	\item[RIDE] Users can drive to their destination.
 	\item[SAFE\_AREAS] Users can locate safe parking areas.
 	\item[UNSAFE\_PARKING] The system must react to an unsafe parking.
@@ -538,6 +538,7 @@ We are deriving our functional requirements from the goals we listed in the prev
 	\item[UNLK3] The system must unlock the correct car remotely.
 	\item[UNLK4] The system must notify the user their car has been unlocked.
 	\item[UNLK5] The system must change automatically the status of the car from Booked to Unlocked when a car is unlocked.
+	\item[UNLK6] The system is able to determine if a user is near a car.
 	\end{description}
 
 	\item[RIDE] Users can drive to their destination.
@@ -830,6 +831,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 	\item[Entry Conditions:] The user logged in and has booked a car, but not yet unlocked it.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
+		\item Get near the booked car.
 		\item Press the Unlock button on the Booking Page of the app.
 		\item The system unlocks the car.
 		\item The system changes the status of the car from Booked to Unlocked.
@@ -843,7 +845,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 \hfill\
 
 \begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
-	\item[Name:] \textbf{Drive unlocked cars}
+	\item[Name:] \textbf{Drive cars}
 	\item[Actors Involved:] A user who unlocked a car, the unlocked car.
 	\item[Entry Conditions:] The user logged in and has unlocked its car.
 	\item[Flow Of Events:] \hfill\
@@ -940,6 +942,7 @@ Once near the car, Harry plugs the car to his portable charging station and char
 	\item[Entry Conditions:] The operator is logged in and took an issue in charge.
 	\item[Flow Of Events:] \hfill\
 	\begin{itemize}
+		\item Get near the issued car.
 		\item Press the Unlock button on the app's interface.
 		\item The system unlocks the selected car.
 	\end{itemize}
