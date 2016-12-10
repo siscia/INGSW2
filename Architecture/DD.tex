@@ -451,6 +451,14 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 			\end{itemize}
 			\item[Output] A set of cars with issues matching the search parameters inside the circle of radius provided centered on the coordinates provided.
 		\end{description}
+		
+	\item[GEOLOCATION/IsSafeArea $\Leftrightarrow$ Sy/GeoLocationIssues] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Given the coordinates check if those coordinates are inside a safe area.
+			\item[Input] Coordinates.
+			\item[Output] A boolean indicating if the coordinates are inside a safe area.
+		\end{description}
+		
 	\end{description}
 
 	\item[POSITION] \hfill
