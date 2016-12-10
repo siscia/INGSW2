@@ -216,10 +216,11 @@ As we are going to see, many use cases require some specific funcionalities to b
 	\end{description}
 	\item[UI/Login] \hfill
 	\begin{description}
-		\item[Description] Users can log into the system providing their email and password.
+		\item[Description] Users can log into the system providing their email and password and logout from the system.
 		\item[Requires] \hfill
 		\begin{itemize}
 			\item Sy/Login %$\Leftrightarrow$ USER/Login
+			\item Sy/Logout
 		\end{itemize}
 	\end{description}
 	\item[UI/Lookup] \hfill
@@ -401,6 +402,12 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 			\item[Responsability] Allows users to log into the system.
 			\item[Input] Email (considered a unique user ID) and password.
 			\item[Output] A session key, meaning that the user is logged into the system.
+		\end{description}
+	\item[USER/Logout $\Leftrightarrow$ Sy/Login] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Allows users to logout the system.
+			\item[Input] The login session key.
+			\item[Output] The session key is invalidated. 
 		\end{description}
 	\item[USER/SetPaymentMethod $\Leftrightarrow$ Sy/SetPaymentMethod] \hfill
 		\begin{description}[noitemsep]
