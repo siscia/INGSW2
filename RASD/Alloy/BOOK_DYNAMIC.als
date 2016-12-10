@@ -37,6 +37,10 @@ fun BookableCar[]: Car {
 	{c : Car | c.status = Available}
 }
 
+fun PossibleToRemovePrenotationCars[u: User]: Car {
+	{c: Car | c.status = Booked and c in u.car}
+}
+
 fun UnlockableCar[u: User]: Car {
 	{c: Car | c.status = Booked and c in u.car and c in u.nearby}
 }
@@ -51,6 +55,24 @@ pred PossibleToBookACar[c, c': Car, u, u': User] {
 	u'.car = c'
 	u.nearby = u'.nearby
 	c not in u.nearby <=> c' not in u'.nearby
+}
+
+pred PossibleToRemoveABooking[c, c': Car, u, u': User] {
+	c != c'
+	u != u'
+	c in PossibleToRemovePrenotationCars[u]
+
+	c.status = Booked
+	c'.status = Available
+	u.nearby = u'.nearby
+	c not in u.nearby <=> c' not in u'.nearby
+	no u'.car
+}
+
+assert ImpossibleToRemoveABookingNotDone{
+	no c, c': Car, u, u': User | 
+		(c.status != Booked or u.car != c) and
+		PossibleToRemoveABooking[c, c', u, u']
 }
 
 pred PossibleToUnlockACar[c, c': Car, u, u': User] {
@@ -102,6 +124,13 @@ pred PossibleToBookUnlockRideACar[c, c', c'', c''': Car, u, u', u'', u''': User]
 	PossibleToRideACar[c'', c''', u'', u''']
 }
 
+pred PossibleToBookUnbookRebookUnlockACar[c, c', c'', c''', c'''': Car, u, u', u'', u''', u'''': User]{
+	PossibleToBookACar[c, c', u, u']
+	PossibleToRemoveABooking[c', c'', u', u'']
+	PossibleToBookACar[c'', c''', u'', u''']
+	PossibleToUnlockACar[c''', c'''', u''', u'''']
+}
+
 pred PossibleWholeCycle[c, c', c'', c''', c'''': Car, u, u', u'', u''', u'''': User] {
 	PossibleToBookACar[c, c', u, u']
 	PossibleToUnlockACar[c', c'', u', u'']
@@ -118,5 +147,7 @@ run PossibleToRideACar for 5
 check UnlockedCarHaveTheirUserNearby for 10
 run PossibleToBookUnlockRideACar for 4
 run PossibleToReleaseACar for 5
+run PossibleToBookUnbookRebookUnlockACar for 5
+check ImpossibleToRemoveABookingNotDone for 10
 run PossibleWholeCycle for 5
 	
