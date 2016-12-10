@@ -216,10 +216,11 @@ As we are going to see, many use cases require some specific funcionalities to b
 	\end{description}
 	\item[UI/Login] \hfill
 	\begin{description}
-		\item[Description] Users can log into the system providing their email and password.
+		\item[Description] Users can log into the system providing their email and password and logout from the system.
 		\item[Requires] \hfill
 		\begin{itemize}
 			\item Sy/Login %$\Leftrightarrow$ USER/Login
+			\item Sy/Logout
 		\end{itemize}
 	\end{description}
 	\item[UI/Lookup] \hfill
@@ -401,6 +402,12 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 			\item[Responsability] Allows users to log into the system.
 			\item[Input] Email (considered a unique user ID) and password.
 			\item[Output] A session key, meaning that the user is logged into the system.
+		\end{description}
+	\item[USER/Logout $\Leftrightarrow$ Sy/Login] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Allows users to logout the system.
+			\item[Input] The login session key.
+			\item[Output] The session key is invalidated. 
 		\end{description}
 	\item[USER/SetPaymentMethod $\Leftrightarrow$ Sy/SetPaymentMethod] \hfill
 		\begin{description}[noitemsep]
@@ -616,23 +623,11 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 	\item[NOTIFIER] \hfill
 	\begin{description}
 		\item[Responsability] This component takes care to notify user of events.
-	\item[NOTIFY/SendFee $\Leftrightarrow$ Sy/SendFee] \hfill
+	\item[NOTIFY/Notify $\Leftrightarrow$ \{Sy/SendFee, Sy/UnsafeParkNotification, Sy/CarPluggedNotification\}] \hfill
 	\begin{description}[noitemsep]
-			\item[Responsability] Ask for payment to the user before to actually execute the transaction.
-			\item[Input] The ID of the user and the total to pay.
-			\item[Output] The user is ask to confirm the payment.
-		\end{description}
-	\item[NOTIFY/UnsafePark $\Leftrightarrow$ Sy/UnsafeParkNotification] \hfill
-	\begin{description}[noitemsep]
-			\item[Responsability] Communicate at the user that he parked in an usafe area.
-			\item[Input] The ID of the user.
-			\item[Output] The user is prompt to acknoledge that he is aware to have parked in an unsafe area.
-		\end{description}
-	\item[NOTIFY/CarPlugged $\Leftrightarrow$ Sy/CarPluggedNotification] \hfill
-	\begin{description}[noitemsep] 
-			\item[Responsability] Communicate at the user that he succesfully plugged the car into a power station.
-			\item[Input] The ID of the user.
-			\item[Output] The user is prompt to acknoledge that he plugged the car into a power station.
+			\item[Responsability] Notify the user of some event, it may also prompt the user to acknoledge some fact or complete some action.
+			\item[Input] A notification object.
+			\item[Output] The notification is show to the user and the user may be prompted to do some action.
 		\end{description}
 	\end{description}
 \end{description}
@@ -646,6 +641,21 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 	\includegraphics[width=0.8\textwidth]{UML/Components.png}
 	\caption{Graphical visualization of the abstract components needed.}
 \end{figure}	
+
+\subsubsection{Motivations}
+
+In this part of the design we made several choice where alternative approach may have been onsidered as well; we are going to motivate some of those choices.
+
+\subsubsection{Notifier}
+
+To notify the user about something we could have use several strategies. In a static world, where the product doesn't change, all of the choice are equivalent. However if we put ourselves in the situation of  dynamic world where the need of the software always evolves our choice makes more sense.
+
+\begin{enumerate}
+	\item Each component that needed to notify the user could have its own NOTIFIER (eg. instead of NOTIFY/Notify we could have something like CAR/NotifyUnsafePark), indeed as more component will need to notify the user more and more different version of the same functionality risk to be reimplemented in different part of the code base, a problem we would like to avoid.
+	\item Each type of notification could have its own functionality (eg. instead of NOTIFY/Notify and as input a notifiaction about an UnsafePark we could have something like NOTIFY/UnsafePark). We believe that this choice would make the overall developing time too slow, since a new functionality would have to be implemented for every and each type of notification we want to send.
+\end{enumerate}
+
+Overall we believe that our choice allow very fast development cycles while maintaining an high decouple between the components.
 
 \subsection{From Abstract Components to Physical Nodes}
 
