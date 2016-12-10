@@ -180,14 +180,21 @@ The overall design process has been carried in a bottom-up approach, starting fr
 
 The overall design process starts from the analysis of the goals. 
 
-Taking forward the considerations made in the RASD, we analyse the interface between the world and the machine: given the list of goals and requirements, we identify what interfaces each node should provide to the world and to other nodes in order to accomplish such goals.
+Taking forward the considerations made in the RASD, we analyse the interface between the world and the machine: given the list of goals and requirements, we identify what interfaces the system need to provide to the users.
+If those interfaces would have been alreay implemented our work would have been completed, however such is not the case, and those interfaces require some functionalities.
 
-Once the interfaces are identified, we proceed organizing those interfaces into higher-level components, caring at respecting the Single Responsability principle in order to provide highly decoupled and reusable components.
+Once all the necessary functionalities have been identified we organize them into high-level components taking care to respect the ``Single Responsability'' principle in order to provide highly decoupled and reusable components.
+Again, if those functionalities were already working our works would have been done, however these components need to be actually implemented and deployed into physical machines.
 
-Once components have been defined, we organize them into an high level architecture and proceed deploying them on the physical nodes of the system. Then we define in detail how they interact with the help of some Sequence Diagrams.
+At this point we proceed to identify the physical nodes of our system and where our components should be deployed in order to fullfil their functionalities. We also analyze what comunication mechanism to use between the node.
+
+Finally we proceed to deploy the components into the physical node.
+
+To double check the correctness of the overall design we produce several sequence diagram showing for the uses cases what functionality is involved and what functionality is called.
 
 The rest of this section follows this flow, starting from the goals analysis and finally providing the overall design.
 
+The next section will show the uses cases.
 
 \subsection{Goals Analysis}
 
@@ -523,19 +530,12 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 			\item[Input] The ID of the car and the new status.
 			\item[Output] The new status is set.
 		\end{description}
-	\item[CAR/Rides] \hfill
-		\begin{description}[noitemsep]
-			\item[Responsability] Retrieve the list of rides done with a specific car in a defined time range.
-			\item[Input] The ID of the car and a time range.
-			\item[Output] The list of rides performed with that car in that time range.
-		\end{description}
 	\end{description}
 	
 	\item[RIDE\_MANAGER] \hfill
 	\begin{description}
 		\item[Responsability] Manage the rides.
 	\item[RIDE/Start $\Leftrightarrow$ Sy/StartRide]  \hfil
-
 		\begin{description}[noitemsep]
 			\item[Responsability] Start counting the time of the ride.
 			\item[Input] The ID of the user and the ID of the booking.
@@ -546,6 +546,12 @@ In order to clarify how previously defined ``Sy/FunctionalityName`` maps with th
 			\item[Responsability] Stop counting the time of the ride.
 			\item[Input] The ID of the ride.
 			\item[Output] Stop the count of time for the ride.
+		\end{description}
+	\item[RIDE/FindRides] \hfill
+		\begin{description}[noitemsep]
+			\item[Responsability] Retrieve the list of rides done with a specific car in a defined time range.
+			\item[Input] The ID of the car and a time range.
+			\item[Output] The list of rides performed with that car in that time range.
 		\end{description}
 	\end{description}
 	
@@ -815,7 +821,6 @@ Thus we create two CAR\_MANAGER subcomponents:
 	Indeed, ISSUE/Solve involves an interface that is exposed by the car: thus we define another subcomponent, \textbf{VALIDATE\_SOLVE}, to be deployed on the car to fulfill this function.
 
 
-	\end{description}
 \end{description}
 \begin{figure}[H]
 	\centering
@@ -899,6 +904,7 @@ In the above diagram we can see how the process of managing issues is carried on
 The process share more or less the same workflow as the booking and unlock process for customers, plus some steps related specifically to issues.
 
 It is evident how these additional steps are all managed by Issue\_Manager alone, as to highlight the single, coherent responsibility we assigned to components.
+
 
 
 
@@ -1102,39 +1108,12 @@ During the development of this document we used the following tools:
 	\item SZ: 1h on 30/11
 	\item SM: 5h on 2/12
 	\item SZ: 5h on 2/12
-	SZ: 3h of work on 4/12 (RASD review)
-
+	\item SZ: 3h on 4/12 (RASD review)
 	\item SZ: 3h on 5/12
 	\item SZ: 4h on 6/12
 	\item SZ: 7h on 7/12
+	\item SZ: 10h on 9/12 
 \end{itemize}
 
 
 \end{document}  
-
-%%%%%%%%%% PARTE VECCHIA QUA SOTTO %%%%%%%%%%%%%%%%%
-
-\begin{comment}
-
-\subsection{Proposed System}
-
-The proposed system features a client-server architecture, so it is divided into two parts: a frontend app for smartphones, which allows the users to use the service, and a backend system wich deals with all the operations and coordinates them. The backend also interact with the cars, that can be seen as a third part of the system.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{proposed_system.png}
-	\caption{Description of the proposed system.}
-\end{figure}
-
-\subsubsection{App Frontend}
-The frontend is a thin app that relies on the smartphone's internet connections in order to work. Almost no operations can be performed with the app alone: all transactions are sent to the main server first, then processed and the result sent back to the app.
-
-The app can be classified as a thin client.
-
-\subsubsection{Centralized Backend}
-The backend is the core of the system. Being able to process a lot of parallel operations, it can deal with all the requests coming from che clients ina reasonable amount of time (see Non Functionals Requirements). The backend is based on an MVC architecture and a REST API.
-
-\subsubsection{Car's Onboard system}
-The cars are equipped with an onboard system that monitors the status of the car, its location, and can send all the necessary informations to the main server. There won't be direct interactions between the car and the user's app.
-
-\end{comment}
