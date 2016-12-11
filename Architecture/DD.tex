@@ -775,8 +775,6 @@ At a first glance, the above elements can be organized in a two-tier Client-Serv
 \end{itemize}
 From now on, we design the system basing on these fundamentals elements.
 
-
-\end{description}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{UML/HighLevelComponents.png}
@@ -874,7 +872,6 @@ Thus we create two CAR\_MANAGER subcomponents:
 			\item CAR/Telemetry
 			\item CAR/SetStatus
 		\end{itemize}
-	%\end{description}
 
 	\item[RIDE\_MANAGER] \hfill \\
 	Considering that all its functionalities are exposed as API by the server to the customer's apps, the component is deployed on the server entirely.
@@ -892,6 +889,8 @@ Thus we create two CAR\_MANAGER subcomponents:
 
 Moreover we provide a GUI for both apps and cars: so we deploy \textbf{PUBLIC\_APP\_GUI} on customer's apps, \textbf{STAFF\_APP\_GUI} on staff's apps, and \textbf{CAR\_GUI} on the cars.
 
+\end{description}
+	
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.88\textwidth]{UML/Deploy.png}
@@ -911,9 +910,14 @@ Moreover we provide a GUI for both apps and cars: so we deploy \textbf{PUBLIC\_A
 	\caption{Components View Diagram of the entire system.}
 \end{figure}	
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.88\textwidth]{UML/ModelZoomComponents.png}
+	\caption{Model zoom of the Components View Diagram.}
+\end{figure}	
 
 
-
+\newpage
 \subsection{Runtime View}
 
 In this section we provide four Sequence Diagram and their description, to ensure the system is coherent.
