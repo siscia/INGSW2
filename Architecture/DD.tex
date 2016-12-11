@@ -809,7 +809,7 @@ Up to this point we defined the logical components of the system in terms of int
 	\begin{description}
 		\item[POSITION/Users] is deployed as \textbf{USER\_POSITION} on the user apps.
 		\item[POSITION/Cars] is deployed as \textbf{CAR\_POSITION} on the cars.
-		\item[POSITION/Areas] is deployed as \textbf{COORDINATOR} on the main server, as it acts as a dispatcher for all incomig requests, keeps a cache of the retrieved data, and so on.
+		\item[POSITION/Areas] is deployed as \textbf{POSITION\_MANAGER} on the main server, as it acts as a dispatcher for all incomig requests, keeps a cache of the retrieved data, and so on.
 	\end{description}
 	
 	\item[BOOKING\_MANAGER] \hfill \\
@@ -981,6 +981,7 @@ We decided to use Nginx on the main server instead of a more common Apache serve
 Indeed, considering our server is going to handle a lot of parallel operations, we chose a software designed exactly to tackle this issue better than standard Apache-based solutions.
 
 {\color{red} {what about this?}}
+=
 
 \subsubsection{Database}
 
@@ -1036,6 +1037,107 @@ Mockups have already been included in the RASD (section 3.3: Non Functional Requ
 	\includegraphics[width=1\textwidth]{UML/BCEDiagramPublicApp.png}
 	\caption{BCE Diagram of the interface of customer's application}
 \end{figure}	
+
+
+
+
+\newpage
+\section{Requirements Traceability}
+
+In this secton we highlight which components ends up satisfying the goals defined in RASD once the design process is concluded.
+
+\begin{description}
+	\item[REGISTRATION] Users can register to the system.
+		\begin{itemize}
+			\item USER\_MANAGER
+		\end{itemize}
+
+	\item[LOGIN]  Users can log into the system providing their email and password and logout from the system.
+		\begin{itemize}
+			\item USER\_MANAGER
+		\end{itemize}
+
+	\item[LOOKUP] Users can look for cars near them or near a specific position and range.
+		\begin{itemize}
+			\item GEOLOCATION
+			\item USER\_POSITION
+		\end{itemize}
+
+	\item[BOOK] Users can book cars to use within the next hour.
+		\begin{itemize}
+			\item BOOKING\_MANAGER
+		\end{itemize}
+
+	\item[UNBOOK] Users can remove a previously made reservation.
+		\begin{itemize}
+			\item BOOKING\_MANAGER
+		\end{itemize}
+
+	\item[UNLOCK] Users can unlock a nearby car that was previously booked.
+		\begin{itemize}
+			\item USER\_POSITION (to ensure  users are near the car they want to unlock)
+			\item CAR\_POSITION
+			\item REMOTE\_CAR\_MANAGER
+		\end{itemize}
+
+	\item[RIDE] Users can ride a reserved car.
+		\begin{itemize}
+			\item RIDE\_MANAGER
+			\item REMOTE\_CAR\_MANAGER
+			\item POSITION\_MANAGER
+			\item LOCAL\_CAR\_MANAGER
+		\end{itemize}
+
+	\item[SAFE\_AREAS] Users can locate safe parking areas while driving.
+		\begin{itemize}
+			\item GEOLOCATION
+		\end{itemize}
+
+	\item[UNSAFE\_PARKING] The system reacts to unsafe parking. It first tells users they are going to be fined if they leave the car unsafely parked, then it fines users who leaves the car in an unsafe area.
+		\begin{itemize}
+			\item LOCAL\_CAR\_MANAGER
+			\item NOTIFY
+			\item BILLING\_MANAGER
+		\end{itemize}
+
+	\item[POWER\_STATION] Users can locate and use charging station.
+		\begin{itemize}
+			\item GEOLOCATION
+			\item LOCAL\_CAR\_MANAGER
+			\item NOTIFY
+		\end{itemize}
+
+	\item[CHARGE] Users are charged a fee at the end of the ride or if a reservation expires.
+		\begin{itemize}
+			\item NOTIFY
+			\item BOOKING\_MANAGER
+			\item BILLING\_MANAGER
+		\end{itemize}
+
+	\item[PAYMENT] Users can pay bills through the app and set their default payment method.
+		\begin{itemize}
+			\item BILLING\_SYSTEM
+			\item USER\_MANAGER (to set default payment method)
+		\end{itemize}
+
+	\item[REPORT\_ISSUE] Users can report issues to the system.
+		\begin{itemize}
+			\item ISSUE\_MANAGER
+		\end{itemize}
+
+	\item[FIND\_ISSUES] The staff can locate cars that need their intervention.
+		\begin{itemize}
+			\item GEOLOCATION
+		\end{itemize}
+
+	\item[SUPPORT] The staff can identify and solve car’s issues.
+		\begin{itemize}
+			\item LOCAL\_CAR\_MANAGER
+			\item REMOTE\_CAR\_MANAGER
+			\item ISSUE\_MANAGER
+		\end{itemize}
+\end{description}
+
 
 
 
