@@ -125,8 +125,26 @@
 	\item[Description]: #6
 \end{description}}
 
+
+
 \usepackage{listings}
 \usepackage{pxfonts}
+
+\newcounter{ItegrationTest}
+\newenvironment{test}[1][]{
+	\refstepcounter{ItegrationTest}
+	\item[Integration] IT {\ifnum\value{ItegrationTest}<10 0\fi \theItegrationTest}
+	\item[Tests] \hfill 
+		\begin{enumerate} #1}{
+	\end{enumerate}}
+
+\newcommand{\testCase}[2]{
+\item \hfill 
+\begin{description}
+	\item[State of the system / Input] #1
+	\item[Expected behaviour] #2
+\end{description}}
+
 %%% END Article customizations
 
 %%% The "real" document content comes below...
@@ -220,6 +238,16 @@ Unit test should be used in order to guarantee the interface exposed and documen
 
 \subsection{Elements to be integrated}
 
+Clearly all the components that interact with the user must be integrated with the User FrontEnd, similarly all the components that need to interact with the Staff need to be integrated with the Staff FrontEnd.
+
+Also, the GEOLOCATION component need to be integrated with the Car GUI.
+
+Concerning external services only few components need to interact with them, in particular we need to integrate the BILLING\_SYSTEM, POSITION, GEOLOCATION, USER\_MANAGER.
+
+Finally, few services must be integrated between each other in the system thanks to the high degree of decoupling reached during the design phase.
+
+The services that must be integrated inside the system are the following:
+
 \begin{description}
 
 \item[IT01] \hfill
@@ -281,40 +309,140 @@ Unit test should be used in order to guarantee the interface exposed and documen
 	{BILL/CalculateRideFee}
 	{After a ride is concluded the user is asked to pay is determinated on the base of several bonuses that may be applied, to determinate which bonuses apply we use CAR/Telemetry}
 
-
 \end{description}
 
 \subsection{Integration testing strategy}
-\textit{[Descrizione della strategia a grandi linee]}
 
+We will start integrating the three services that are logically the same but physically distributed, in this way we will be able to reason about them as a simpler logical component instead of multiple distributed components.
+
+\begin{enumerate}
+	\item CAR\_MANAGER, this component need its own integration, it is distributed between the car system and the main server, it is also the only components that touch the hardware side of the project, in our experience it should be the first component to be tested and be well defined.
+	\item ISSUE\_MANAGER, another component that needs it own integration, however it functionality are smaller that the one provided by the CAR\_MANAGER.
+	\item POSITION, also this component need it own integration, however its functionality are pretty standard and well know.
+\end{enumerate}
+
+In parallel we can proced to integrate the external services with our own.
+
+We will finish integrating the ``internal'' serviceses.
+
+Of course, as soon as a component is ready and integrated it will be integrated with the User Interfaces.
 
 \subsection{Sequence of components integration}
-\textit{[Effettivo svolgimento dell'integrazione]}
 
+Our design tried to keep the components very decoupled, this allow us a lot of flexibility in the integration process.
 
+There are not hard constraints in what component should be integrated first.
+
+If a functionality need the integration of some components and such integration is not yet complete, simply that functionality won't be ready.
+
+Of course all the components need to be integrated with the user interface, we are not going to show all those integration that however are extremely simple but necessary. Since the NOTIFIER components is part of the user interface, we are not going to show the integration that concern this component.
+
+Before to go deeply inside the integration, we show what integration are necessary in order to treat all the components as a single logical entity, instead of multiple, more complex physical entities.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.1\textwidth]{UML/IntegrationDistributedComponents.png}
+	\caption{Integration of the physical splitted components into single logical componets.}
+\end{figure}	
+
+In the following diagram we show what components integrates with others.
+
+There are not strict dependencies, and it is more a net that a pyramid.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.1\textwidth]{UML/IntegrationStrategy.png}
+	\caption{Integration net}
+\end{figure}	
 
 
 \newpage
 \section{Individual Steps and Tests Description}
 
+In this section we describe what test are necessary for each integration.
 
+For each integration we are going to show the most important tests.
 
+\begin{description}
+	\begin{test}
+		\testCase{An available car is on coordinates A}{Each invocation of GEOLOCATION/AvailableCar that include the coordinates A show the car.}
+		\testCase{No available car is inside a circle of radius R centered in the point C}{Each invocation of GEOLOCATION/AvailableCar that is centered in the point C with radius smaller of equal than R returns an empty set.}
+	\end{test}
+	\begin{test}
+		\testCase{A car with issues determinated using the onboard system is located on point A}{Each invocation of GEOLOCATION/Issue that include the point A show the car.}
+		\testCase{No car with any kind of issues are inside a circle of radius R centered in point C}{Each invocation of GEOLOCATION/Issue that is centered in point C of radius less or equal than R returns an empty set.}
+	\end{test}
+	\begin{test}
+		\testCase{The signal of a ride started is send by the CAR/Telemetry}{The method RIDE/Start is invoked and succeed}
+	\end{test}
+	\begin{test}
+		\testCase{The signal of a ride finished is send by the CAR/Telemetry}{The method RIDE/End is invoked and succeed}
+	\end{test}
+	\begin{test}
+		\testCase{The method RIDE/End is invoked}{The method BILL/Pay is invoked and it start the whole procedure to get the user to pay for the ride.}
+	\end{test}
+	\begin{test}
+		\testCase{The method BOOKING/Expire is invoked}{The method BILL/CalculateExpireBookFee is invoked and it is used to provide the ammout of money the user own}
+	\end{test}
+	\begin{test}
+		\testCase{The method RIDE/End is invoked, the car position (determinate using POSITION/Car) is not inside a safe area (determinate using GEOLOCATION/IsSafeArea)}{The method BILL/CalculateUnsafeParkingFine is invoked and it is used to provide the ammount of money that the user must pay.}
+	\end{test}
+	\begin{test}
+		\testCase{The method RIDE/End is invoked, the car is safely parked}{The method BILL/CalculateRideFee is invoked, the method use all the necessary information from the CAR\_MANAGER to apply all the bonuses or the maluses.}
+	\end{test}
+\end{description}
 
+This test are obviously only a guidelines. We have describe only the most straightforward test that must be implemented, however, other test can be deployed too.
 
-
-
+Usually it is a good idea to test, not only that a method is invoked and used, but that a method is not invoked. We do not specifically describe those tests because they are extremely implementation dependent, in some implementation that kind of test is extremely important, in other is quite useles.
 
 \newpage
 \section{Tools and Test Equipment Required}
 
+Any tools or framework will work just as well in this project.
 
+Our suggestion is to use a well know libraries and framework.
+
+A very reasonable choice is JUnit4, which is the default testing framework for Java application.
+
+\subsection{Continuos Integration and Unit Testing}
+
+A server of continuos integration will be necessary in order to execute the integration tests and the  unit tests after each commit to the main code base.
+
+Each developer should still be able to run every test in its developing machine.
+
+The unit test suite is expected to be extremelly fast so that it can be executed at will by every developer without slowing down their workflow.
+
+For the integration test, we don't require them to be fast, although is still a very desiderable property, but they should at very least be completely automatic.
+
+\subsection{Testing Strategy}
+
+We do not advocate for rigid methodology. 
+
+Test should be produced in order to avoid regression. 
+
+After fixing a bug a test relative to that same bug should be put in place and should be continuosly run.
+
+\subsection{Deploying}
+
+The deploy of the whole architecture should require the least ammount of step possible, ideally just one.
+
+If the application is serving life traffic a deploy of a new version should be done following the incremental GREEN / BLUE methodology. Start direct only a small fraction of the overall traffic to the new version and if everything on the control metrics still looks fine start to increase the ammount of traffic to the new version untill you don't reach the totality. Immediately roll back to the previous version at the first sign of problem.
 
 \newpage
 \section{Program Stubs and Test Data Required}
 
+\subsection{Stubs}
 
+The use of stubs makes definitely sense when we want to simulate the physical car, we definitely cannot have a car physicall to run all the integration test.
 
+Also, the developing time of the hardware are usualy longer than the developing time of software and it is reasonable to use stumbs to simulate the hardware of the car.
 
+Other stumbs may be required to develop the integration test and will be written when necessary.
+
+\subsection{Test Data}
+
+The test data necessary will be generated using ad hoc software.
 
 
 \newpage
