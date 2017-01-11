@@ -452,6 +452,8 @@ If the application is serving live traffic, a deploy of a new version should be 
 
 At this time, no stubs are strictly required to run our integration test suite.
 
+Concerning the integration of our system with external services, we noticed that most interactions can be covered with the unit tests of single components: even in these cases, stubs are not required as all our external services expose some specific testing APIs that can be used for this purpose.
+
 \subsection{Test Data}
 
 The necessary test data will be generated using ad-hoc software.
