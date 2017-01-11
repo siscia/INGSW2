@@ -450,17 +450,20 @@ If the application is serving live traffic, a deploy of a new version should be 
 
 \subsection{Stubs}
 
-The use of stubs makes definitely sense when we want to simulate the physical car: we cannot have a car to run physically all the integration tests.
-
-Also, the developing time of the hardware are usualy longer than the developing time of software, and it is reasonable to use stubs to simulate the hardware of the car.
-
-Other stubs may be required to develop the integration test and will be written when necessary.
+At this time, no stubs are strictly required to run our integration test suite.
 
 \subsection{Test Data}
 
 The necessary test data will be generated using ad-hoc software.
 
 There should be two different databases: one for tests and another for production. If it is necessary to simulate the load of the production database, we will not directly use it, but we populate the test database.
+
+\subsection{Hardware Emulation}
+
+Running integration tests using a real car may be difficult. That's why an emulation environment for the car's onboard system should be enough to run all our integration tests: this solution maked running tests faster and easier. 
+
+Also, the developing time of the hardware is usualy longer than the developing time of software, and relying on the actual hardware for running integration test may lead to delays or to skip the run of fundamental integration tests, a situation we would prefer to avoid.
+
 
 \newpage
 \section{Conclusions}
@@ -475,6 +478,7 @@ During the development of this document we used the following tools:
 \subsection{Hours of work}
 \begin{itemize}
 	\item SZ: 1h on 21/12
+	\item SZ: 2h on 11/01
 \end{itemize}
 
 
