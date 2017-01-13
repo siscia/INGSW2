@@ -1,0 +1,70 @@
+[base-path]/minilang/method/eventops/RequestParametersToList.java:27: import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/eventops/RequestParametersToList.java:66: if (elementModified && MiniLangUtil.autoCorrectOn()) {
+[base-path]/minilang/method/eventops/RequestParametersToList.java:67: MiniLangUtil.flagDocumentAsCorrected(element);
+[base-path]/minilang/method/envops/Now.java:28:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/envops/Now.java:79: if (elementModified && MiniLangUtil.autoCorrectOn()) {
+[base-path]/minilang/method/envops/Now.java:80: MiniLangUtil.flagDocumentAsCorrected(element);
+[base-path]/minilang/method/envops/SetOperation.java:32:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/envops/SetOperation.java:103: if (elementModified && MiniLangUtil.autoCorrectOn()) {
+[base-path]/minilang/method/envops/SetOperation.java:104: MiniLangUtil.flagDocumentAsCorrected(element);
+[base-path]/minilang/method/envops/SetOperation.java:108: if (MiniLangUtil.containsScript(fromAttribute)) {
+[base-path]/minilang/method/envops/SetOperation.java:181:  targetClass = MiniLangUtil.getObjectClassForConversion(newValue);
+[base-path]/minilang/method/envops/SetOperation.java:185:  newValue = MiniLangUtil.convertType(newValue, targetClass, Locale.ENGLISH, methodContext.getTimeZone(), format);
+[base-path]/minilang/method/envops/SetOperation.java:187:  newValue = MiniLangUtil.convertType(newValue, targetClass, methodContext.getLocale(), methodContext.getTimeZone(), format);
+[base-path]/minilang/method/envops/ToString.java:25:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/envops/ToString.java:73:  value = MiniLangUtil.convertType(value, String.class, methodContext.getLocale(), methodContext.getTimeZone(), format);
+[base-path]/minilang/method/envops/SetCalendar.java:34:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/envops/SetCalendar.java:120: if (elementModified && MiniLangUtil.autoCorrectOn()) {
+[base-path]/minilang/method/envops/SetCalendar.java:121: MiniLangUtil.flagDocumentAsCorrected(element);
+[base-path]/minilang/method/envops/SetCalendar.java:125: if (MiniLangUtil.containsScript(fromAttribute)) {
+[base-path]/minilang/method/envops/SetCalendar.java:200: fromStamp = (Timestamp) MiniLangUtil.convertType(newValue, java.sql.Timestamp.class, locale, timeZone, UtilDateTime.getDateTimeFormat());
+[base-path]/minilang/method/callops/CallClassMethod.java:30:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/callops/CallClassMethod.java:93: MiniLangUtil.callMethod(this, methodContext, parameters, methodClass, null, methodName, retFieldFma);
+[base-path]/minilang/method/callops/CallObjectMethod.java:29:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/callops/CallObjectMethod.java:88: MiniLangUtil.callMethod(this, methodContext, parameters, methodObject.getClass(), methodObject, methodName, retFieldFma);
+[base-path]/minilang/method/callops/SetServiceFields.java:31:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/callops/SetServiceFields.java:76: if (elementModified && MiniLangUtil.autoCorrectOn()) {
+[base-path]/minilang/method/callops/SetServiceFields.java:77: MiniLangUtil.flagDocumentAsCorrected(element);
+[base-path]/minilang/method/callops/CallScript.java:27:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/callops/CallScript.java:71: if (elementModified && MiniLangUtil.autoCorrectOn()) {
+[base-path]/minilang/method/callops/CallScript.java:72: MiniLangUtil.flagDocumentAsCorrected(element);
+[base-path]/minilang/method/callops/CallScript.java:92: if (inlineScript != null && MiniLangUtil.containsScript(inlineScript)) {
+[base-path]/minilang/method/otherops/PropertyToField.java:29:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/otherops/PropertyToField.java:72: if (elementModified && MiniLangUtil.autoCorrectOn()) {
+[base-path]/minilang/method/otherops/PropertyToField.java:73: MiniLangUtil.flagDocumentAsCorrected(element);
+[base-path]/minilang/method/otherops/Calculate.java:32:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/otherops/Calculate.java:332:     BigDecimal parsedVal = (BigDecimal) MiniLangUtil.convertType(valueStr, java.math.BigDecimal.class, locale, null, null);
+[base-path]/minilang/method/conditional/ValidateMethodCondition.java:29:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/conditional/ValidateMethodCondition.java:86:     fieldVal = MiniLangUtil.convertType(fieldVal, String.class, methodContext.getLocale(), methodContext.getTimeZone(), null);
+[base-path]/minilang/method/conditional/CompareCondition.java:32:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/conditional/CompareCondition.java:112: targetClass = MiniLangUtil.getObjectClassForConversion(fieldVal);
+[base-path]/minilang/method/conditional/RegexpCondition.java:35:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/conditional/RegexpCondition.java:88:     fieldVal = MiniLangUtil.convertType(fieldVal, String.class, methodContext.getLocale(), methodContext.getTimeZone(), null);
+[base-path]/minilang/method/conditional/Compare.java:34:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/conditional/Compare.java:127: Object convertedLvalue = MiniLangUtil.convertType(lValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:128: Object convertedRvalue = MiniLangUtil.convertType(rValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:154: Object convertedLvalue = MiniLangUtil.convertType(lValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:155: Object convertedRvalue = MiniLangUtil.convertType(rValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:176: Object convertedLvalue = MiniLangUtil.convertType(lValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:177: Object convertedRvalue = MiniLangUtil.convertType(rValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:198: Object convertedLvalue = MiniLangUtil.convertType(lValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:207: Object convertedLvalue = MiniLangUtil.convertType(lValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:216: Object convertedLvalue = MiniLangUtil.convertType(lValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:225: Object convertedLvalue = MiniLangUtil.convertType(lValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:226: Object convertedRvalue = MiniLangUtil.convertType(rValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:247: Object convertedLvalue = MiniLangUtil.convertType(lValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:248: Object convertedRvalue = MiniLangUtil.convertType(rValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:269: Object convertedLvalue = MiniLangUtil.convertType(lValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/Compare.java:270: Object convertedRvalue = MiniLangUtil.convertType(rValue, type, locale, timeZone, format);
+[base-path]/minilang/method/conditional/CompareFieldCondition.java:31:import org.apache.ofbiz.minilang.MiniLangUtil;
+[base-path]/minilang/method/conditional/CompareFieldCondition.java:78: if (elementModified && MiniLangUtil.autoCorrectOn()) {
+[base-path]/minilang/method/conditional/CompareFieldCondition.java:79: MiniLangUtil.flagDocumentAsCorrected(element);
+[base-path]/minilang/method/conditional/CompareFieldCondition.java:122: targetClass = MiniLangUtil.getObjectClassForConversion(fieldVal);
+[base-path]/minilang/SimpleMethod.java:151: if (MiniLangUtil.isDocumentAutoCorrected(document)) {
+[base-path]/minilang/SimpleMethod.java:152: MiniLangUtil.writeMiniLangDocument(xmlURL, document);
+[base-path]/minilang/SimpleMethod.java:354: if (elementModified && MiniLangUtil.autoCorrectOn()) {
+[base-path]/minilang/SimpleMethod.java:355: MiniLangUtil.flagDocumentAsCorrected(simpleMethodElement);
+[base-path]/minilang/MiniLangValidate.java:108: if (!MiniLangUtil.isConstantAttribute(attributeValue)) {
+[base-path]/minilang/MiniLangValidate.java:125: if (!MiniLangUtil.isConstantPlusExpressionAttribute(attributeValue)) {
+[base-path]/minilang/MiniLangValidate.java:128: if (MiniLangUtil.containsScript(attributeValue)) {
+[base-path]/minilang/MiniLangValidate.java:165:     if (MiniLangUtil.containsScript(attributeValue)) {

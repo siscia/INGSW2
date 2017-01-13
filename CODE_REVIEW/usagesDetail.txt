@@ -1,0 +1,57 @@
+grep -Ril "MiniLangUtil.containsScript" [ofbiz-basepath]
+[minilang-package]/method/envops/SetOperation.java
+[minilang-package]/method/envops/SetCalendar.java
+[minilang-package]/method/callops/CallScript.java
+[minilang-package]/MiniLangValidate.java
+
+grep -Ril "MiniLangUtil.autoCorrectOn" [ofbiz-basepath]
+[minilang-package]/method/eventops/RequestParametersToList.java
+[minilang-package]/method/envops/Now.java
+[minilang-package]/method/envops/SetOperation.java
+[minilang-package]/method/envops/SetCalendar.java
+[minilang-package]/method/callops/SetServiceFields.java
+[minilang-package]/method/callops/CallScript.java
+[minilang-package]/method/otherops/PropertyToField.java
+[minilang-package]/method/conditional/CompareFieldCondition.java
+[minilang-package]/SimpleMethod.java
+
+ grep -Ril "MiniLangUtil.callMethod" [ofbiz-basepath]
+[minilang-package]/method/callops/CallClassMethod.java
+[minilang-package]/method/callops/CallObjectMethod.java
+
+grep -Ril "MiniLangUtil.convertType" [ofbiz-basepath]
+[minilang-package]/method/envops/SetOperation.java
+[minilang-package]/method/envops/ToString.java
+[minilang-package]/method/envops/SetCalendar.java
+[minilang-package]/method/otherops/Calculate.java
+[minilang-package]/method/conditional/ValidateMethodCondition.java
+[minilang-package]/method/conditional/RegexpCondition.java
+[minilang-package]/method/conditional/Compare.java
+
+grep -Ril "MiniLangUtil.flagDocumentAsCorrected" [ofbiz-basepath]
+[minilang-package]/method/eventops/RequestParametersToList.java
+[minilang-package]/method/envops/Now.java
+[minilang-package]/method/envops/SetOperation.java
+[minilang-package]/method/envops/SetCalendar.java
+[minilang-package]/method/callops/SetServiceFields.java
+[minilang-package]/method/callops/CallScript.java
+[minilang-package]/method/otherops/PropertyToField.java
+[minilang-package]/method/conditional/CompareFieldCondition.java
+[minilang-package]/SimpleMethod.java
+
+grep -Ril "MiniLangUtil.getObjectClassForConversion" [ofbiz-basepath]
+[minilang-package]/method/envops/SetOperation.java
+[minilang-package]/method/conditional/CompareCondition.java
+[minilang-package]/method/conditional/CompareFieldCondition.java
+
+grep -Ril "MiniLangUtil.isConstantAttribute" [ofbiz-basepath]
+[minilang-package]/MiniLangValidate.java
+
+grep -Ril "MiniLangUtil.isConstantPlusExpressionAttribute" [ofbiz-basepath]
+[minilang-package]/MiniLangValidate.java
+
+grep -Ril "MiniLangUtil.isDocumentAutoCorrected" [ofbiz-basepath]
+[minilang-package]/SimpleMethod.java
+
+grep -Ril "MiniLangUtil.writeMiniLangDocument" [ofbiz-basepath]
+[minilang-package]/SimpleMethod.java

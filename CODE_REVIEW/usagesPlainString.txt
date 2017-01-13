@@ -1,0 +1,27 @@
+grep -Ril "PlainString" [ofbiz-basepath]
+
+[ofbiz-basepath]/applications/order/groovyScripts/entry/cart/LookupBulkAddSupplierProducts.groovy
+[ofbiz-basepath]/applications/product/src/main/java/org/apache/ofbiz/shipment/thirdparty/ups/UpsServices.java
+[ofbiz-basepath]/applications/product/src/main/java/org/apache/ofbiz/shipment/thirdparty/dhl/DhlServices.java
+[ofbiz-basepath]/applications/product/src/main/java/org/apache/ofbiz/shipment/thirdparty/usps/UspsServices.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/cybersource/IcsPaymentServices.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/verisign/PayflowPro.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/authorizedotnet/AIMPaymentServices.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/orbital/OrbitalPaymentServices.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/paypal/PayPalEvents.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/paypal/PayPalServices.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/clearcommerce/CCPaymentServices.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/ideal/IdealEvents.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/gosoftware/RitaServices.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/gosoftware/PcChargeServices.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/thirdparty/worldpay/WorldPayEvents.java
+[ofbiz-basepath]/applications/accounting/src/main/java/org/apache/ofbiz/accounting/test/FinAccountTests.java
+[ofbiz-basepath]/framework/entity/dtd/entity-eca.xsd
+[ofbiz-basepath]/framework/service/dtd/service-eca.xsd
+[ofbiz-basepath]/framework/minilang/src/main/java/org/apache/ofbiz/minilang/MiniLangUtil.java
+[ofbiz-basepath]/framework/minilang/dtd/simple-methods.xsd
+[ofbiz-basepath]/framework/common/src/main/java/org/apache/ofbiz/common/uom/UomWorker.java
+[ofbiz-basepath]/framework/widget/dtd/widget-common.xsd
+[ofbiz-basepath]/framework/base/src/main/java/org/apache/ofbiz/base/util/ObjectType.java
+[ofbiz-basepath]/framework/base/src/main/java/org/apache/ofbiz/base/util/test/ObjectTypeTests.java
+

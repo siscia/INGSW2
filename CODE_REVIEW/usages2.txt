@@ -1,0 +1,21 @@
+grep -Ril "MiniLangUtil" [ofbiz-basepath]
+
+[minilang-package]/method/eventops/RequestParametersToList.java
+[minilang-package]/method/envops/Now.java
+[minilang-package]/method/envops/SetOperation.java
+[minilang-package]/method/envops/ToString.java
+[minilang-package]/method/envops/SetCalendar.java
+[minilang-package]/method/callops/CallClassMethod.java
+[minilang-package]/method/callops/CallObjectMethod.java
+[minilang-package]/method/callops/SetServiceFields.java
+[minilang-package]/method/callops/CallScript.java
+[minilang-package]/method/otherops/PropertyToField.java
+[minilang-package]/method/otherops/Calculate.java
+[minilang-package]/method/conditional/ValidateMethodCondition.java
+[minilang-package]/method/conditional/CompareCondition.java
+[minilang-package]/method/conditional/RegexpCondition.java
+[minilang-package]/method/conditional/Compare.java
+[minilang-package]/method/conditional/CompareFieldCondition.java
+[minilang-package]/SimpleMethod.java
+[minilang-package]/MiniLangValidate.java
+

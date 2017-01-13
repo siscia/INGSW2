@@ -133,20 +133,42 @@ http://users.csc.calpoly.edu/~jdalbey/SWE/CodeSmells/bonehead.html
 
 \section{Assigned Classes}
 
-The class assigned to our group is:  
-\newline
+The class assigned to our group is:  \texttt{ {\large MiniLangUtil.java} }  \hfill\\
+(\texttt{apache-ofbiz-16.11.01/framework/minilang/src/main/java/org/apache/ \\ 
+ofbiz/minilang/MiniLangUtil.java})
 
-\texttt{apache-ofbiz-16.11.01/framework/minilang/src/main/java/org/apache/ofbiz/ 
-minilang/MiniLangUtil.java}
+\subsection{Role of the assigned class}
+This class provides some utility functions for the MiniLang Engine.
 
-\hfill\\
+Mini-Language is described on the official documentation as follows: \textit{The Mini-Language concept in Open For Business is [...] to create simple languages that simplify complex or frequently performed tasks.}
 
-This class has a role
+The specific purpose of this static class is unclear: it simply provides a set of static, utility methods and cannot be instantiated. It includes some fundamental operations, like \texttt{.callMethod()}, that probably needs to not belong to instantiable objects, but are fundamental inside the package.
 
- <elaborate on the func-
-tional role you have identified for the class cluster that was assigned
-to you, also, elaborate on how you managed to understand this role
-and provide the necessary evidence, e.g., javadoc, diagrams, etc.>
+The documentation does not provide in-depht informations about this section of the OFBiz framework: it is impossible to understand the actual role of the class without a detailed inspection of all the classes of the \texttt{minilang} package.
+
+However, the role of the package itself is clearer, as we can see in the following diagram: it is used as an interpreter for the instructions coming from the Service Engine for the Entity Engine.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1
+\textwidth]{Diagram1.png}
+	\caption{OFBiz Artifact Reference Diagram}
+\end{figure}
+
+
+\subsection{Usage of the class}
+
+In order to have a general idea of how and how much the class is used inside the project, we performed a lookup into the repository. \texttt{grep} reports these usages of \texttt{MiniLangUtil} into the OFBiz source code:
+
+\lstinputlisting[language=bash, breaklines=true]{usages2.txt}
+
+Then we check if all methods included in \texttt{MiniLangUtil.java} are actually used in the repo.
+
+\lstinputlisting[language=bash, breaklines=true]{usagesDetail.txt}
+
+The results support our previous hypotesis: \texttt{MiniLangUtil} is an internal class of the \texttt{minilang} package that is never used outside the package and provides support functions for the functions of the \texttt{minilang} package itself.
+
+A completely different analysis should be done for the second class included in this source file, \texttt{PlainString}. Such analysis is performed in a dedicated subsection of the next section.
 
 
 \section{Issues Found}
@@ -161,26 +183,18 @@ Positive aspects:
 	\item Braces are used consistently accrding to the "Kernighan and Ritchie” style, and no single line blocks are left without brackets.
 	\item Line alignement is consistent and tidy.
 	\item A few comments are used in the class (see subsection 3.9: isConstantPlusExpressionAttribute)
-	
 \end{itemize}
 
+\hfill\\
 Issues and negative aspects:
 \begin{itemize}
 	\item File organization shows some issues. A lot of lines exceed the 80-char limits, and a few of them (line 111, 152 and 172) exceed the 120-char limit too. In detail, line 111 breaks after char 152 (the total line size is 260 chars), while line 152 reaches the 138 chars and line 172 reaches 124 chars.
 
-	\item Concerning Java Source Files organization, a peculiar issue has been found. This source file actually contains two classes: the main class, defined \texttt{ public final class MiniLangUtil} and a second, tiny class, defined at the end of the file as an internal, but public class, defined as \texttt{public static class PlainString}.
-The second class is empty.
-
-We undestand that creating a specific source file for an empty class like \textt{PlainString}
- can be overkill, but anyway this solution looks awkward. A public class in general has no reason for being internal to \textt{MiniLangUtil}: this solution simply makes difficult for developerd to locate it. In order to clarify the issue, we should understand better if the class is even needed: it is referenced into \texttt{MiniLangUtil} twice (line 165 and line 213), but it is not evident why the developer felt the need to create this class instead of using a plain \texttt{String} class.
-
 	\item Javadoc is inconsistently detailed, and lacks fundamental informations for some methods (see next subsections).
 
-	\item Static class variables are not perfectly ordered (some private variables comes before package level variables)
+	\item Concerning Java Source Files organization, a peculiar issue has been found. \texttt{MiniLangUtil} includes a public inner class, called \texttt{PlainString}, whose usage and role into the project looks completely different from \texttt{MiniLangUtil}'s ones. See the dedicated section for more details about this issue.
 
-	\item Definition of \texttt{SCRIPT\_PREFIXES} is cumbersome: it may be required, but there may also be some more elegant solutions to provide the required values for this constant instead of building the string inplace.
-
-	\item PUNTO 33: PERCHÈ?
+	\item Being an utility class used only inside the package, \texttt{MiniLangUtil} show no need to be a public class. Changing the definition from \texttt{public final class MiniLangUtil} into \texttt{final class MiniLangUtil} would not generate any issue. 
 
 \end{itemize}
 
@@ -246,8 +260,23 @@ No issues found.
 	\item Line 311: \texttt{xmlURL} is concatenated to the error message string without even checking it for being not null. This can raise a new Exception inside the \texttt{catch} block.
 \end{itemize}
 
+\subsection{PlainString}
 
+\texttt{MiniLangUtil} include a public, inner class called \texttt{PlainString}. This class, which can be found at line 323, is completely empty (the whole source code of \texttt{PlainString} is \texttt{public static class PlainString \{\} }  ) and shows no JavaDoc.
 
+We undestand that creating a specific source file for an empty class like \texttt{PlainString} can be overkill, but anyway this solution is awkward. A public class in general has no reason for being internal, especially into a class like \texttt{MiniLangUtil} that could hold a default modifier instead of the public one.
+
+This solution simply makes difficult for developerd to locate \texttt{PlainString} into the project. 
+
+In addition, being the class empty, we wondered if \texttt{PlainString} is even used into the project, or it is a leftover. So we performed a lookup into the code base to locate eventual usages: the results, shown below, are pretty surprising.
+
+\lstinputlisting[language=bash, breaklines=true]{usagesPlainString.txt}
+
+As we can see, \texttt{PlainString} is user thoughout the whole project, also outside the \texttt{minilang} package. It is even referenced into some \texttt{.xsd} files and into a Groovy script. Seems that \texttt{PlainString} is an entity, probably a field type or something similar, even if the number or references into the codebase (24) seems too low to support the idea \texttt{PlainString} is a fundamental entity for the project.
+
+In addition, the documentation shows no references about \texttt{PlainString}. Also the online version of the Javadoc (found here: https://ci.apache.org/projects/ofbiz/site/ javadocs/org/ofbiz/minilang/MiniLangUtil.PlainString.html) is of no use, as the class itself has no Javadoc.
+
+While it remains unclear why developers should feel the need to use such an empty class to (probably) identify a plain string, and remains unclear if \texttt{PlainString} is actually the way OFBiz deals with plain strings, the location of this class looks completely wrong. It should have been located with other basic field types, and into a dedicated Java source file, instead of being a nested class of a randomly chosen class of the project.
 
 
 \section{Conclusions}
@@ -262,6 +291,7 @@ During the development of this document we used the following tools:
 \subsection{Hours of work}
 \begin{itemize}
 	\item SZ: 6h on 11/01
+	\item SZ: 7h on 13/01
 \end{itemize}
 
 
