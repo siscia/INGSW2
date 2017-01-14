@@ -166,7 +166,7 @@ Then we check if all methods included in \texttt{MiniLangUtil.java} are actually
 
 \lstinputlisting[language=bash, breaklines=true]{usagesDetail.txt}
 
-The results support our previous hypotesis: \texttt{MiniLangUtil} is an internal class of the \texttt{minilang} package that is never used outside the package and provides support functions for the functions of the \texttt{minilang} package itself.
+The results support our previous hypotesis: \texttt{MiniLangUtil} is an internal class of the \texttt{minilang} package. It is never used outside the package and provides support functions for the processes of the \texttt{minilang} package.
 
 A completely different analysis should be done for the second class included in this source file, \texttt{PlainString}. Such analysis is performed in a dedicated subsection of the next section.
 
@@ -194,14 +194,14 @@ Issues and negative aspects:
 
 	\item Concerning Java Source Files organization, a peculiar issue has been found. \texttt{MiniLangUtil} includes a public inner class, called \texttt{PlainString}, whose usage and role into the project looks completely different from \texttt{MiniLangUtil}'s ones. See the dedicated section for more details about this issue.
 
-	\item Being an utility class used only inside the package, \texttt{MiniLangUtil} show no need to be a public class. Changing the definition from \texttt{public final class MiniLangUtil} into \texttt{final class MiniLangUtil} would not generate any issue. 
+	\item Being an utility class used only inside the package, \texttt{MiniLangUtil} show no need to be a public class. The class definition should be changed from \texttt{public final class MiniLangUtil} into \texttt{final class MiniLangUtil}
+. 
 
 \end{itemize}
 
 \subsection{containsScript (Line 79)}
 \begin{itemize}
-	\item Line 80: \texttt{str.lenght()} is called, but \texttt{str} is not guaranteed to be not null. 
-	\item The method's Javadoc does not says that the behavior of the method in case of null input is a NullPointerException (lacks a @throw statement), while it should be the case.
+	\item Line 80: \texttt{str.lenght()} is called, but \texttt{str} is not guaranteed to be not null. In addition, the method's Javadoc does not says that the behavior of the method in case of null input is a \texttt{NullPointerException} (lacks a \texttt{@throws} statement), while it should be the case.
 \end{itemize}
 
 \subsection{autoCorrectOn (Line 96)}
@@ -211,8 +211,7 @@ No issues found.
 \begin{itemize}
 	\item This method's Javadoc lacks a lot of informations, starting from parameter's descriptions.
 	\item One of the parameters (\texttt{retFieldFma}) has a name that becomes understandable only reading the whole method. It should at least be described in the Javadoc.
-	\item The method has 7 input arguments, but only \texttt{parameters} is null checked (line 114). Except from \texttt{parameters} and \texttt{retFieldFma}, other arguments used only as arguments for other method's calls. 
-	\item Line 133: \texttt{retFieldFma.isEmpty()} is called but \texttt{retFieldFma} is not guaranteed to be not null. 
+	\item Line 133: \texttt{retFieldFma.isEmpty()} is called but \texttt{retFieldFma} is not guaranteed to be not null. Javadoc for this method does not mentions that the result for a null \texttt{retFieldFma} in input is a \texttt{NullPointerException} (lacks a \texttt{@throws} statement)
 	\item Line 136: each \texttt{Exception} is caught and changed into a \texttt{MiniLangRuntimeException}. This can be reasonable considering the context (the code simulates a method call), but looks like a code smell.
 \end{itemize}
 
@@ -227,7 +226,7 @@ No issues found.
 \subsection{flagDocumentAsCorrected (Line 194)}
 \begin{itemize}
 	\item This method's Javadoc lacks a lot of informations, starting from parameter's description.
-	\item Line 195: \texttt{element} is not guaranteed to be not null, but a call to \texttt{element.getOwnerDocument()} is issued.
+	\item Line 195: \texttt{element} is not guaranteed to be not null, but a call to \texttt{element.getOwnerDocument()} is issued. Javadoc for this method does not mention that the result for a null \texttt{element} in input is a \texttt{NullPointerException} (lacks a \texttt{@throws} statement)
 \end{itemize}
 
 \subsection{getObjectClassForConversion (Line 211)}
@@ -237,18 +236,19 @@ No issues found.
 
 \subsection{isConstantAttribute (Line 235)}
 \begin{itemize}
-	\item Line 236: A call on \texttt{attributeValue.lenght()} is performed, but \texttt{attributeValue} is not guaranteed to be not null. This leads to a peculiar behavior: if \texttt{attributeValue == ""}, it returns \texttt{true}, while if \texttt{attributeValue == NULL}, it throws a NullPointerException (not described in the Javadoc).
+	\item Line 236: A call on \texttt{attributeValue.lenght()} is performed, but \texttt{attributeValue} is not guaranteed to be not null. This leads to a peculiar behavior: if \texttt{attributeValue == ""}, it returns \texttt{true}, while if \texttt{attributeValue == NULL}, it throws a \texttt{NullPointerException} (not stated in the Javadoc).
 \end{itemize}
 
 \subsection{isConstantPlusExpressionAttribute (Line 251)}
 \begin{itemize}
-	\item Line 252: A call on \texttt{attributeValue.lenght()} is performed, but \texttt{attributeValue} is not guaranteed to be not null. This leads to a peculiar behavior: if \texttt{attributeValue == ""}, it returns \texttt{true}, while if \texttt{attributeValue == NULL}, it throws a NullPointerException (not described in the Javadoc).
-	\item Comments are used in a cryptic way. The statement does not explain why concatenated expressions should be avoided. It does not even contains \texttt{TODO} or \texttt{FIXME} tags.
+	\item Line 252: A call on \texttt{attributeValue.lenght()} is performed, but \texttt{attributeValue} is not guaranteed to be not null. This leads to a peculiar behavior: if \texttt{attributeValue == ""}, it returns \texttt{true}, while if \texttt{attributeValue == NULL}, it throws a \texttt{NullPointerException}
+ (not described in the Javadoc).
+	\item Line 254-255: Comments are used in a cryptic way. The statement does not explain why concatenated expressions should be avoided. It does not even contains \texttt{TODO} or \texttt{FIXME} tags.
 \end{itemize}
 
 \subsection{isDocumentAutoCorrected (Line 273)}
 \begin{itemize}
-	\item Line 174: a call to \texttt{document.getUserData()} is issued, but \texttt{document} is not guaranteed to be not null. The consequent NullPointerException is not even stated in the Javadoc.
+	\item Line 174: a call to \texttt{document.getUserData()} is issued, but \texttt{document} is not guaranteed to be not null. The consequent  \texttt{NullPointerException} is not even stated in the Javadoc (lacks a  \texttt{@throws} statement).
 \end{itemize}
 
 \subsection{writeMiniLangDocument (Line 284)}
@@ -276,7 +276,7 @@ As we can see, \texttt{PlainString} is user thoughout the whole project, also ou
 
 In addition, the documentation shows no references about \texttt{PlainString}. Also the online version of the Javadoc (found here: https://ci.apache.org/projects/ofbiz/site/ javadocs/org/ofbiz/minilang/MiniLangUtil.PlainString.html) is of no use, as the class itself has no Javadoc.
 
-While it remains unclear why developers should feel the need to use such an empty class to (probably) identify a plain string, and remains unclear if \texttt{PlainString} is actually the way OFBiz deals with plain strings, the location of this class looks completely wrong. It should have been located with other basic field types, and into a dedicated Java source file, instead of being a nested class of a randomly chosen class of the project.
+While it remains unclear why developers should feel the need to use such an empty class to (probably) identify a plain string, and if \texttt{PlainString} is actually the way OFBiz deals with plain strings, the location of this class looks completely wrong.  \texttt{PlainString} should have been located with other basic field types, and into a dedicated Java source file, instead of being a nested class of a randomly chosen class of the project.
 
 
 \section{Conclusions}
@@ -290,8 +290,10 @@ During the development of this document we used the following tools:
 
 \subsection{Hours of work}
 \begin{itemize}
+	\item SZ: 2h on 10/01
 	\item SZ: 6h on 11/01
 	\item SZ: 7h on 13/01
+	\item SZ: 1h on 14/01
 \end{itemize}
 
 
