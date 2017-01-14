@@ -313,45 +313,41 @@ The services that must be integrated inside the system are the following:
 
 \subsection{Integration testing strategy}
 
-We start integrating the three services that are logically the same but physically distributed. In this way we can reason about them as a simpler logical component instead of multiple distributed components.
+We chosed, basically, to implement a bottom-up approach to our integration testing strategy. 
+
+Actually, the only components that requires a sub-components integration are the three services that are physically distributed. Once integrate, we can proceed to a higher-level integration reasoning about them in terms of a simpler logical component.
 
 \begin{enumerate}
-	\item CAR\_MANAGER: this component need its own integration. It is distributed between the car system and the main server; it is also the only components that touches the hardware side of the project. In our opinion it should be the first component to be tested.
+	\item CAR\_MANAGER: this component needs its own integration. It is distributed between the car system and the main server; it is also the only components that touches the hardware side of the project. In our opinion it should be the first component to be integrated.
 	\item ISSUE\_MANAGER: another component that needs its own integration. However its functionality is more bounded that the one provided by CAR\_MANAGER.
-	\item POSITION: this component need it own integration too. However, its functionality is pretty standard and well know.
+	\item POSITION: this component needs it own integration too. However, its functionality is pretty standard and well known.
 \end{enumerate}
 
-In parallel we can proced to integrate the external services with our own.
-
-We will finish integrating the ``internal'' serviceses.
-
-Of course, as soon as a component is ready and integrated, it will be integrated with the User Interface.
+In parallel we can proced to integrate the external services with our own high-level components, namely BILLING\_SYSTEM , POSITION , GEOLOCATION,  and  USER\_MANAGER.
 
 \subsection{Sequence of components integration}
 
 Our design tried to keep the components very decoupled. This gives us a lot of flexibility in the integration process.
 
-There are not hard constraints in what component should be integrated first.
+There are not hard constraints in what component should be integrated first, as long as sub-components get integrated into higher-level components before proceeding with the integration of high-level ones.
 
-If a functionality need the integration of some components and such integration is not yet complete, simply that functionality won't be ready.
+Of course all the components needs to be integrated with the user interface. We are not showing all those integrations, that are extremely simple but necessary. Since the NOTIFIER components is part of the user interface, we are not showing the integrations that concern this component.
 
-Of course all the components need to be integrated with the user interface. We are not showing all those integration that, however, are extremely simple but necessary. Since the NOTIFIER components is part of the user interface, we are not showing the integrations that concern this component.
-
-Before going deeply inside the integration, we show what integrations are necessary in order to treat all the components as a single logical entity, instead of multiple, more complex physical entities.
+Before going deeply inside the description of the high-level integrations, we describe the sub-component integrations required.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1.1\textwidth]{UML/IntegrationDistributedComponents.png}
-	\caption{Integration of the physical splitted components into single logical componets.}
+	\includegraphics[width=1\textwidth]{UML/IntegrationDistributedComponents.png}
+	\caption{Sub-components integration regarding physically splitted components into a single, high-level logical component.}
 \end{figure}	
 
 In the following diagram we show what components integrates with others.
 
-There are not strict dependencies, and it is more a net that a pyramid.
+There are not strict dependencies: it is more a net that a pyramid.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1.1\textwidth]{UML/IntegrationStrategy.png}
+	\includegraphics[width=1\textwidth]{UML/IntegrationStrategy.png}
 	\caption{Integration net}
 \end{figure}	
 
