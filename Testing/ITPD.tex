@@ -129,21 +129,34 @@
 
 \usepackage{listings}
 \usepackage{pxfonts}
+\usepackage{enumitem}
 
-\newcounter{ItegrationTest}
+\newcounter{IntegrationTest}
 \newenvironment{test}[1][]{
-	\refstepcounter{ItegrationTest}
-	\item[Integration] IT {\ifnum\value{ItegrationTest}<10 0\fi \theItegrationTest}
-	\item[Tests] \hfill 
-		\begin{enumerate} #1}{
+	\refstepcounter{IntegrationTest}
+	\item[Integration] IT {\ifnum\value{IntegrationTest}<10 0\fi \theIntegrationTest}
+	\begin{enumerate} #1}{
 	\end{enumerate}}
 
-\newcommand{\testCase}[2]{
-\item \hfill 
+\newcommand{\testCase}[6]{
+\item  \textbf{Test Case ID: IT{\ifnum\value{IntegrationTest}<10 0\fi \theIntegrationTest}C{\theenumi} }
 \begin{description}
-	\item[State of the system / Input] #1
-	\item[Expected behaviour] #2
-\end{description}}
+	\item[Test Items:] {#1}
+	\item[Input Specification:] {#2}
+	\item[Environment State:] {#3}
+	\item[Output Specification:] {#4}
+	\item[Purpose:] {#5}
+	\item[Dependencies:] {#6}
+\end{description} 
+\hfill  
+}
+
+
+\def\twodigits#1{%
+  \ifnum#1<10 0\fi
+  \number#1}
+
+
 
 %%% END Article customizations
 
@@ -248,16 +261,15 @@ Finally, only a few services must be integrated between each other in the system
 
 The services that must be integrated inside the system are the following:
 
-\begin{description}
-
-\item[IT01] \hfill
+\begin{enumerate}[label={\textbf{IT\protect\twodigits{\theenumi}}},leftmargin=*]
+\item \hfill
 \toBeIntegrated
 	{GEOLOCATION}
 	{POSITION}
 	{GEOLOCATION/AvailableCar}
 	{The position of each car, retrieved using POSITION/Car, is used in order to describe which cars are close to a specific position.}
 
-\item[IT02] \hfill
+\item \hfill
 \toBeIntegratedThree
 	{GEOLOCATION}
 	{POSITION}
@@ -265,35 +277,28 @@ The services that must be integrated inside the system are the following:
 	{GEOLOCATION/Issues}
 	{The position of each car, retrieved using POSITION/Car, that has some issues (detectable using CAR/Telemetry) is used to communicate to the staff where are cars that need their intervent.}
 
-\item[IT03] \hfill
+\item \hfill
 \toBeIntegrated
 	{RIDE\_MANAGER}
 	{CAR\_MANAGER}
-	{RIDE/Start}
-	{When a ride starts, detected using CAR/Telemetry, the RIDE/Start method is invoked.}
+	{RIDE/Start, RIDE/End}
+	{When a ride starts (ends), detected using CAR/Telemetry, the RIDE/Start (RIDE/End) method is invoked.}
 
-\item[IT04] \hfill
-\toBeIntegrated
-	{RIDE\_MANAGER}
-	{CAR\_MANAGER}
-	{RIDE/End}
-	{When a ride stops, detected using CAR/Telemetry, the RIDE/End method is invoked.}
-
-\item[IT05] \hfill
+\item \hfill
 \toBeIntegrated
 	{BILLING\_MANAGER}
-	{RIDE\_MANAGER}
+	{CAR\_MANAGER}
 	{BILL/Pay}
-	{At the end of a ride, detected because the procedure RIDE/End has been called, the payment procedure of the user starts.}
+	{When the car is locked, the payment procedure of the user starts.}
 
-\item[IT06] \hfill
+\item \hfill
 \toBeIntegrated
 	{BILLING\_MANAGER}
 	{BOOKING\_MANAGER}
 	{BILL/CalculateExpireBookFee}
 	{When a booking expires, detected using BOOKING/Expire, the user should be asked to pay the fee calculated using BILL/CalculateExpireBookFee}
 	
-\item[IT07] \hfill
+\item \hfill
 \toBeIntegratedFour
 	{BILLING\_MANAGER}
 	{RIDE\_MANAGER}
@@ -302,14 +307,17 @@ The services that must be integrated inside the system are the following:
 	{BILL/CalculateUnsafeParkingFine}
 	{When the user ends a ride, detected using RIDE/End, and the car is unsafely parked, detected using POSITION/Car and GEOLOCATION/IsSafeArea, the user is prompted to pay for the ride plus the fee for having parked the car in an unsafe position.}
 	
-\item[IT08] \hfill
+\item \hfill
 \toBeIntegrated
 	{BILLING\_MANAGER}
 	{CAR\_MANAGER}
 	{BILL/CalculateRideFee}
 	{After a ride is concluded, the amount of the fee the user is prompted to pay is determinated on the base of several bonuses that may be applied. To determinate which bonuses apply, CAR/Telemetry is used.}
 
-\end{description}
+\end{enumerate}
+
+
+
 
 \subsection{Integration testing strategy}
 
@@ -361,55 +369,104 @@ For each integration we list and describe the most important tests.
 
 \begin{description}
 	\begin{test}
-		\testCase{An available car is located at coordinates A}
-			{Each invocation of GEOLOCATION/AvailableCar that includes the coordinates A shows the car.}
-		\testCase{No available car is located inside a circle of radius R centered in the point C}
-			{Each invocation of GEOLOCATION/AvailableCar that is centered in the point C with radius less or equal than R returns an empty set.}
+		\testCase{GEOLOCATION $\rightarrow$ POSITION}
+			{A circle including the point A is submitted to GEOLOCATION/AvailableCar}
+			{An available car is located at coordinates A}
+			{A list of cars including the car located in A}
+			{Verify the output given by GEOLOCATION/AvailableCar in case of at least one car available in the selected area}
+			{Unit tests for GEOLOCATION and POSITION}
+		\testCase
+			{GEOLOCATION $\rightarrow$ POSITION}
+			{A circle centered in C with radius equal or less than R is submitted to GEOLOCATION/AvailableCar}
+			{No cars are available into the circle centered in C with radius R}
+			{An empty list}
+			{Verify the output given by GEOLOCATION/AvailableCar in case of no cars available in the selected area}
+			{Unit tests for GEOLOCATION and POSITION}
 	\end{test}
 
 	\begin{test}
-		\testCase{A car with issues determinated using the onboard system is located on point A}
-			{Each invocation of GEOLOCATION/Issue that includes the point A shows the car.}
-		\testCase{No car with any kind of issue is inside a circle of radius R centered in point C}
-			{Each invocation of GEOLOCATION/Issue that is centered in point C with radius less or equal than R returns an empty set.}
+		\testCase
+			{GEOLOCATION $\rightarrow$ POSITION $\leftarrow$ CAR\_MANAGER}
+			{A circle including the point A is submitted to GEOLOCATION/Issue}
+			{A car with an issue is located at coordinates A}
+			{A list of cars including the car located in A}
+			{Verify the output given by GEOLOCATION/Issue in case of at least one car issued in the selected area}
+			{Unit tests for GEOLOCATION, POSITION and CAR\_MANAGER}
+		\testCase
+			{GEOLOCATION $\rightarrow$ POSITION $\leftarrow$ CAR\_MANAGER}
+			{A circle centered in C with radius equal or less than R is submitted to GEOLOCATION/Issue}
+			{No cars with issues are located into the circle centered in C with radius R}
+			{An empty list}
+			{Verify the output given by GEOLOCATION/Issue in case of no cars with issues present in the selected area}
+			{Unit tests for GEOLOCATION, POSITION and CAR\_MANAGER}
 	\end{test}
 
 	\begin{test}
-		\testCase{CAR/Telemetry notifies that a ride began}
-			{The method RIDE/Start is invoked and succeedes.}
+		\testCase
+			{CAR\_MANAGER $\rightarrow$ RIDE\_MANAGER}
+			{The signal meaning that the engine ignited is sent to CAR\_MANAGER}
+			{All the precondition for a ride to start are fulfilled (a non-expider booking exist for that car, the driver scanned successfully the correct driving licence, etc) }
+			{A Ride is started successfully.}
+			{Verify the behavior of RIDE/Start}
+			{Unit tests for CAR\_MANAGER and RIDE\_MANAGER}
+
+		\testCase
+			{CAR\_MANAGER $\rightarrow$ RIDE\_MANAGER}
+			{The signal meaning that the driver exited is sent to CAR\_MANAGER}
+			{A ride for that car is open.}
+			{The relative ride is closed successfully}
+			{Verify the behavior of RIDE/End}
+			{IT03C1 and unit tests for CAR\_MANAGER and RIDE\_MANAGER}
 	\end{test}
 
 	\begin{test}
-		\testCase{CAR/Telemetry notifies that a ride finished}
-			{The method RIDE/End is invoked and succeedes.}
+		\testCase
+			{CAR\_MANAGER $\rightarrow$ BILLING\_MANAGER}
+			{The locking signal is received by CAR\_MANAGER}
+			{A ride for that car exist and is closed.}
+			{The payment procedure starts.}
+			{Verify that after the locking signal has been sent, the payment procedure starts immediately.}
+			{IT03C2 and unit tests for CAR\_MANAGER and BILLING\_MANAGER}
 	\end{test}
 
 	\begin{test}
-		\testCase{The method RIDE/End is invoked}
-			{The method BILL/Pay is invoked and it starts the payment proccedure of the user.}
+		\testCase
+			{BOOKING\_MANAGER $\rightarrow$ BILLING\_MANAGER}
+			{A reservation expires.}
+			{A reservation exist, but no rides are related to it.}
+			{The fine for the expired booking is calculated and the payment procedure starts.}
+			{Verify that when a reservation expires, the correct fine is calculated and the payment procedure starts.}
+			{Unit tests for BOOKING\_MANAGER and BILLING\_MANAGER}
 	\end{test}
 
 	\begin{test}
-		\testCase{The method BOOKING/Expire is invoked}
-			{The method BILL/CalculateExpireBookFee is invoked and it is used to provide the fine for the user.}
+		\testCase
+			{\{GEOLOCATION $\rightarrow$ POSITION \} $\leftarrow$ RIDE\_MANAGER $\rightarrow$ BILLING\_MANAGER}
+			{A ride ends.}
+			{The car whose ride is ending is located outside from a safe area.}
+			{The fine for the unsafe parking is calculated and the payment procedure starts.}
+			{Verify that when a car is parked outside from a safe area, the correct fine is calculated and the payment procedure starts.}
+			{IT03C2 and unit tests for GEOLOCATION, POSITION, RIDE\_MANAGER and BILLING\_MANAGER}
 	\end{test}
 
 	\begin{test}
-		\testCase{The method RIDE/End is invoked, the car position (determinate using POSITION/Car) is not inside a safe area (determinate using GEOLOCATION/IsSafeArea)}
-			{The method BILL/CalculateUnsafeParkingFine is invoked and it is used to provide the fine for the user.}
+		\testCase
+			{CAR\_MANAGER $\rightarrow$ BILLING\_MANAGER}
+			{A car is locked.}
+			{A ride and a booking exsist relative to that car and the user who locked it.}
+			{The fee is calculated and the payment procedure starts.}
+			{Verify that when a car is locked, the correct fee is calculated and the payment procedure starts.}
+			{IT03C2 (which is an included procedure) and unit tests for CAR\_MANAGER and BILLING\_MANAGER}
 	\end{test}
 
-	\begin{test}
-		\testCase{The method RIDE/End is invoked, the car is safely parked}
-			{The method BILL/CalculateRideFee is invoked and the method uses all the necessary informations from the CAR\_MANAGER to apply all the bonuses or the maluses to the ride.}
-	\end{test}
 \end{description}
 
-This test are to be considered as guidelines. We described only the most straightforward test that must be implemented; however, other test can be deployed too.
+These tests are to be considered as guidelines. We described only the most straightforward test that must be implemented; however, other tests can be deployed too.
 
-Usually it is a good idea to test not only that a method is invoked and used, but also that a method is not invoked. We do not specifically describe those tests because they are extremely implementation dependent. While in some cases that kind of test is extremely important, in other cases is quite useless. 
+Usually it is a good idea to test not only that a method is invoked and used, but also that a method is not being invoked. We do not specifically describe those tests because they are extremely implementation dependent. 
 
-It is up to the developing team to understand if it is the case to implement these additional tests.
+Developers should take into consideration if such kind of tests are useful during the testing phase, and if necessary, implement them.
+
 
 
 \newpage
@@ -437,9 +494,9 @@ After fixing a bug, a test relative to that same bug should be put in place and 
 
 \subsection{Deploying}
 
-The deploy of the whole architecture should require the least amount of stesp possible, ideally just one.
+The deploy of the whole architecture should require the least amount of steps possible, ideally just one.
 
-If the application is serving live traffic, a deploy of a new version should be done following the incremental GREEN / BLUE methodology: start running the new software only a small fraction of the overall traffic to the new version and, if everything on the control metrics still looks fine, increase the amount of traffic redirected to the new version untill you don't reach the totality. Immediately roll back to the previous version at the first sign of problems.
+Considering the application is serving live traffic, a deploy of a new version should be done following the incremental GREEN / BLUE methodology: start running the new software only a small fraction of the overall traffic to the new version and, if everything on the control metrics still looks fine, increase the amount of traffic redirected to the new version until reaching the totality. Immediately roll back to the previous version at the first sign of problems.
 
 \newpage
 \section{Program Stubs and Test Data Required}
@@ -458,9 +515,9 @@ There should be two different databases: one for tests and another for productio
 
 \subsection{Hardware Emulation}
 
-Running integration tests using a real car may be difficult. That's why an emulation environment for the car's onboard system should be enough to run all our integration tests: this solution maked running tests faster and easier. 
+Running integration tests using a real car may be difficult. That's why an emulation environment for the car's onboard system should be enough to run all our integration tests: this solution makes running tests faster and easier. 
 
-Also, the developing time of the hardware is usualy longer than the developing time of software, and relying on the actual hardware for running integration test may lead to delays or to skip the run of fundamental integration tests, a situation we would prefer to avoid.
+Also, the developing time of the hardware is usualy longer than the developing time of software, and relying on the actual hardware for running integration test may lead to delays or to skip the run of fundamental integration tests: a situation we would prefer to avoid.
 
 
 \newpage
@@ -477,6 +534,7 @@ During the development of this document we used the following tools:
 \begin{itemize}
 	\item SZ: 1h on 21/12
 	\item SZ: 2h on 11/01
+	\item SZ: 3h on 14/01
 \end{itemize}
 
 
