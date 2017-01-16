@@ -2,5 +2,6 @@
 *.log
 *.synctex.gz
 *.toc
+*.out
 /icons/
 /CODE_REVIEW/output.pdf
