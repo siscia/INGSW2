@@ -540,6 +540,50 @@ Both have a fairly good generic programming experience.
 
 Since the components are already defined, as well their interface, only a single developer will be responsable for a component.
 
+To fairly allocate the several component to the developers we will use the complexity factor calculate above.
+
+Given the different experience of the developin team the two developer are allocate to the different modules in the following way:
+
+\begin{description}
+	\item[Simone] \hfill
+		\begin{enumerate}
+			\item GEOLOCATION
+			\item POSITION
+			\item CAR
+			\item RIDE
+		\end{enumerate}
+	\item[Sara] \hfill
+		\begin{enumerate}
+			\item USER
+			\item BOOKING
+			\item ISSUE
+			\item BILL
+			\item NOTIFY
+			\item User Interface
+		\end{enumerate}
+\end{description}
+
+In this way both developer will manage closely related modules while working on the field they know best.
+
+\begin{comment}
+L = 3
+A = 4
+H = 6
+
+USER -> 11
+GEOLOCATION -> 15
+POSITION ->10
+BOOKING -> 10
+CAR -> 25
+RIDE -> 6 + 3
+ISSUE -> 13
+BILL -> 13
+NOTIFY -> 5
+
+SIMO -> GEOLOCATION + POSITION + CAR + RIDE = 15 + 10 + 25 + 9 = 59
+SARA -> USER + BOOKING + ISSUE + BILL + NOTIFY = 11 + 10 + 13 + 13 + 5 = 52
+\end{comment}
+
 \section{Risk Managment}
 
 \begin{table}[h]
