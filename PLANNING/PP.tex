@@ -134,6 +134,10 @@
 \usepackage{pxfonts}
 \usepackage{enumitem}
 
+\usepackage{tabularx}
+
+\usepackage{pdfpages}
+
 \newcounter{IntegrationTest}
 \newenvironment{test}[1][]{
 	\refstepcounter{IntegrationTest}
@@ -486,9 +490,67 @@ DurationLower = 3.67 * 13.38 ** 0.303 = 8.05
 DurationUpper = 3.67 * 19.68 ** 0.303 = 9.05
 
 
+\section{Schedule}
 
+Given that most of the analysis is already done in this project we are going to focus on the scedule of the development and the deployement of the software.
 
+Because of our risk mitigation strategy there will be need to validate the product as early as possible, this will impose slower development cycles but we will be more sure about what the final result will be also from a bussiness perspective, we can afford this since our time estimetion are quite short. Nevertheless we are still accounting for an additional two month of time, bringing the total time of development to roughly 11 moths.
 
+We believe that this is a reasonable tradeoff, between the use of time and the risk management.
+
+We will start developing a very simple MVP where selected alpha user will be able to rent cars once a day for a small nominal fee. The manual selection of the user will avoid that the car will be damaged or that they will abuse of the system, at the same time will provide us with extremelly valuable feedback on the system we are building and the interaction with the users.
+
+During the MVP phase techinical staff will be always present in order to manually fix any kind of problem that may arise.
+
+After this phase, if the stackholder of the project agree to proceed, we will start the creation of the real platform.
+
+We will decide what part of the MVP keep (if any), anyway the experience gained build the MVP will be extremelly valuable in this phase, and will let us move very fast with confidence. 
+During this phase we will develop also the unit and the integration test.
+
+We will keep a clean building/deploy pipeline so that we will always able to deploy our platform.
+
+Keeping such pipeline will be expensive and time consuming but it will provide a lot of benefits.
+
+\begin{enumerate}
+	\item Mirror the alpha traffic to the new service
+	\item Slowly move the alpha user to the new service and effectively make then beta user
+	\item Slowly add more beta user to the service
+\end{enumerate}
+
+Using this approach the developing time will be longer but we are keeping the risk as low as possible, we can afford this since our design is extremely decouple and simple to build, so our developing time are short.
+
+\includepdf[]{GANTT/GANTT}
+
+In the above Gantt chart we avoided to actually specify what time slot is associated with what activity, but we simply give an estimation about the percentage of time the development activity should take of the whole time period.
+
+This is required since all the activity on each module should procede in parallel with developing and test well complected and the setting of the operational activity shortly after.
+
+Using these methodology will let us incorporate the feedback from both the user and the test environment as soon as possible.
+
+Ex. We may discover that the user will pay to book a car for more time than a single hour, using our methodology we will be able to incorporate such feedback immediately in the system.
+Ex. We discover that some of our module is not able to keep up with the expected load we could immediately allocate more resources and time to that part.
+
+\section{Resource Allocation}
+
+Our small team has different and complementary skill.
+
+Sara is more experienced in UI / UX and clearly communicate with the stackholder of the project; Simone is more experience in back end developing and M2M communication.
+
+Both have a fairly good generic programming experience.
+
+Since the components are already defined, as well their interface, only a single developer will be responsable for a component.
+
+\section{Risk Managment}
+
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{ | X | X | } \hline
+Risk & Strategy \\ \hline \hline
+User don't understand the User Interface & Adopt standard symbols and icon, test first mock up of the UI with target demography \\ \hline
+Software more complex than our estimation & Set several milestone during the development, so to catch as early as possible if the project will run late. \\ \hline
+User don't like the product & Provide a MVP and get feedback from the market as soon as possible. It is fine to loose money during this phase. \\ \hline
+Low Quality of the Software & Automatic test regarding both performance and corecteness will be put in place. \\ \hline
+\end{tabularx}
+\end{table}
 
 
 
