@@ -1,0 +1,605 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt.
+\setcounter{secnumdepth}{2}
+
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+
+\usepackage{hyperref}
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+\usepackage{float} % to place float images correctly
+\usepackage{color} % to color text
+\usepackage{enumitem} % for lists
+\usepackage{subfigure} % for mockups
+\usepackage[font={it}]{caption} % for captions
+
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.4,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+ 
+\lstdefinestyle{mystyle}{ 
+    commentstyle=\color{magenta},
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+   emph={self}, 
+   emphstyle=\color{blue}, 
+   emph={[2] BookingManager, FineManager}, 
+   emphstyle=[2]\color{codegreen}\bfseries, 
+   emph={[3]__init__, newBook, removeReservation, getReservation, manageExpired, min_heap, pop, now, timedelta, expireReservation}, 
+   emphstyle=[3]\color{codegreen}, 
+}
+ 
+\lstset{style=mystyle}
+
+
+
+
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+%\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+%\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+\newcommand{\pe}{PowerEnJoy }
+\newcommand{\pecomma}{PowerEnJoy, }
+\newcommand{\bul}[1]{\indent$\bullet$ #1\\}
+
+\newcommand{\toBeIntegrated}[4]{
+\begin{description}
+	\item[Component1]: #1
+	\item[Component2]: #2
+	\item[Functionality]: #3
+	\item[Description]: #4
+\end{description}}
+
+\newcommand{\toBeIntegratedThree}[5]{
+\begin{description}
+	\item[Component1]: #1
+	\item[Component2]: #2
+	\item[Component3]: #3
+	\item[Functionality]: #4
+	\item[Description]: #5
+\end{description}}
+
+\newcommand{\toBeIntegratedFour}[6]{
+\begin{description}
+	\item[Component1]: #1
+	\item[Component2]: #2
+	\item[Component3]: #3
+	\item[Component4:] #4
+	\item[Functionality]: #5
+	\item[Description]: #6
+\end{description}}
+
+
+
+\usepackage{listings}
+\usepackage{pxfonts}
+\usepackage{enumitem}
+
+\usepackage{tabularx}
+
+\usepackage{pdfpages}
+
+\newcounter{IntegrationTest}
+\newenvironment{test}[1][]{
+	\refstepcounter{IntegrationTest}
+	\item[Integration] IT {\ifnum\value{IntegrationTest}<10 0\fi \theIntegrationTest}
+	\begin{enumerate} #1}{
+	\end{enumerate}}
+
+\newcommand{\testCase}[6]{
+\item  \textbf{Test Case ID: IT{\ifnum\value{IntegrationTest}<10 0\fi \theIntegrationTest}C{\theenumi} }
+\begin{description}
+	\item[Test Items:] {#1}
+	\item[Input Specification:] {#2}
+	\item[Environment State:] {#3}
+	\item[Output Specification:] {#4}
+	\item[Purpose:] {#5}
+	\item[Dependencies:] {#6}
+\end{description} 
+\hfill  
+}
+
+
+\def\twodigits#1{%
+  \ifnum#1<10 0\fi
+  \number#1}
+
+
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+
+
+
+\title{Project Planning Document}
+\author{Simone Mosciatti \& Sara Zanzottera}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+
+\section{Introduction}
+
+\subsection{Purpose}
+
+\textit{[New purpose]}
+
+\subsection{Scope}
+
+\pe is a digital management system for car sharing that exclusively employs electric cars to provide its service. The system provides all the functionalities normally provided by a car sharing service: registering to the service, find the location of nearby available cars, reserve cars up to a short amount of time, unlock the chosen car once found, ride it and then park it in a safe area, when it will be automatically locked and the fee paid.
+
+In addition, the system gives bonuses and penalities in term of discounts or overprices depending on the behavior of the user, in order to promote virtuous behaviors.
+
+\pe is therefore a inherently distributed system, based on a central server interactions with many distributed nodes. All these components will be examined in more detail in the subsequent sections of the document.
+
+
+\subsection{Definitions, Acronyms, Abbreviations}
+ \begin{description}
+	\item[RASD] Requirements and Specification Document.
+	\item[DD] Design Document.
+	\item[User] A customer of \pe using the service.
+	\item[Staff Operator (Operator)] An employee of \pe which takes care of the cars.
+	\item[Ride] The action of getting onboard of a \pe car, start its engine, drive to destination and park.
+	\item[Issue] Any problem a car may incur in, or a user may face while using the service.
+	\item[Nearby Cars] Available cars located within a maximum distance to a specific position.
+	\item[Available Cars] Cars whose Availability Status is set to ``Available``.
+	\item[Nearby Issues] Issues that are affecting cars close to a specific position.
+	\item[Booking (Reservation)] The act to reserve a car for a limited amount of time for future use by a user.
+	\item[Driver] Whoever is driving a regularly booked \pe car.
+	\item[Driving License] The state's issued driving license of the user.
+	\item[Notification] A form of comunication where the user is actively notified of some event.
+	\item[Issue Report] An incoming notification that states a car incurred in an issue.
+	\item[Fine] A fine issued by the local law enforcing officers to a user while driving a \pe car. 
+	\item[Pending Bills] Bills that an user still need to pay to \pe.
+	\item[Safe Area] An parking area, predefined by the company, where is possible to safely park the cars of the \pe fleet.
+	\item[Battery Charge] The amount of charge that is kept inside the car's battery.
+	\item[Charging Station (Power Station)] Dedicated areas where is possible to plug the \pe cars to charge their batteries.
+	\item[Car's Onboard System] The controll system of the car that is able to exchange data with the central system and to relevate operation parameters.
+	\item[Customer's App] An implementation of the system frontend tailored to the need of the customers.
+	\item[Staff's App] An implementation of the system frontend tailored to the need of the staff.
+	\item[Central System (Main Server)] The central system for \pe. All the command and all the data are streamed, analyzed and used here.
+	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
+	\item[Location] Pair of integer values as provided by GPS sensors.
+	\item[Payment Method] Set of data relative to a credit card.
+	\item[Email address (Email)] Unique string identifiying an email box to which email messages are delivered.
+	\item[Identity ID] Personal code provided by local authorities to uniquely identify citizens.
+	\item[Driving License ID] The unique code reported on every legal driving license.
+	\item[Session Key]  A string representing a key for a secured channel. Used to secure communications between the server and the nodes.
+	\item[Scanned License] An high quality image of the driving license acquired by the car's onboard system.
+  \end{description}
+
+\subsection{Reference Documents}
+\begin{itemize}
+	\item \textit{Assignments AA 2016-2017.pdf} (Assignments document given by the teacher)
+	\item \textit{Reqiurements And Specification Document} (referring to this project)
+	\item \textit{Design Document} (referring to this project)
+	\item	Reference for Functional Point \url{https://web.archive.org/web/20160516160212/http://www.softwaremetrics.com/fpafund.htm}
+  \end{itemize}
+
+\section{Project size, cost and effort}
+
+\subsection{Size estimation}
+
+We will use the Function Point Approach to determinate the size of the project.
+
+Since we have already well defined components and the interaction of those components between external and internal actors it seems natural to use the complexity of the interaction to determinate the function point for each component.
+
+Providen that all the components have an intrisic, similar, complexity, it is reasonable to assume that components that interact with few other components will be quicker and simpler to develop. In our opinion the real complexity lies in the connection of components, not in the components themselves.
+
+The complexity weight from that we use are the following:
+
+\begin{tabular}{| c | c | c | c |}
+\hline
+Function Type & LOW & AVERAGE & HIGH \\
+\hline
+Internal Logical Files & 7 & 10 & 15 \\
+External Interface Files & 5 & 7 & 10 \\
+External Input & 3 & 4 & 6 \\
+External Inquiry & 3 & 4 & 6 \\
+External Output & 4 & 5 & 7 \\
+\hline
+\end{tabular}
+
+
+
+\subsubsection{Internal Logical Files}
+
+All the internal file are store in a database.
+
+The model for the database was discussed in the design documents but we report here the diagram to simplify the discussion.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.88\textwidth]{../Architecture/UML/ModelZoomComponents.png}
+	\caption{Class Diagram of the Model.}
+\end{figure}	
+
+We are considering all the components of LOW complexity except the BOOKING entity (HIGH complexity) which is the central entity in the whole application with a lot of relation with the other and an high frequency of changes and the CAR entity (AVERAGE complexity) which has a relationship with the BOOKING and a lot of very volatile fields.
+
+Total = 8 * 7 + 10 + 15 =  81
+
+\subsection{External Interface File}
+
+The project use 3 external data source.
+
+\begin{description}
+	\item[stripe] We consider this service of AVERAGE complexity, they provide a very extensive set of end points but the documentation is extremelly well done, we need to use only a small subset of all the endpoints and they provide several facilities to test the integration.
+	\item[linfo.io] We consider this service of LOW complexity, their only end point requires two input (center of the circle and radius) and return a set of object inside that circle.
+	\item[truelicense.com] We consider this service of LOW complexity, its API consist of only one single end point where to send an image and it provide the number of the license in the image.
+\end{description}
+
+Total = 7 + 5 + 5 = 17
+
+\subsection{External Input}
+
+Following the list of functionality provided in the Design document we have identify the following External Input source and their complexity.
+
+\subsubsection{USER Component}
+
+\begin{description}
+	\item[USER/Register] AVERAGE, some information need to be validated and it is necessary to be sure of the uniqueness of the users.
+	\item[USER/\{Login/Logout\}] LOW, only few check are necessary to LOG a user, such a validate the credentials.
+	\item[USER/SetPaymentMethod] AVERAGE, it is necessary to coordinate the changes with the external system of paymet (stripe).
+\end{description}
+
+\subsubsection{GEOLOCATION Component}
+
+\begin{description}
+	\item[GEOLOCATION/AvailableCar] HIGH, it handle geolocation queries, it complexity should be AVERAGE but we will put more effort in developing general routines in order to lower the complexity of all the other functionality that requires geolocation queries.
+	\item[GEOLOCATION/Areas] LOW, we have already developed the several necessary routines, on top of that most of this work is delegate to the external service linf.io
+	\item[GEOLOCATION/Issues] LOW, the necessary generic routines are already developed.
+	\item[GEOLOCATION/IsSafeArea] LOW, the necessary generic routines are already developed.
+\end{description}
+
+\subsubsection{POSITION Component}
+
+\begin{description}
+	\item[POSITION/Car] AVERAGE, this require the use of the car on board system and the communication system.
+	\item[POSITION/User] LOW, this require the collaboration of the GPS inside the user device, however this functionality is pretty standard and it is well know how to manage it.
+	\item[POSITION/Areas] LOW, it is a simple look up in the database
+\end{description}
+
+\subsubsection{BOOKING Component}
+
+\begin{description}
+	\item[BOOKING/Book] LOW, it is a simple write in the database, most consistency check will be managed by the DBMS itself.
+	\item[BOOKING/Unbook] LOW, it is a simple update in the database, again most of the work will be managed by the DBMS itself.
+	\item[BOOKING/Expire] AVERAGE, other than simply modify the database this functionality needs to interact also with the payment system.
+\end{description}
+
+\subsubsection{CAR Component}
+
+\begin{description}
+	\item[CAR/Unlock] LOW, provide a reliable channel of communication with the car and a working on board system (assumption that I will keep for the rest of the documet), this functionality is a simple request to the car on board main system.
+	\item[CAR/ValidateLicense] LOW, most of the work is managed by the external component truelicense.com
+	\item[CAR/Lock] AVERAGE, it is a simple command send to the car on board system, however, after that the whole payment procedure starts.
+	\item[CAR/TurnOff] LOW, it is a simple command send to the car on board system.
+	\item[CAR/Telemetry] HIGH, by itself this component should have a LOW complexity, however assign HIGH complexity we are considering here the whole complexity of setting up a reliable communication channel and a working on board system.
+	\item[CAR/SetStatus] LOW, it is a simple update in the database.
+	\item[CAR/GetDetails] LOW, it is a simple read in the database, or, if the data are to old, it also require a message to the car on board system, still of LOW complexity.
+\end{description}
+
+\subsubsection{RIDE Component}
+
+\begin{description}
+	\item [RIDE/Start] LOW, it only consist of an update in the database.
+	\item [RIDE/End] LOW, again only a single updates.
+\end{description}
+
+\subsubsection{ISSUE\_MANAGER Component}
+
+\begin{description}
+	\item[ISSUE/New] LOW, it is a simple update in the database
+	\item[ISSUE/TakeCharge] LOW, it is a simple update in the database
+	\item[ISSUE/Solve] AVERAGE, if it is possible to asses that the fix has effect it should be done so, otherwise is a simple update in the database
+	\item[ISSUE/GiveUp] LOW, it is a simple update in the database.
+\end{description}
+
+Total = 18 * 3 + 6 * 6 + 2 * 6 =  102
+
+\subsection{External Inquiry}
+
+\begin{description}
+	\item[RIDE/FindRides] LOW, it is a simple select in the DBMS.
+\end{description}
+
+Total = 1 * 3 = 3
+
+\subsection{External Output}
+
+\subsubsection{BILLING\_MANAGER Component}
+\begin{description}
+	\item[BILL/CalculateRideFee] AVERAGE, it require to know the overall time of the ride and the bonus and malus applied.
+	\item[BILL/CalculateExpireBookFee] LOW, it is a constant.
+	\item[BILL/CalculateUnsafeParkingFine] LOW, it is a constant.
+\end{description}
+
+\subsubsection{NOTIFIER}
+\begin{description}
+	\item[NOTIFY/Notify] AVERAGE, this functionality takes care of different types of notification, it is not ``a size fits all''.
+\end{description}
+
+Total = 2 * 4 + 2 * 5 = 18
+
+\subsection{Overall count}
+
+The overal total is 81 + 17 + 102 + 3 + 18 = 221
+
+Which provide a lower bound of roughly 
+
+221 * 46 = 10166
+
+and an upper bound of
+
+221 * 67 = 14807
+
+lines of code.
+
+\section{Cost Estimation COCOMO II}
+
+In this section we are exploring the scale and the cost drivers for the COCOMO II model in order to find a reasonable time of execution of the project.
+
+\subsection{Scale Driver}
+
+Given the table in the reference, we attribute the following values to the Scale Driver.
+
+\begin{description}
+	\item[PREC] Precedentedness: The team is Generally familiar with the problem space, it has never built the same product before but it has build several part of it a lot of time. 2.48
+	\item[FLEX] Development Flexibility: All the documents are been written with the assumption that during the development phase a lot of unforanseeable issues would arise, we are expecting general conformity of the finished product to the designed one. 2.03
+	\item[RESL] Architecture / Risk Resolution: In the following part of the document we present a quite comprensive risk mitigation strategy. 2.83
+	\item[TEAM] Team Cohesion: The team is highly cooperative. 1.10
+	\item[PMAT] Process Maturity: The team already works in the industry and know and apply best practise. 3.12
+\end{description}
+
+\subsection{Cost Driver}
+
+\begin{description}
+	\item[RELY]: Required Software Reliability: In case of the interuption of the service there won't be heavy financial losses, but only easible recoverble losses: 1.00
+	\item[DATA]: Data Base Size: 	Our most populated table will have less than 100k rows for the foreaseble future, given the lower bound of roughly 10k SLOC our D/P ratio is of less than 10: n/a
+	\item[CPLX]: Product Complexity: Our code does not present any over complex structure, we will set to nominal the overall complexity: 1.00
+	\item[RUSE]: Developed for Reusability: We will develop for reusability across the project: 1.00
+	\item[DOCU]: Documentation Match to Life-Cycle Needs: We will definitely keep the documentation in sync with the release of the application: 1.00
+	\item [TIME]: Execution Time Constraint: The software is not particulary CPU bounded, overall we are expecting a fairly low use of CPU: 1.00
+	\item[STOR]: Main Storage Constraint: Storage is definitely not an issue nowadays: n/a
+	\item[PVOL]: Platform Volatility: We are going to base all our stack on prooven and used open source components, we are conservatevely setting this value to nominal: 1.00
+	\item[ACAP]: Analyst Capability: We are confident that we conduct a fairly comprensive analysis of the overall project and so we set this value to high: 0.85
+	\item[PCAP]: Programmer Capability: We both have real word experince working in complex project and in contributing to the open source: 0.88
+	\item[PCON]: Personnel Continuity: There will be no turnover: 0.81
+	\item[APEX]: Applications Experience: We have choose technologies that we know and that we have already used: 0.88
+	\item[PLEX]: Platform Experience: Again we have choose the platform based on our previous experience: 0.91
+	\item[LTEX]: Language and Tool Experience: We both have worked before with all the tools that we will need in the project and as well with the languange: 0.91
+	\item[TOOL]: Use of Software Tools: We are going to automate as much as possible of the whole lifecycle of the product: 0.90
+	\item[SITE]: Multisite Development: The team will be located in the same city and will use all the technology to communicate as much as possible: 0.86
+	\item[SCED]: Required Development Schedule: We don't plan to inpose any schedule constraint on the project: 1.00
+\end{description}
+
+Overall the result of the analysis of the cost driver is the following:
+
+\begin{tabular}{| c | c | c | c |}
+\hline
+RELY & Precedentedness & Nominal & 1.00 \\ \hline
+DATA & Development Flexibility & Very Low & n/a \\ \hline
+CPLX & Product Complexity & Nominal & 1.00 \\ \hline
+RUSE & Developed for Reusability & Nominal & 1.00 \\ \hline
+DOCU & Documentation Match to Life-Cycle Needs & Nominal & 1.00 \\ \hline
+TIME & Execution Time Constraint & Nominal & 1.00 \\ \hline
+STOR & Main Storage Constraint & Low & n/a \\ \hline
+PVOL & Platform Volatility & Nominal & 1.00 \\ \hline
+ACAP & Analyst Capability & High & 0.85 \\ \hline
+PCAP & Programmer Capability & High & 0.88 \\ \hline
+PCON & Personnel Continuity & Extra High & n/a \\ \hline
+APEX & Applications Experience & High & 0.88 \\ \hline
+PLEX & Platform Experience & High & 0.91 \\ \hline
+LTEX & Language and Tool Experience & High & 0.91 \\ \hline
+TOOL & Use of Software Tools & High & 0.90 \\ \hline
+SITE & Multisite Development & Very High & 0.86 \\ \hline
+SCED & Required Development Schedule & Nominal & 1.00 \\ \hline \hline 
+\multicolumn{3}{| c |  }{Product} & 0,422 \\ \hline
+\end{tabular}
+
+\section{Effort Estimation}
+
+Given the above point we can estimate the effort in Person-Month (PM).
+
+We will use the following formula:
+
+Effort = A * EAF * KSLOC \^ E
+
+Using the following substitution:
+
+A = 2.94
+
+EAF = 0.422 
+
+E = B + 0.01 sum(scale driver) = 0.91 + 0.01 * 11.56 = 0.91 + 0.1156 = 1,0256
+
+Lower Bound = 2.94 * 0.422 * 10.166 ** 1.0256 = 13.38
+
+Upper Bound = 2.94 * 0.422 * 14.807 ** 1.0256 = 19.68
+
+Duration = 3.67 * Effort ** F \\
+
+F = 0.28 + 0.2 * (E - B) = 0.28 + 0.2 * (1.0256 - 0.91) = 0.303
+
+DurationLower = 3.67 * 13.38 ** 0.303 = 8.05
+
+DurationUpper = 3.67 * 19.68 ** 0.303 = 9.05
+
+
+\section{Schedule}
+
+Given that most of the analysis is already done in this project we are going to focus on the scedule of the development and the deployement of the software.
+
+Because of our risk mitigation strategy there will be need to validate the product as early as possible, this will impose slower development cycles but we will be more sure about what the final result will be also from a bussiness perspective, we can afford this since our time estimetion are quite short. Nevertheless we are still accounting for an additional two month of time, bringing the total time of development to roughly 11 moths.
+
+We believe that this is a reasonable tradeoff, between the use of time and the risk management.
+
+We will start developing a very simple MVP where selected alpha user will be able to rent cars once a day for a small nominal fee. The manual selection of the user will avoid that the car will be damaged or that they will abuse of the system, at the same time will provide us with extremelly valuable feedback on the system we are building and the interaction with the users.
+
+During the MVP phase techinical staff will be always present in order to manually fix any kind of problem that may arise.
+
+After this phase, if the stackholder of the project agree to proceed, we will start the creation of the real platform.
+
+We will decide what part of the MVP keep (if any), anyway the experience gained build the MVP will be extremelly valuable in this phase, and will let us move very fast with confidence. 
+During this phase we will develop also the unit and the integration test.
+
+We will keep a clean building/deploy pipeline so that we will always able to deploy our platform.
+
+Keeping such pipeline will be expensive and time consuming but it will provide a lot of benefits.
+
+\begin{enumerate}
+	\item Mirror the alpha traffic to the new service
+	\item Slowly move the alpha user to the new service and effectively make then beta user
+	\item Slowly add more beta user to the service
+\end{enumerate}
+
+Using this approach the developing time will be longer but we are keeping the risk as low as possible, we can afford this since our design is extremely decouple and simple to build, so our developing time are short.
+
+\includepdf[]{GANTT/GANTT}
+
+In the above Gantt chart we avoided to actually specify what time slot is associated with what activity, but we simply give an estimation about the percentage of time the development activity should take of the whole time period.
+
+This is required since all the activity on each module should procede in parallel with developing and test well complected and the setting of the operational activity shortly after.
+
+Using these methodology will let us incorporate the feedback from both the user and the test environment as soon as possible.
+
+Ex. We may discover that the user will pay to book a car for more time than a single hour, using our methodology we will be able to incorporate such feedback immediately in the system.
+Ex. We discover that some of our module is not able to keep up with the expected load we could immediately allocate more resources and time to that part.
+
+\section{Resource Allocation}
+
+Our small team has different and complementary skill.
+
+Sara is more experienced in UI / UX and clearly communicate with the stackholder of the project; Simone is more experience in back end developing and M2M communication.
+
+Both have a fairly good generic programming experience.
+
+Since the components are already defined, as well their interface, only a single developer will be responsable for a component.
+
+To fairly allocate the several component to the developers we will use the complexity factor calculate above.
+
+Given the different experience of the developin team the two developer are allocate to the different modules in the following way:
+
+\begin{description}
+	\item[Simone] \hfill
+		\begin{enumerate}
+			\item GEOLOCATION
+			\item POSITION
+			\item CAR
+			\item RIDE
+		\end{enumerate}
+	\item[Sara] \hfill
+		\begin{enumerate}
+			\item USER
+			\item BOOKING
+			\item ISSUE
+			\item BILL
+			\item NOTIFY
+			\item User Interface
+		\end{enumerate}
+\end{description}
+
+In this way both developer will manage closely related modules while working on the field they know best.
+
+\begin{comment}
+L = 3
+A = 4
+H = 6
+
+USER -> 11
+GEOLOCATION -> 15
+POSITION ->10
+BOOKING -> 10
+CAR -> 25
+RIDE -> 6 + 3
+ISSUE -> 13
+BILL -> 13
+NOTIFY -> 5
+
+SIMO -> GEOLOCATION + POSITION + CAR + RIDE = 15 + 10 + 25 + 9 = 59
+SARA -> USER + BOOKING + ISSUE + BILL + NOTIFY = 11 + 10 + 13 + 13 + 5 = 52
+\end{comment}
+
+\section{Risk Managment}
+
+\begin{table}[h]
+\begin{tabularx}{\textwidth}{ | X | X | } \hline
+Risk & Strategy \\ \hline \hline
+User don't understand the User Interface & Adopt standard symbols and icon, test first mock up of the UI with target demography \\ \hline
+Software more complex than our estimation & Set several milestone during the development, so to catch as early as possible if the project will run late. \\ \hline
+User don't like the product & Provide a MVP and get feedback from the market as soon as possible. It is fine to loose money during this phase. \\ \hline
+Low Quality of the Software & Automatic test regarding both performance and corecteness will be put in place. \\ \hline
+\end{tabularx}
+\end{table}
+
+
+
+
+
+
+
+\end{document}
