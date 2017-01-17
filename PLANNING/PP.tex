@@ -101,68 +101,14 @@
 \newcommand{\pecomma}{PowerEnJoy, }
 \newcommand{\bul}[1]{\indent$\bullet$ #1\\}
 
-\newcommand{\toBeIntegrated}[4]{
-\begin{description}
-	\item[Component1]: #1
-	\item[Component2]: #2
-	\item[Functionality]: #3
-	\item[Description]: #4
-\end{description}}
-
-\newcommand{\toBeIntegratedThree}[5]{
-\begin{description}
-	\item[Component1]: #1
-	\item[Component2]: #2
-	\item[Component3]: #3
-	\item[Functionality]: #4
-	\item[Description]: #5
-\end{description}}
-
-\newcommand{\toBeIntegratedFour}[6]{
-\begin{description}
-	\item[Component1]: #1
-	\item[Component2]: #2
-	\item[Component3]: #3
-	\item[Component4:] #4
-	\item[Functionality]: #5
-	\item[Description]: #6
-\end{description}}
-
-
-
 \usepackage{listings}
 \usepackage{pxfonts}
 \usepackage{enumitem}
-
 \usepackage{tabularx}
-
 \usepackage{pdfpages}
 
-\newcounter{IntegrationTest}
-\newenvironment{test}[1][]{
-	\refstepcounter{IntegrationTest}
-	\item[Integration] IT {\ifnum\value{IntegrationTest}<10 0\fi \theIntegrationTest}
-	\begin{enumerate} #1}{
-	\end{enumerate}}
 
-\newcommand{\testCase}[6]{
-\item  \textbf{Test Case ID: IT{\ifnum\value{IntegrationTest}<10 0\fi \theIntegrationTest}C{\theenumi} }
-\begin{description}
-	\item[Test Items:] {#1}
-	\item[Input Specification:] {#2}
-	\item[Environment State:] {#3}
-	\item[Output Specification:] {#4}
-	\item[Purpose:] {#5}
-	\item[Dependencies:] {#6}
-\end{description} 
-\hfill  
-}
-
-
-\def\twodigits#1{%
-  \ifnum#1<10 0\fi
-  \number#1}
-
+\newcommand{\extInput}[3]{ #1:  \textbf{#2} \\ #3  }
 
 
 %%% END Article customizations
@@ -184,17 +130,17 @@
 
 \section{Introduction}
 
-\subsection{Purpose}
+\subsection{Purpose and Scope}
 
-\textit{[New purpose]}
+The main purpose of this Project Plan Document is to assess the expected complexity of \pecomma, evaluate the risks related to the project, estimate costs and effort we expect will be required in order to develop our software successfully.
 
-\subsection{Scope}
+This document is also meant to provide some guidelines for the project manager to allocate budget and resources to the project, and to help defining a schedule for the development team.
 
-\pe is a digital management system for car sharing that exclusively employs electric cars to provide its service. The system provides all the functionalities normally provided by a car sharing service: registering to the service, find the location of nearby available cars, reserve cars up to a short amount of time, unlock the chosen car once found, ride it and then park it in a safe area, when it will be automatically locked and the fee paid.
+We are using Function Points and COCOMO II analysis to estimate the size of the project, in terms of lines of code and costs and effort required to get the final product in time. 
 
-In addition, the system gives bonuses and penalities in term of discounts or overprices depending on the behavior of the user, in order to promote virtuous behaviors.
+Then we provide a tentative schedule and a Gantt covering all the activities required to complete the project, from the very first operation to the actual deployement, that should help the managers defining a schedule. We also describe the expected load allocation for the team members.
 
-\pe is therefore a inherently distributed system, based on a central server interactions with many distributed nodes. All these components will be examined in more detail in the subsequent sections of the document.
+Finally we provide a risk analysis for the most probable setbacks the project may face, and provide some preventive measures that should be performed in order to prevent a later, not recoverable failure in providing a software matching the expectations, in terms of feature, quality of code, costs and timing.
 
 
 \subsection{Definitions, Acronyms, Abbreviations}
@@ -207,17 +153,11 @@ In addition, the system gives bonuses and penalities in term of discounts or ove
 	\item[Issue] Any problem a car may incur in, or a user may face while using the service.
 	\item[Nearby Cars] Available cars located within a maximum distance to a specific position.
 	\item[Available Cars] Cars whose Availability Status is set to ``Available``.
-	\item[Nearby Issues] Issues that are affecting cars close to a specific position.
-	\item[Booking (Reservation)] The act to reserve a car for a limited amount of time for future use by a user.
+	]\item[Booking (Reservation)] The act to reserve a car for a limited amount of time for future use by a user.
 	\item[Driver] Whoever is driving a regularly booked \pe car.
 	\item[Driving License] The state's issued driving license of the user.
-	\item[Notification] A form of comunication where the user is actively notified of some event.
-	\item[Issue Report] An incoming notification that states a car incurred in an issue.
 	\item[Fine] A fine issued by the local law enforcing officers to a user while driving a \pe car. 
-	\item[Pending Bills] Bills that an user still need to pay to \pe.
 	\item[Safe Area] An parking area, predefined by the company, where is possible to safely park the cars of the \pe fleet.
-	\item[Battery Charge] The amount of charge that is kept inside the car's battery.
-	\item[Charging Station (Power Station)] Dedicated areas where is possible to plug the \pe cars to charge their batteries.
 	\item[Car's Onboard System] The controll system of the car that is able to exchange data with the central system and to relevate operation parameters.
 	\item[Customer's App] An implementation of the system frontend tailored to the need of the customers.
 	\item[Staff's App] An implementation of the system frontend tailored to the need of the staff.
@@ -225,11 +165,15 @@ In addition, the system gives bonuses and penalities in term of discounts or ove
 	\item[GPS]: Global Positioning System is a global navigation satellite system (GNSS) that provides location and time information in all weather conditions, anywhere on or near the Earth where there is an unobstructed line of sight to four or more GPS satellites.
 	\item[Location] Pair of integer values as provided by GPS sensors.
 	\item[Payment Method] Set of data relative to a credit card.
-	\item[Email address (Email)] Unique string identifiying an email box to which email messages are delivered.
 	\item[Identity ID] Personal code provided by local authorities to uniquely identify citizens.
 	\item[Driving License ID] The unique code reported on every legal driving license.
-	\item[Session Key]  A string representing a key for a secured channel. Used to secure communications between the server and the nodes.
 	\item[Scanned License] An high quality image of the driving license acquired by the car's onboard system.
+	\item[FP] Function Points.
+	\item[ILF] Internal logic file
+	\item[ELF] External logic file.
+	\item[DBMS] Database Management System.
+	\item[API] Application Programming Interface.
+	\item[UI] User Interface.
   \end{description}
 
 \subsection{Reference Documents}
@@ -244,157 +188,269 @@ In addition, the system gives bonuses and penalities in term of discounts or ove
 
 \subsection{Size estimation}
 
-We will use the Function Point Approach to determinate the size of the project.
+Here we use the Function Point Approach to determine the size of the project.
 
-Since we have already well defined components and the interaction of those components between external and internal actors it seems natural to use the complexity of the interaction to determinate the function point for each component.
+Since we already have well defined components and the interaction of those components between external and internal actors, it seems natural to use the complexity of their interactions to determinate the Function Points for each component.
 
-Providen that all the components have an intrisic, similar, complexity, it is reasonable to assume that components that interact with few other components will be quicker and simpler to develop. In our opinion the real complexity lies in the connection of components, not in the components themselves.
+Provided that all the components have an intrisic, similar complexity, it is reasonable to assume that components that interact with few other components are quicker and simpler to develop. In our opinion the real complexity lies in the connection of components, not in the components themselves.
 
-The complexity weight from that we use are the following:
+The complexity weights we use from now on are the following:
+\begin{table}[h]
+\centering
+\bgroup
+\def\arraystretch{1.5}%  1 is the default, change whatever you need
+	\begin{tabular}{| c | c | c | c |}
+	\hline
+	Function Type & LOW & AVERAGE & HIGH \\
+	\hline
+	Internal Logical Files & 7 & 10 & 15 \\
+	External Interface Files & 5 & 7 & 10 \\
+	External Input & 3 & 4 & 6 \\
+	External Inquiry & 3 & 4 & 6 \\
+	External Output & 4 & 5 & 7 \\
+	\hline
+	\end{tabular}
+\egroup
+\caption{Function Point's complexity weights}
+\end{table}
 
-\begin{tabular}{| c | c | c | c |}
-\hline
-Function Type & LOW & AVERAGE & HIGH \\
-\hline
-Internal Logical Files & 7 & 10 & 15 \\
-External Interface Files & 5 & 7 & 10 \\
-External Input & 3 & 4 & 6 \\
-External Inquiry & 3 & 4 & 6 \\
-External Output & 4 & 5 & 7 \\
-\hline
-\end{tabular}
 
+\subsection{Internal Logical Files}
 
+All the internal files are stored in a database.
 
-\subsubsection{Internal Logical Files}
-
-All the internal file are store in a database.
-
-The model for the database was discussed in the design documents but we report here the diagram to simplify the discussion.
+The model for our database was discussed in the Design Document, but we report again the diagram to simplify the discussion.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.88\textwidth]{../Architecture/UML/ModelZoomComponents.png}
+	\includegraphics[width=1\textwidth]{../Architecture/UML/ModelZoomComponents.png}
 	\caption{Class Diagram of the Model.}
 \end{figure}	
 
-We are considering all the components of LOW complexity except the BOOKING entity (HIGH complexity) which is the central entity in the whole application with a lot of relation with the other and an high frequency of changes and the CAR entity (AVERAGE complexity) which has a relationship with the BOOKING and a lot of very volatile fields.
+We are considering all the components of LOW complexity except for:
+\begin{itemize}[noitemsep]
+	\item BOOKING entity: HIGH complexity. it is the central entity in the whole application, with a lot of relationships with other components and very high insert rates.
+	\item CAR entity: AVERAGE complexity. It has a relationship with BOOKING, but has a lot of very volatile fields and its update rates are very high.
+\end{itemize}
 
+\subsubsection{Total for IFL}
 Total = 8 * 7 + 10 + 15 =  81
 
-\subsection{External Interface File}
 
-The project use 3 external data source.
+\subsection{External Interface Files}
+
+The project involves 3 external data sources.
 
 \begin{description}
-	\item[stripe] We consider this service of AVERAGE complexity, they provide a very extensive set of end points but the documentation is extremelly well done, we need to use only a small subset of all the endpoints and they provide several facilities to test the integration.
-	\item[linfo.io] We consider this service of LOW complexity, their only end point requires two input (center of the circle and radius) and return a set of object inside that circle.
-	\item[truelicense.com] We consider this service of LOW complexity, its API consist of only one single end point where to send an image and it provide the number of the license in the image.
+	\item[stripe] We consider this service of AVERAGE complexity. They provide a very extensive set of endpoints, but the documentation is extremelly well done. In addition, we need to use only a small subset of the available endpoints and they provide several facilities to test the integration seamlessly.
+	\item[linfo.io] We consider this service of LOW complexity. Its only end point requires two inputs (center of the circle and radius) and return a set of objects inside that circle.
+	\item[truelicense.com] We consider this service of LOW complexity. Its APIs consist of only one single endpoint where to send an image, providing in output the number of the license of the input image, if valid.
 \end{description}
 
+\subsubsection{Total for EIF}
 Total = 7 + 5 + 5 = 17
 
 \subsection{External Input}
 
-Following the list of functionality provided in the Design document we have identify the following External Input source and their complexity.
+Following the list of functionalities provided in the Design Document, we identified the following External Input sources and assessed their complexity.
 
 \subsubsection{USER Component}
 
+
 \begin{description}
-	\item[USER/Register] AVERAGE, some information need to be validated and it is necessary to be sure of the uniqueness of the users.
-	\item[USER/\{Login/Logout\}] LOW, only few check are necessary to LOG a user, such a validate the credentials.
-	\item[USER/SetPaymentMethod] AVERAGE, it is necessary to coordinate the changes with the external system of paymet (stripe).
+	\item \extInput
+		{USER/Register}
+		{AVERAGE}
+		{Some information need to be validated and it is necessary to be sure of the uniqueness of the users.}
+	\item \extInput
+		{USER/\{Login/Logout\}}
+		{LOW}
+		{Only few check are necessary to LOG a user, such a validate the credentials.}
+	\item \extInput
+		{USER/SetPaymentMethod}
+		{AVERAGE}
+		{It is necessary to coordinate the changes with the external system of paymet (stripe).}
+
 \end{description}
 
 \subsubsection{GEOLOCATION Component}
 
 \begin{description}
-	\item[GEOLOCATION/AvailableCar] HIGH, it handle geolocation queries, it complexity should be AVERAGE but we will put more effort in developing general routines in order to lower the complexity of all the other functionality that requires geolocation queries.
-	\item[GEOLOCATION/Areas] LOW, we have already developed the several necessary routines, on top of that most of this work is delegate to the external service linf.io
-	\item[GEOLOCATION/Issues] LOW, the necessary generic routines are already developed.
-	\item[GEOLOCATION/IsSafeArea] LOW, the necessary generic routines are already developed.
+	\item \extInput
+		{GEOLOCATION/AvailableCar}
+		{HIGH}
+		{It handle geolocation queries. Its complexity should be AVERAGE, but we will put more effort in developing general routines in order to lower the complexity of all the other functionality that requires geolocation queries.}
+	\item \extInput
+		{GEOLOCATION/Areas}
+		{LOW}
+		{We can reuse many routines from GEOLOCATION/AvailableCar to build this function with a minimum effort. On top of that, most of this work is delegate to the external service linf.io}
+	\item \extInput
+		{GEOLOCATION/Issues}
+		{LOW}
+		{We can reuse many routines from GEOLOCATION/AvailableCar to build this function with a minimum effort.}
+	\item \extInput
+		{GEOLOCATION/IsSafeArea}
+		{LOW}
+		{We can reuse many routines from GEOLOCATION/AvailableCar to build this function with a minimum effort.}
+
 \end{description}
 
 \subsubsection{POSITION Component}
 
 \begin{description}
-	\item[POSITION/Car] AVERAGE, this require the use of the car on board system and the communication system.
-	\item[POSITION/User] LOW, this require the collaboration of the GPS inside the user device, however this functionality is pretty standard and it is well know how to manage it.
-	\item[POSITION/Areas] LOW, it is a simple look up in the database
+	\item \extInput
+		{POSITION/Car}
+		{AVERAGE}
+		{This function requires the use of the car's onboard system and the communication system.}
+	\item \extInput
+		{POSITION/User}
+		{LOW}
+		{This function uses the GPS inside the user device, however it is a pretty standard, well known function.}
+	\item \extInput
+		{POSITION/Areas}
+		{LOW}
+		{Little more than a simple lookup in the database}
 \end{description}
 
 \subsubsection{BOOKING Component}
 
 \begin{description}
-	\item[BOOKING/Book] LOW, it is a simple write in the database, most consistency check will be managed by the DBMS itself.
-	\item[BOOKING/Unbook] LOW, it is a simple update in the database, again most of the work will be managed by the DBMS itself.
-	\item[BOOKING/Expire] AVERAGE, other than simply modify the database this functionality needs to interact also with the payment system.
+	\item \extInput
+		{BOOKING/Book}
+		{LOW}
+		{A simple write operation in the database. Most of the consistency checks are handled by the DBMS itself.}
+	\item \extInput
+		{BOOKING/Unbook}
+		{LOW}
+		{A simple update in the database. Most of the consistency checks are handled by the DBMS itself.}
+	\item \extInput
+		{BOOKING/Expire}
+		{AVERAGE}
+		{Other than modifying the database, this functionality needs to interact with the external payment system.}
 \end{description}
 
 \subsubsection{CAR Component}
 
 \begin{description}
-	\item[CAR/Unlock] LOW, provide a reliable channel of communication with the car and a working on board system (assumption that I will keep for the rest of the documet), this functionality is a simple request to the car on board main system.
-	\item[CAR/ValidateLicense] LOW, most of the work is managed by the external component truelicense.com
-	\item[CAR/Lock] AVERAGE, it is a simple command send to the car on board system, however, after that the whole payment procedure starts.
-	\item[CAR/TurnOff] LOW, it is a simple command send to the car on board system.
-	\item[CAR/Telemetry] HIGH, by itself this component should have a LOW complexity, however assign HIGH complexity we are considering here the whole complexity of setting up a reliable communication channel and a working on board system.
-	\item[CAR/SetStatus] LOW, it is a simple update in the database.
-	\item[CAR/GetDetails] LOW, it is a simple read in the database, or, if the data are to old, it also require a message to the car on board system, still of LOW complexity.
+	\item \extInput
+		{CAR/Unlock}
+		{LOW}
+		{Provided a reliable channel of communication with the car and a working on board system (assumption that I will keep for the rest of the documet), this functionality is a simple request to the car on board main system.}
+	\item \extInput
+		{CAR/ValidateLicense}
+		{LOW}
+		{Most of the work is handled by the external component truelicense.com}
+	\item \extInput
+		{CAR/Lock}
+		{AVERAGE}
+		{It is a simple command send to the car on board system. However, it has to trigger correctly the payment procedure starts.}
+	\item \extInput
+		{CAR/TurnOff}
+		{LOW}
+		{It is a simple command send to the car on board system.}
+	\item \extInput
+		{CAR/Telemetry}
+		{HIGH}
+		{By itself this component should have a LOW complexity. However, assigning a HIGH complexity we are considering the complexity of setting up a reliable communication channel between the main server and the cars.}
+	\item \extInput
+		{CAR/SetStatus}
+		{LOW}
+		{It is a simple update in the database.}
+	\item \extInput
+		{CAR/GetDetails}
+		{LOW}
+		{It is a simple read in the database. If data is too old, it also involves some communication from the server to the car, an operation still considered of LOW complexity.}
 \end{description}
 
 \subsubsection{RIDE Component}
 
 \begin{description}
-	\item [RIDE/Start] LOW, it only consist of an update in the database.
-	\item [RIDE/End] LOW, again only a single updates.
+	\item \extInput
+		{RIDE/Start}
+		{LOW}
+		{It simply performs an update in the database.}
+	\item \extInput
+		{RIDE/End}
+		{LOW}
+		{It simply performs an update in the database.}
 \end{description}
 
 \subsubsection{ISSUE\_MANAGER Component}
 
 \begin{description}
-	\item[ISSUE/New] LOW, it is a simple update in the database
-	\item[ISSUE/TakeCharge] LOW, it is a simple update in the database
-	\item[ISSUE/Solve] AVERAGE, if it is possible to asses that the fix has effect it should be done so, otherwise is a simple update in the database
-	\item[ISSUE/GiveUp] LOW, it is a simple update in the database.
+	\item \extInput
+		{ISSUE/New}
+		{LOW}
+		{It simply performs an update in the database.}
+	\item \extInput
+		{ISSUE/TakeCharge}
+		{LOW}
+		{It simply performs an update in the database.}
+	\item \extInput
+		{ISSUE/Solve}
+		{LOW}
+		{It simply performs an update in the database.}
+	\item \extInput
+		{ISSUE/GiveUp}
+		{LOW}
+		{It simply performs an update in the database.}
 \end{description}
 
+\subsubection{Total for Externa Input}
 Total = 18 * 3 + 6 * 6 + 2 * 6 =  102
 
 \subsection{External Inquiry}
 
+\subsubsection{RIDE\_MANAGER Component}
 \begin{description}
-	\item[RIDE/FindRides] LOW, it is a simple select in the DBMS.
+	\item \extInput
+		{RIDE/FindRides}
+		{LOW}
+		{It is a simple lookup in the database.}
 \end{description}
 
+\subsubsection{Total for External Inquiry}
 Total = 1 * 3 = 3
 
 \subsection{External Output}
 
 \subsubsection{BILLING\_MANAGER Component}
 \begin{description}
-	\item[BILL/CalculateRideFee] AVERAGE, it require to know the overall time of the ride and the bonus and malus applied.
-	\item[BILL/CalculateExpireBookFee] LOW, it is a constant.
-	\item[BILL/CalculateUnsafeParkingFine] LOW, it is a constant.
+	\item \extInput
+		{BILL/CalculateRideFee}
+		{AVERAGE}
+		{It require to know the overall time of the ride and the bonus and malus applied.}
+	\item \extInput
+		{BILL/CalculateExpireBookFee}
+		{LOW}
+		{It returns a constant value.}
+	\item \extInput
+		{BILL/CalculateUnsafeParkingFine}
+		{LOW}
+		{It returns a constant value.}
 \end{description}
 
 \subsubsection{NOTIFIER}
 \begin{description}
-	\item[NOTIFY/Notify] AVERAGE, this functionality takes care of different types of notification, it is not ``a size fits all''.
+	\item \extInput
+		{NOTIFY/Notify}
+		{AVERAGE}
+		{This functionality takes care of different types of notification. It is not ``a size fits all''.}
 \end{description}
 
+\subsubsection{Total for External Output}
 Total = 2 * 4 + 2 * 5 = 18
 
 \subsection{Overall count}
 
-The overal total is 81 + 17 + 102 + 3 + 18 = 221
+The overal total is: \hfill
+81 + 17 + 102 + 3 + 18 = 221
 
-Which provide a lower bound of roughly 
-
+Which provide a lower bound of roughly:\hfill
 221 * 46 = 10166
 
-and an upper bound of
-
+and an upper bound of: 
+\hfill
 221 * 67 = 14807
 
 lines of code.
