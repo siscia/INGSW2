@@ -110,6 +110,11 @@
 
 \newcommand{\extInput}[3]{ #1:  \textbf{#2} \\ #3  }
 
+\newcommand{\formul}[1]{
+\vspace{0.2cm}
+\centerline{ \textit{ #1 } }
+\vspace{0.2cm}
+}
 
 %%% END Article customizations
 
@@ -184,6 +189,10 @@ Finally we provide a risk analysis for the most probable setbacks the project ma
 	\item	Reference for Functional Point \url{https://web.archive.org/web/20160516160212/http://www.softwaremetrics.com/fpafund.htm}
   \end{itemize}
 
+
+
+
+\newpage
 \section{Project size, cost and effort}
 
 \subsection{Size estimation}
@@ -396,7 +405,8 @@ Following the list of functionalities provided in the Design Document, we identi
 		{It simply performs an update in the database.}
 \end{description}
 
-\subsubection{Total for Externa Input}
+\subsubs
+ection{Total for External Input}
 Total = 18 * 3 + 6 * 6 + 2 * 6 =  102
 
 \subsection{External Inquiry}
@@ -446,106 +456,137 @@ Total = 2 * 4 + 2 * 5 = 18
 The overal total is: \hfill
 81 + 17 + 102 + 3 + 18 = 221
 
-Which provide a lower bound of roughly:\hfill
-221 * 46 = 10166
 
-and an upper bound of: 
-\hfill
-221 * 67 = 14807
+Lower bound of:\hfill
+221 * 46 = {\Large 10166} lines of code
 
-lines of code.
+Upper bound of: \hfill
+221 * 67 = {\Large 14807} lines of code.
 
+
+
+
+\newpage
 \section{Cost Estimation COCOMO II}
 
-In this section we are exploring the scale and the cost drivers for the COCOMO II model in order to find a reasonable time of execution of the project.
+In this section we are exploring the scale and the cost drivers for the COCOMO II model in order to find a reasonable timing for the project.
 
 \subsection{Scale Driver}
 
-Given the table in the reference, we attribute the following values to the Scale Driver.
+Given the table listed in section 1.3: References Documents, we attribute the following values to the Scale Driver.
 
 \begin{description}
-	\item[PREC] Precedentedness: The team is Generally familiar with the problem space, it has never built the same product before but it has build several part of it a lot of time. 2.48
-	\item[FLEX] Development Flexibility: All the documents are been written with the assumption that during the development phase a lot of unforanseeable issues would arise, we are expecting general conformity of the finished product to the designed one. 2.03
-	\item[RESL] Architecture / Risk Resolution: In the following part of the document we present a quite comprensive risk mitigation strategy. 2.83
-	\item[TEAM] Team Cohesion: The team is highly cooperative. 1.10
-	\item[PMAT] Process Maturity: The team already works in the industry and know and apply best practise. 3.12
+	\item[PREC] (Precedentedness):  {\large 2.48} 
+\\ The team is Generally familiar with the problem space. It has never built the same product before, but it built several part of it a lot of times.
+	\item[FLEX] (Development Flexibility): {\large 2.03} \\ All the documents are written assuming that during the development phase a lot of unforeseeable issues would arise. We are expecting general conformity of the finished product to the designed one.
+	\item[RESL] (Architecture / Risk Resolution): {\large 2.83} \\ In the following part of the document we present a quite comprensive risk mitigation strategy. 
+	\item[TEAM] (Team Cohesion): {\large 1.10} \\ The team is highly cooperative. 
+	\item[PMAT] (Process Maturity): {\large 3.12} \\ The team already works in the industry, knows and applies best practise.
 \end{description}
 
 \subsection{Cost Driver}
 
 \begin{description}
-	\item[RELY]: Required Software Reliability: In case of the interuption of the service there won't be heavy financial losses, but only easible recoverble losses: 1.00
-	\item[DATA]: Data Base Size: 	Our most populated table will have less than 100k rows for the foreaseble future, given the lower bound of roughly 10k SLOC our D/P ratio is of less than 10: n/a
-	\item[CPLX]: Product Complexity: Our code does not present any over complex structure, we will set to nominal the overall complexity: 1.00
-	\item[RUSE]: Developed for Reusability: We will develop for reusability across the project: 1.00
-	\item[DOCU]: Documentation Match to Life-Cycle Needs: We will definitely keep the documentation in sync with the release of the application: 1.00
-	\item [TIME]: Execution Time Constraint: The software is not particulary CPU bounded, overall we are expecting a fairly low use of CPU: 1.00
-	\item[STOR]: Main Storage Constraint: Storage is definitely not an issue nowadays: n/a
-	\item[PVOL]: Platform Volatility: We are going to base all our stack on prooven and used open source components, we are conservatevely setting this value to nominal: 1.00
-	\item[ACAP]: Analyst Capability: We are confident that we conduct a fairly comprensive analysis of the overall project and so we set this value to high: 0.85
-	\item[PCAP]: Programmer Capability: We both have real word experince working in complex project and in contributing to the open source: 0.88
-	\item[PCON]: Personnel Continuity: There will be no turnover: 0.81
-	\item[APEX]: Applications Experience: We have choose technologies that we know and that we have already used: 0.88
-	\item[PLEX]: Platform Experience: Again we have choose the platform based on our previous experience: 0.91
-	\item[LTEX]: Language and Tool Experience: We both have worked before with all the tools that we will need in the project and as well with the languange: 0.91
-	\item[TOOL]: Use of Software Tools: We are going to automate as much as possible of the whole lifecycle of the product: 0.90
-	\item[SITE]: Multisite Development: The team will be located in the same city and will use all the technology to communicate as much as possible: 0.86
-	\item[SCED]: Required Development Schedule: We don't plan to inpose any schedule constraint on the project: 1.00
+	\item[RELY] (Required Software Reliability): {\large 1.00} \\ In case of the interruption of the service, there won't be heavy financial losses but only easily recoverable ones.
+	\item[DATA] (Data Base Size): {\large N/A} \\ Our most populated table will have less than 100k rows on the foreseeable future. Given the lower bound of roughly 10k SLOC, our D/P ratio is of less than 10.
+	\item[CPLX] (Product Complexity): {\large 1.00} \\ Our code does not present any over complex structure, we will set to nominal the overall complexity.
+	\item[RUSE] (Developed for Reusability): {\large 1.00} \\ We are going to develop some functions for reusability across the project.
+	\item[DOCU] (Documentation Match to Life-Cycle Needs): {\large 1.00} \\ We are keeping the documentation in sync with our software's releases.
+	\item [TIME] (Execution Time Constraint): {\large 1.00} \\  The software is not particulary CPU bounded. We are expecting a fairly low use of CPU.
+	\item[STOR] (Main Storage Constraint): {\large N/A} \\  Storage is not an issue for our application.
+	\item[PVOL] (Platform Volatility): {\large 1.00} \\  We are going to base all our development stack on proven and widely used open source frameworks and components. We are conservatively setting this value to its nominal value.
+	\item[ACAP] (Analyst Capability): {\large 0.85} \\  We are confident that we conducted a fairly comprensive analysis of the overall project and so we set this value to a pretty high value.
+	\item[PCAP] (Programmer Capability): {\large 0.88} \\  We both have real word experience working in complex projects and in contributing to the open source.
+	\item[PCON] (Personnel Continuity): {\large 0.81} \\  There will be no turnover.
+	\item[APEX] (Applications Experience): {\large 0.88} \\  We chose technologies that we know and that we have already used before.
+	\item[PLEX] (Platform Experience): {\large 0.91} \\  We chose the platform basing on our previous experience.
+	\item[LTEX] (Language and Tool Experience): {\large 0.91} \\  We both have worked before with all the tools that we will need in the project as well as for the programming languange we selected.
+	\item[TOOL] (Use of Software Tools): {\large 0.90} \\  We are going to automate as much as possible the lifecycle of the product.
+	\item[SITE] (Multisite Development): {\large 0.86} \\  The team members are located in the same city and use all the technologies to communicate as much as possible.
+	\item[SCED] (Required Development Schedule): {\large 1.00} \\ We don't plan to inpose any schedule constraint on the project.
 \end{description}
 
-Overall the result of the analysis of the cost driver is the following:
+The overall result of the analysis of the cost driver is summed up in the following table.
 
-\begin{tabular}{| c | c | c | c |}
-\hline
-RELY & Precedentedness & Nominal & 1.00 \\ \hline
-DATA & Development Flexibility & Very Low & n/a \\ \hline
-CPLX & Product Complexity & Nominal & 1.00 \\ \hline
-RUSE & Developed for Reusability & Nominal & 1.00 \\ \hline
-DOCU & Documentation Match to Life-Cycle Needs & Nominal & 1.00 \\ \hline
-TIME & Execution Time Constraint & Nominal & 1.00 \\ \hline
-STOR & Main Storage Constraint & Low & n/a \\ \hline
-PVOL & Platform Volatility & Nominal & 1.00 \\ \hline
-ACAP & Analyst Capability & High & 0.85 \\ \hline
-PCAP & Programmer Capability & High & 0.88 \\ \hline
-PCON & Personnel Continuity & Extra High & n/a \\ \hline
-APEX & Applications Experience & High & 0.88 \\ \hline
-PLEX & Platform Experience & High & 0.91 \\ \hline
-LTEX & Language and Tool Experience & High & 0.91 \\ \hline
-TOOL & Use of Software Tools & High & 0.90 \\ \hline
-SITE & Multisite Development & Very High & 0.86 \\ \hline
-SCED & Required Development Schedule & Nominal & 1.00 \\ \hline \hline 
-\multicolumn{3}{| c |  }{Product} & 0,422 \\ \hline
-\end{tabular}
+\begin{table}[h]
+\centering
+\bgroup
+\def\arraystretch{1.5}%  1 is the default, change whatever you need
+	\begin{tabular}{| c | c | c | c |}
+	\hline
+	RELY & Precedentedness & Nominal & 1.00 \\ \hline
+	DATA & Development Flexibility & Very Low & n/a \\ \hline
+	CPLX & Product Complexity & Nominal & 1.00 \\ \hline
+	RUSE & Developed for Reusability & Nominal & 1.00 \\ \hline
+	DOCU & Documentation Match to Life-Cycle Needs & Nominal & 1.00 \\ \hline
+	TIME & Execution Time Constraint & Nominal & 1.00 \\ \hline
+	STOR & Main Storage Constraint & Low & n/a \\ \hline
+	PVOL & Platform Volatility & Nominal & 1.00 \\ \hline
+	ACAP & Analyst Capability & High & 0.85 \\ \hline
+	PCAP & Programmer Capability & High & 0.88 \\ \hline
+	PCON & Personnel Continuity & Extra High & n/a \\ \hline
+	APEX & Applications Experience & High & 0.88 \\ \hline
+	PLEX & Platform Experience & High & 0.91 \\ \hline
+	LTEX & Language and Tool Experience & High & 0.91 \\ \hline
+	TOOL & Use of Software Tools & High & 0.90 \\ \hline
+	SITE & Multisite Development & Very High & 0.86 \\ \hline
+	SCED & Required Development Schedule & Nominal & 1.00 \\ \hline \hline 
+	\multicolumn{3}{| c |  }{Product} & 0,422 \\ \hline
+	\end{tabular}
+\egroup
+\caption{Results of the analysis of cost drivers}
+\end{table}
 
+
+
+
+\clearpage
 \section{Effort Estimation}
 
-Given the above point we can estimate the effort in Person-Month (PM).
+Given the above points, we can estimate the required effort in Person-Month (PM).
 
-We will use the following formula:
+We use the following formula:
 
-Effort = A * EAF * KSLOC \^ E
+$$ \text{Effort} = A * EAF * KSLOC ^ E $$
 
 Using the following substitution:
 
-A = 2.94
+$$ A = 2.94 $$
+$$ EAF = 0.422 $$
+$$ E = B + 0.01 * sum(scale driver) $$
 
-EAF = 0.422 
+we get E equals to: 
 
-E = B + 0.01 sum(scale driver) = 0.91 + 0.01 * 11.56 = 0.91 + 0.1156 = 1,0256
+\formul{E = 0.91 + 0.01 * 11.56 = 0.91 + 0.1156 = 1,0256}
 
-Lower Bound = 2.94 * 0.422 * 10.166 ** 1.0256 = 13.38
+that leads us to the evaluations listed in table 3.
 
-Upper Bound = 2.94 * 0.422 * 14.807 ** 1.0256 = 19.68
+Now we need to calculate F as:
 
-Duration = 3.67 * Effort ** F \\
+\formul{F = 0.28 + 0.2 * (E - B) = 0.28 + 0.2 * (1.0256 - 0.91) = 0.303}
 
-F = 0.28 + 0.2 * (E - B) = 0.28 + 0.2 * (1.0256 - 0.91) = 0.303
+allowing us to determine also the duration's upper and lower bounds, also
+ listed in Table 3.
 
-DurationLower = 3.67 * 13.38 ** 0.303 = 8.05
+\begin{table}[h]
+\centering
+\bgroup
+\def\arraystretch{1.5}
+	\begin{tabular}{| c | c | c |}
+	\hline
+	Lower Bound & 2.94 * 0.422 * 10.166 ** 1.0256 & 13.38 \\ \hline
+	Upper Bound & 2.94 * 0.422 * 14.807 ** 1.0256 & 19.68 \\ \hline \hline
+	Duration & 3.67 * Effort ** F & ? \\ \hline \hline
+	Duration Lower Bound & 3.67 * 13.38 ** 0.303 & 8.05 \\ \hline
+	Duration Upper Bound & 3.67 * 19.68 ** 0.303 & 9.05 \\ \hline
+	\end{tabular}
+\egroup
+\caption{Effort Estimates}
+\end{table}
 
-DurationUpper = 3.67 * 19.68 ** 0.303 = 9.05
 
 
+\newpage
 \section{Schedule}
 
 Given that most of the analysis is already done in this project we are going to focus on the scedule of the development and the deployement of the software.
