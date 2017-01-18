@@ -110,11 +110,8 @@
 
 \newcommand{\extInput}[3]{ #1:  \textbf{#2} \\ #3  }
 
-\newcommand{\formul}[1]{
-\vspace{0.2cm}
-\centerline{ \textit{ #1 } }
-\vspace{0.2cm}
-}
+\newcommand{\risk}[2]{  \textbf{Risk: #1 \newline Selected strategy:}	#2 }
+
 
 %%% END Article customizations
 
@@ -179,7 +176,10 @@ Finally we provide a risk analysis for the most probable setbacks the project ma
 	\item[DBMS] Database Management System.
 	\item[API] Application Programming Interface.
 	\item[UI] User Interface.
+	\item[UX] User Experience.
 	\item[MVP] Minimum Viable Product.
+	\item[M2M Communication] Machine to machine communication.
+	\item[SLOC] Single Line of Code.
   \end{description}
 
 \subsection{Reference Documents}
@@ -550,7 +550,7 @@ We use the following formula:
 
 $$ \text{Effort} = A * EAF * KSLOC ^ E $$
 
-Using the following substitution:
+Using the following substitutions:
 
 $$ A = 2.94 $$
 $$ EAF = 0.422 $$
@@ -558,16 +558,15 @@ $$ E = B + 0.01 * sum(scale driver) $$
 
 we get E equals to: 
 
-\formul{E = 0.91 + 0.01 * 11.56 = 0.91 + 0.1156 = 1,0256}
+$$ E = 0.91 + 0.01 * 11.56 = 0.91 + 0.1156 = 1,0256 $$
 
 that leads us to the evaluations listed in table 3.
 
-Now we need to calculate F as:
+Now we calculate F as:
 
-\formul{F = 0.28 + 0.2 * (E - B) = 0.28 + 0.2 * (1.0256 - 0.91) = 0.303}
+$$ F = 0.28 + 0.2 * (E - B) = 0.28 + 0.2 * (1.0256 - 0.91) = 0.303 $$
 
-allowing us to determine also the duration's upper and lower bounds, also
- listed in Table 3.
+allowing us to determine also the duration's upper and lower bounds, also listed in Table 3.
 
 \begin{table}[h]
 \centering
@@ -594,20 +593,20 @@ allowing us to determine also the duration's upper and lower bounds, also
 Given that most of the analysis is already done, we are going to focus on the development schedule and the deployement of the software.
 
 \subsection{Timespan of the project development}
-Our risk mitigation strategy requires us to validate the product as early as possible. This request dictates slower development cycles, but we can be more sure about the final result are getting, which is very relevant also from a bussiness perspective. 
+Our risk mitigation strategy requires us to validate the product as early as possible. This request dictates slower development cycles, but ensures the quality of the final result we are getting, which is very relevant also from a business perspective. 
 
-We can accept a slower development schedule, since our time estimation are quite short. Nevertheless we account for an additional two month of time, bringing the total time of development to roughly 11 months. 
+We can accept a slower development schedule, since our time estimation are quite short. Nevertheless we account for an additional two month of time, bringing the total time of development to roughly 11 months.
 
-We believe that this is a reasonable tradeoff between the use of time and the risk management.
+We believe this is a reasonable tradeoff between the use of time and the risk management.
 
 \subsection{Deployement stages}
-We start developing a very simple MVP where selected alpha users can rent cars once a day for a small nominal fee. 
+The very first step consists in developing a very simple MVP that selected alpha users can use to rent cars once or twice a day for a small nominal fee. 
 
-A careful selection of the alpha tester should prevent the cars from being damaged, and prevent abuses on the alpha version of the system. At the same time, this process provides us extremelly valuable feedback on the system we are building and the interaction with the users.
+A careful selection of the alpha testers should prevent the cars from being damaged, and prevent abuses on the alpha version of the system. At the same time, this process provides us extremelly valuable feedback on the system we are building and the interaction with the users.
 
 During the MVP phase, techinical staff should be always present in order to manually fix any kind of problem that may arise.
 
-After this phase, if the stackholders of the project agree, we proceed with the creation of the real platform and we decide what components of the MVP to keep (if any). The experience gained building the MVP will be extremelly valuable also after this phase, will let us move very fast and with confidence. During this phase we develop also the unit and the integration test.
+After this phase, if the stackholders of the project agree, we proceed with the creation of the real platform and we decide what components of the MVP to keep (if any). The experience gained building the MVP will be extremelly valuable also after this phase, because will let us moving very fast and with confidence. During this phase we develop also the unit and the integration tests.
 
 We aim to keep a clean building/deploy pipeline. In this way we can always deploy our platform. Keeping such pipeline is expensive and time consuming, but it provides a lot of benefits. With a clean pipeline we can:
 
@@ -617,7 +616,7 @@ We aim to keep a clean building/deploy pipeline. In this way we can always deplo
 	\item Add more beta user to the service.
 \end{enumerate}
 
-Using this approach the developing time will be a little longer, but we are keeping the risk as low as possible. We can afford this since our design is extremely decoupled and simple to build, so our developing timings are short.
+Using this approach the developing time will be a little longer, but we are keeping the risk as low as possible. We can afford this since our design is extremely decoupled and simple to build, so our developing time is short.
 
 \subsection{Detailed Schedule}
 \begin{figure}[H]
@@ -626,30 +625,30 @@ Using this approach the developing time will be a little longer, but we are keep
 	\caption{Gantt Chart for \pe}
 \end{figure}	
 
-In the above Gantt chart we did not actually specified what time slot is associated with which activity. We simply gave an estimate of the time percentage the development activity should take on the whole time period.
+In the above Gantt chart we did not actually specified what time slot is associated with which activity. We simply gave an estimate of the time percentage each activity should take on the whole time period.
 
 This approach is required since all the activities on each module should procede in parallel with developing and test well complected and the setting of the operational activity shortly after.
 
-Using these methodologies lets us incorporate the feedback from both the user and the test environment as soon as possible during th development cycle. 
+These methodologies help us incorporating the feedback from both the user and the test environment as soon as possible during th development cycle. 
 
-For example, we may discover that the user is eager to pay something to keep the car booked for more time than a single hour: using our methodology we will be able to incorporate such feedback immediately in the system.
-Moreover, if we discover that some of our modules is not able to keep up with the expected load, we could immediately allocate more resources and time to fix that side of the project.
+For example, we may discover that the user is eager to pay something to keep the car booked for more time than a single hour: using this method we will be able to incorporate such feedback immediately in the system.
+Moreover, if we discover that some of our modules are not able to keep up with the expected load, we could immediately allocate more resources and time to fix that side of the project.
 
 
 \newpage
 \section{Resource Allocation}
 
-Our small team has different and complementary skill.
+Our small team's members have different and complementary skill.
 
-Sara is more experienced in UI / UX and clearly communicate with the stackholder of the project; Simone is more experience in back end developing and M2M communication.
+Sara is more experienced in UI / UX and in clearly communicating with the stackholders; Simone is more experience in backend developing and M2M communication.
 
-Both have a fairly good generic programming experience.
+Both of us have a fairly good generic programming experience.
 
-Since the components are already defined, as well their interface, only a single developer will be responsable for a component.
+Since the components are already defined, as well as their interface, only a single developer will be responsible for every single component.
 
-To fairly allocate the several component to the developers we will use the complexity factor calculate above.
+In order to fairly allocate the several components to each developer, we use the complexity factor calculated above.
 
-Given the different experience of the developin team the two developer are allocate to the different modules in the following way:
+Given the different skills and experience of the developing team members, the two developer are allocated to the different modules in the following way:
 
 \begin{description}
 	\item[Simone] \hfill
@@ -670,7 +669,7 @@ Given the different experience of the developin team the two developer are alloc
 		\end{enumerate}
 \end{description}
 
-In this way both developer will manage closely related modules while working on the field they know best.
+In this way both developers will handle closely related modules while working in the field they know best.
 
 \begin{comment}
 L = 3
@@ -696,17 +695,34 @@ SARA -> USER + BOOKING + ISSUE + BILL + NOTIFY = 11 + 10 + 13 + 13 + 5 = 52
 
 
 \newpage
-\section{Risk Managment}
+\section{Risk Management}
 
-\begin{table}[h]
-\begin{tabularx}{\textwidth}{ | X | X | } \hline
-Risk & Strategy \\ \hline \hline
-User don't understand the User Interface & Adopt standard symbols and icon, test first mock up of the UI with target demography \\ \hline
-Software more complex than our estimation & Set several milestone during the development, so to catch as early as possible if the project will run late. \\ \hline
-User don't like the product & Provide a MVP and get feedback from the market as soon as possible. It is fine to loose money during this phase. \\ \hline
-Low Quality of the Software & Automatic test regarding both performance and corecteness will be put in place. \\ \hline
-\end{tabularx}
-\end{table}
+In the following section we list the possible risks that can determine the failure of our project, and we set a strategy to prevent each of them.
+
+\subsection{Risks and Selected Stretegies}
+
+\begin{enumerate}
+	\item  \risk{ Users don't understand the User Interface}
+			{\begin{itemize}[noitemsep, nolistsep]
+				\item Adopt standard symbols and icon
+				\item Test first mock up of the UI with target demography
+			\end{itemize} }
+	\item  \risk{ Software more complex than our estimation}
+			{\begin{itemize}[noitemsep, nolistsep]
+				\item Set several milestones along the development process, so to catch as early as possible if the project is going to run late. 
+			\end{itemize} }
+	\item  \risk{ Users don't like the product}
+			{\begin{itemize}[noitemsep, nolistsep]	
+				\item Provide a MVP.
+				\item Get feedback from the market as soon as possible. \newline( It is fine to loose money during this phase).
+			\end{itemize} }
+	\item  \risk{ Low Quality software}
+			{\begin{itemize}[noitemsep, nolistsep]
+				\item Automatic test regarding both performance and corecteness.
+			\end{itemize} }
+\end{enumerate}
+
+
 
 
 
@@ -724,6 +740,7 @@ During the development of this document we used the following tools:
 \subsection{Hours of work}
 \begin{itemize}
 	\item SZ: 5h on 18/01
+	\item SZ: 2h on 19/01
 \end{itemize}
 
 
