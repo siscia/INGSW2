@@ -1,29 +1,28 @@
 ,,,"Mar
-",,April,,May,,Jun,,July,,Aug,,Sept,,"Oct
-",,Nov,,Dec,,Jan,
+",,,,April,,,,May,,,,June,,,,July,,,,Sept,
 Tasks,Start,End,15,30,15,30,15,30,15,30,15,30,15,30,15,30,15,30,15,30,15,30,15,30
-MVC,Feb-27,Jun-29,x,x,x,x,x,x,x,d,,,,,,,,,,,,,,
-UI,Feb-27,Apr-28,"x
+MVC,Feb-27,Apr-28,x,x,x,x,x,x,x,d,,,,,,,,,,,,,,
+UI,Feb-27,Apr-7,"x
 ",x,x,x,d,,,,,,,,,,,,,,,,,
-UI,Feb-27,Apr-14,-,-,-,,,,,,,,,,,,,,,,,,,
-UI Test,Apr-17,Apr-21,,,,-,,,,,,,,,,,,,,,,,,
-UI Iteration,Apr-24,Apr-28,,,,,-,,,,,,,,,,,,,,,,,
-Development,Apr-3,Jun-29,,,"x
+UI,Feb-27,Mar-24,-,-,-,,,,,,,,,,,,,,,,,,,
+UI Test,Mar-27,Mar-31,,,,-,,,,,,,,,,,,,,,,,,
+UI Iteration,Apr-3,Apr-7,,,,,-,,,,,,,,,,,,,,,,,
+Development,Mar-20,Apr-28,,,"x
 ",x,x,x,x,d,,,,,,,,,,,,,,
-Development,Apr-3,Jun-30,,,-,-,-,"-
+Development,Mar-20,Apr-28,,,-,-,-,"-
 ",-,-,,,,,,,,,,,,,,
-User Enganging & Tracking,Feb-27,Jun-29,x,x,"x
+User Enganging & Tracking,Feb-27,Apr-28,x,x,"x
 ",x,x,x,x,d,,,,,,,,,,,,,,
-Alpha User Research,Mar-4,Jul-4,-,-,-,-,-,-,-,-,,,,,,,,,,,,,,
-Metric Track,Mar-5,Jul-5,,,,,,-,-,-,,,,,,,,,,,,,,
+Alpha User Research,Feb-27,Apr-28,-,-,-,-,-,-,-,-,,,,,,,,,,,,,,
+Metric Track,Apr-10,Apr-28,,,,,,-,-,-,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,
-Product Development,Jul-3,Feb-2,,,,,,,,,x,x,x,x,x,x,x,x,x,x,x,xx,x,d
-Developing,10 Week,~40%,,,,,,,,,-,-,-,-,-,,,,,,,,,
-Testing,12 Week,~50%,,,,,,,,,,,,,,-,-,-,-,-,-,,,
-Operational,6 Week,~20%,,,,,,,,,,,,,,,,,,,,-,-,-
-Beta Mirroring,,Sep-15,,,,,,,,,,,,,d,,,,,,,,,
-Beta Transition,,Nov-2,,,,,,,,,,,,,,,,d,,,,,,
-Open Beta,,Nov-30,,,,,,,,,,,,,,,,,,,d,,,
+Product Development,May-1,Sep-8,,,,,,,,,x,x,x,x,x,x,x,x,x,x,x,xx,x,d
+Developing,5 Week,~40%,,,,,,,,,-,-,-,-,-,,,,,,,,,
+Testing,6 Week,~50%,,,,,,,,,,,,,,-,-,-,-,-,-,,,
+Operational,3 Week,~20%,,,,,,,,,,,,,,,,,,,,-,-,-
+Beta Mirroring,,Jun-9,,,,,,,,,,,,,d,,,,,,,,,
+Beta Transition,,Jun-29,,,,,,,,,,,,,,,,d,,,,,,
+Open Beta,,Jul-27,,,,,,,,,,,,,,,,,,,d,,,
 "
 ",,,,,,,,,,,,,,,,,,,,,,,,
 Release,,Feb-2,,,,,,,,,,,,,,,,,,,,,,d
